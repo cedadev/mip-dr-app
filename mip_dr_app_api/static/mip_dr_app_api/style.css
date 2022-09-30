@@ -1,0 +1,41 @@
+h2 {
+	font-size: 1.2em;
+}
+
+th.sidebar_table {
+	padding-top: 20px;
+	font-size: 1.0em;
+}
+
+td.sidebar_table {
+	font-size: 0.75em;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+/*Set the row height to the viewport*/
+.row-height {
+	height: 100vh;
+}
+
+/*Set up the columns with a 100% height and overflow scroll*/
+.left {
+	height: 100%;
+	overflow-y: scroll;
+	padding-left: 10px;
+}
+
+.right {
+	height: 100%;
+	overflow-y: scroll;
+}
+
+/*Remove the scrollbar from Chrome, Safari, Edge and IE*/
+::-webkit-scrollbar {
+	width: 0px;
+	background: transparent;
+}
+
+* {
+	-ms-overflow-style: none !important;
+}
