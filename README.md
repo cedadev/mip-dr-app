@@ -6,7 +6,7 @@ Prototype django MIP Data Request app and tools
 Clone the repo:
 
 ```
-git clone https://github.com/agstephens/mip-dr-app
+git clone https://github.com/cedadev/mip-dr-app
 cd mip-dr-app/
 ```
 
