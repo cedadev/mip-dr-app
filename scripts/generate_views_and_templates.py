@@ -69,9 +69,14 @@ def _write_views_py_file_header(python_file):
     )
     python_file.write(
         """
+from django.db.models.fields.reverse_related import ManyToOneRel
+from django.http import HttpResponse
 from django.shortcuts import render
+from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+import openpyxl
+from openpyxl.utils import get_column_letter
 
 from mip_dr_app_api import models
 
@@ -157,6 +162,7 @@ class {model_name}DetailView(DetailView):
         context["models"] = models.{model_name}.objects.all()
         return context
 
+
 class {model_name}ListView(ListView):
     model = models.{model_name}
     # paginate_by = 100
@@ -167,6 +173,44 @@ class {model_name}ListView(ListView):
         context["table_description"] = models.{model_name}.table_description
         context["table_id"] = models.{model_name}.table_id
         return context
+
+
+class {model_name}XLSXView(View):
+
+    def get(self, request, *args, **kwargs):
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename={model_name}.xlsx'
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "{model_name}"
+
+        row_num = 0
+        field_names = []
+        for field in models.{model_name}._meta.get_fields():
+            if not isinstance(field, ManyToOneRel):
+                field_names.append(field.name)
+
+        for col_num in range(len(field_names)):
+            c = ws.cell(row=row_num + 1, column=col_num + 1)
+            c.value = field_names[col_num]
+
+        queryset = models.{model_name}.objects.all()
+
+        for obj in queryset.values():
+            row_num += 1
+            row = []
+
+            for field_name in field_names:
+                try:
+                    row.append(obj[field_name])
+                except KeyError:
+                    row.append("")
+
+            for col_num in range(len(row)):
+                c = ws.cell(row=row_num + 1, column=col_num + 1)
+                c.value = str(row[col_num])
+        wb.save(response)
+        return response
 """
     )
 
@@ -179,6 +223,7 @@ def _write_url_py_file(python_file, table_xml):
     python_file.write(
         f"""
     path('{table_name}/', mip_dr_app_api_views.{model_name}ListView.as_view(), name='{table_name}-list'),
+    path('{table_name}/xlsx', mip_dr_app_api_views.{model_name}XLSXView.as_view(), name='{table_name}-xlsx'),
     path('{table_name}/<uuid:pk>', mip_dr_app_api_views.{model_name}DetailView.as_view(), name='{table_name}-detail'),"""
     )
 
@@ -238,6 +283,13 @@ def _write_template_list_file(table_xml, sidebar_html):
             """)</h1>
 
     <h2>{{ table_description }}</h2>
+
+    <div class="clearfix" role="group" aria-label="export data">
+        <a class="btn btn-primary float-end m-1" href={% url '"""
+        )
+        python_file.write(table_name)
+        python_file.write("""-xlsx' %} role="button">Download as xlsx</a>
+    </div>
 
     <ul>
 {% for object in object_list %}
