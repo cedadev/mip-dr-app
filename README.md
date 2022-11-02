@@ -37,6 +37,14 @@ python generate_import_data_script.py
 python import_data.py
 ```
 
+## Create an Admin User Account
+
+```
+python manage.py createsuperuser
+```
+
+Then follow the on screen prompts and enter the required details
+
 ## Running the server
 
 ```
@@ -52,4 +60,20 @@ E.g.:
 $ curl http://localhost:8888
 ```
 
+## Importing Data
 
+It is possible to update the data by importing a file:
+- Go to the admin page, e.g. `http://localhost:8888/admin/` and login with your admin credentials  
+- Select the required table to upload data to
+- Press the `IMPORT` button near the top right of the page
+- Choose a file to import and press the `SUBMIT` button
+- Check the data in the preview panel is correct
+- Press the `CONFIRM IMPORT` button
+
+The file to be uploaded must be in one of the following formats:
+- csv
+- xls
+- xlsx
+- tsv
+- json
+- ymal

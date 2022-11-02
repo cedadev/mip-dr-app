@@ -71,14 +71,14 @@ def _write_views_py_file_header(python_file):
         """
 from django.db.models.fields.reverse_related import ManyToOneRel
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-import openpyxl
-from openpyxl.utils import get_column_letter
 
 from mip_dr_app_api import models
+from mip_dr_app_api import resources
 
 
 def index(request):
@@ -165,7 +165,6 @@ class {model_name}DetailView(DetailView):
 
 class {model_name}ListView(ListView):
     model = models.{model_name}
-    # paginate_by = 100
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -175,42 +174,35 @@ class {model_name}ListView(ListView):
         return context
 
 
+class {model_name}CSVView(View):
+
+    def get(self, request, *args, **kwargs):
+        resource = resources.{model_name}Resource()
+        dataset = resource.export()
+        response = HttpResponse(
+            dataset.csv,
+            content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="{model_name}.csv"'
+        return response
+
+
 class {model_name}XLSXView(View):
 
     def get(self, request, *args, **kwargs):
-        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        response['Content-Disposition'] = 'attachment; filename={model_name}.xlsx'
-        wb = openpyxl.Workbook()
-        ws = wb.active
-        ws.title = "{model_name}"
-
-        row_num = 0
-        field_names = []
-        for field in models.{model_name}._meta.get_fields():
-            if not isinstance(field, ManyToOneRel):
-                field_names.append(field.name)
-
-        for col_num in range(len(field_names)):
-            c = ws.cell(row=row_num + 1, column=col_num + 1)
-            c.value = field_names[col_num]
-
-        queryset = models.{model_name}.objects.all()
-
-        for obj in queryset.values():
-            row_num += 1
-            row = []
-
-            for field_name in field_names:
-                try:
-                    row.append(obj[field_name])
-                except KeyError:
-                    row.append("")
-
-            for col_num in range(len(row)):
-                c = ws.cell(row=row_num + 1, column=col_num + 1)
-                c.value = str(row[col_num])
-        wb.save(response)
+        resource = resources.{model_name}Resource()
+        dataset = resource.export()
+        response = HttpResponse(
+            dataset.xlsx,
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename="{model_name}.xlsx"'
         return response
+
+
+class {model_name}JsonView(View):
+
+    def get(self, request, *args, **kwargs):
+        data = list(models.{model_name}.objects.values())
+        return JsonResponse(data, safe=False)
 """
     )
 
@@ -222,9 +214,21 @@ def _write_url_py_file(python_file, table_xml):
 
     python_file.write(
         f"""
-    path('{table_name}/', mip_dr_app_api_views.{model_name}ListView.as_view(), name='{table_name}-list'),
-    path('{table_name}/xlsx', mip_dr_app_api_views.{model_name}XLSXView.as_view(), name='{table_name}-xlsx'),
-    path('{table_name}/<uuid:pk>', mip_dr_app_api_views.{model_name}DetailView.as_view(), name='{table_name}-detail'),"""
+    path('{table_name}/',
+         mip_dr_app_api_views.{model_name}ListView.as_view(),
+         name='{table_name}-list'),
+    path('{table_name}/csv',
+         mip_dr_app_api_views.{model_name}CSVView.as_view(),
+         name='{table_name}-csv'),
+    path('{table_name}/json',
+         mip_dr_app_api_views.{model_name}JsonView.as_view(),
+         name='{table_name}-json'),
+    path('{table_name}/xlsx',
+         mip_dr_app_api_views.{model_name}XLSXView.as_view(),
+         name='{table_name}-xlsx'),
+    path('{table_name}/<uuid:pk>',
+         mip_dr_app_api_views.{model_name}DetailView.as_view(),
+         name='{table_name}-detail'),"""
     )
 
 
@@ -232,7 +236,7 @@ def _write_template_list_file(table_xml, sidebar_html):
     table_attrib = table_xml.attrib
     table_name = table_attrib["label"]
     with open(
-        f"../templates/mip_dr_app_api/{table_name}_list.html", "w"
+        f"../templates/mip_dr_app_api/{table_name.lower()}_list.html", "w"
     ) as python_file:
         python_file.write(
             """{% extends "mip_dr_app_api/base.html" %}
@@ -284,11 +288,30 @@ def _write_template_list_file(table_xml, sidebar_html):
 
     <h2>{{ table_description }}</h2>
 
-    <div class="clearfix" role="group" aria-label="export data">
-        <a class="btn btn-primary float-end m-1" href={% url '"""
+    <div class="dropdown clearfix">
+        <a class="btn btn-primary dropdown-toggle float-end m-1" href="#" role="button" id="download_data" data-bs-toggle="dropdown" aria-expanded="false">
+        Download """
         )
         python_file.write(table_name)
-        python_file.write("""-xlsx' %} role="button">Download as xlsx</a>
+        python_file.write(
+            """</a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="download_data">
+            <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url '"""
+        )
+        python_file.write(table_name)
+        python_file.write(
+            """-csv' %}>CSV</a></li>
+            <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url '"""
+        )
+        python_file.write(table_name)
+        python_file.write(
+            """-json' %}>JSON</a></li>
+            <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url '"""
+        )
+        python_file.write(table_name)
+        python_file.write(
+            """-xlsx' %}>XLSX</a></li>
+        </ul>
     </div>
 
     <ul>
@@ -320,7 +343,7 @@ def _write_template_detail_file(table_xml):
     table_attrib = table_xml.attrib
     table_name = table_attrib["label"]
     with open(
-        f"../templates/mip_dr_app_api/{table_name}_detail.html", "w"
+        f"../templates/mip_dr_app_api/{table_name.lower()}_detail.html", "w"
     ) as python_file:
 
         python_file.write(
