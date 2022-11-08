@@ -127,6 +127,6 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 GRAPH_MODELS = {
-    "all_applications": True,
-    "graph_models": True,
+    "app_labels": ["mip_dr_app_api"],
+    "group_models": True,
 }
