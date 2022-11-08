@@ -131,6 +131,7 @@ def _write_resource_file(python_file, models_names):
         import_id_fields = ('uid',)
         skip_unchanged = True
         report_skipped = True
+
 """
         )
 
@@ -156,7 +157,9 @@ def _process_table(python_file, table_xml):
         _process_row(python_file, model_name, table_row)
 
     python_file.write(
-        f"""
+        f"""    date_modified = models.DateTimeField(auto_now=True)
+    date_published = models.DateTimeField(auto_now_add=True)
+
     class Meta:
         verbose_name = "{table_attrib["title"].strip()}"
         verbose_name_plural = "{table_attrib["title"].strip()}"
@@ -168,6 +171,9 @@ def _process_table(python_file, table_xml):
     table_level = "{table_attrib["level"]}"
     table_maxOccurs = "{table_attrib["maxOccurs"]}"
     table_labUnique = "{table_attrib["labUnique"]}"
+
+    def __str__(self):
+        return self.label
 """
     )
 
@@ -184,7 +190,10 @@ def _process_row(python_file, model_name, table_row):
     )
     help_text = _get_help_text(row_attrib["description"].strip())
     blank = _get_blank(row_attrib["required"])
-    python_file.write(f"    {row_name} = {row_type}{help_text}{blank})\n")
+    python_file.write(
+        f"""    {row_name} = {row_type}{help_text}{blank}
+    )\n"""
+    )
 
 
 def _get_type(model_name, xml_type, name, verbose_name):
@@ -192,16 +201,17 @@ def _get_type(model_name, xml_type, name, verbose_name):
 
     # UIDs
     if name == "uid":
-        return (
-            f"models.UUIDField({verbose_name}, primary_key=True, "
-            "default=uuid.uuid4, editable=False"
-        )
+        return f"""models.UUIDField(
+        {verbose_name},
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False"""
 
     # ForeignKeys
-    fk_template = (
-        "models.ForeignKey({linked_table}, verbose_name={verbose_name}, "
-        "on_delete=models.CASCADE"
-    )
+    fk_template = """models.ForeignKey(
+        {linked_table},
+        verbose_name={verbose_name},
+        on_delete=models.CASCADE"""
 
     if name == "cmid":
         return fk_template.format(linked_table="CellMethods", verbose_name=verbose_name)
@@ -265,19 +275,25 @@ def _get_type(model_name, xml_type, name, verbose_name):
 
     # other
     if name == "url":
-        return f"models.URLField({verbose_name}"
+        return f"""models.URLField(
+        {verbose_name}"""
 
     if xml_type == "xs:boolean":
-        return f"models.BooleanField({verbose_name}"
+        return f"""models.BooleanField(
+        {verbose_name}"""
 
     if xml_type == "xs:float":
-        return f"models.FloatField({verbose_name}"
+        return f"""models.FloatField(
+        {verbose_name}"""
 
     if xml_type == "xs:integer":
-        return f"models.IntegerField({verbose_name}"
+        return f"""models.IntegerField(
+        {verbose_name}"""
 
     if xml_type == "xs:string":
-        return f"models.CharField({verbose_name}, max_length=50"
+        return f"""models.CharField(
+        {verbose_name},
+        max_length=50"""
 
     types = [
         "aa:st__uid",
@@ -291,19 +307,25 @@ def _get_type(model_name, xml_type, name, verbose_name):
     ]
     if xml_type not in types:
         print(f"ERROR unknown xml type: {xml_type}")
-    return f"models.CharField({verbose_name}, max_length=50"
+    return f"""models.CharField(
+        {verbose_name},
+        max_length=50"""
 
 
 def _get_help_text(xml_description):
     if xml_description is not None and xml_description != "":
-        return f', help_text="{xml_description}"'
+        return f',\n        help_text="{xml_description}"'
     return ""
 
 
 def _get_blank(required):
     if required.lower() == "true":
-        return ", blank=False, null=False"
-    return ", blank=True, null=True"
+        return """,
+        blank=False,
+        null=False"""
+    return """,
+        blank=True,
+        null=True"""
 
 
 def main():
