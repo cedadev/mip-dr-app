@@ -15,6 +15,7 @@ DREQ_SUPP_DEF_XML = (
     "https://raw.githubusercontent.com/cmip6dr/data_request_snapshots/"
     "main/Release/dreqPy/docs/dreqSuppDefn.xml"
 )
+LINK_TABLES_FILE = "link_tables.xml"
 
 
 def _read_url(url_):
@@ -46,6 +47,12 @@ def _read_url(url_):
             pass
 
     return response.read()
+
+
+def _read_file(file_name):
+    with open(file_name, "r") as file:
+        data = file.read()
+    return data
 
 
 def _write_header(python_file):
@@ -156,7 +163,7 @@ def _write_main(python_file):
     _process_xml(xml_string, ["mip", "miptable"], None)
     _process_xml(xml_string, ["requestVarGroup"], None)
     _process_xml(xml_string, ["exptgroup"], None)
-    _process_xml(xml_string, ["requestLink", "experiment"], None)
+    _process_xml(xml_string, ["requestLink", "experiment", "grids"], None)
     _process_xml(
         xml_string,
         None,
@@ -167,6 +174,7 @@ def _write_main(python_file):
             "exptgroup",
             "requestLink",
             "experiment",
+            "grids",
             "varChoiceLinkC",
             "requestVar",
             "varChoiceLinkR",
@@ -224,8 +232,17 @@ def _process_table(python_file, table_xml):
             title_found = True
         _process_row(python_file, model_name, table_row)
 
+    python_file.write("            new_record.save()\n")
+
+    if table_name == "spatialShape":
+        _add_model_link(python_file, "dimids", "SpatialShapeLink")
+
+    elif table_name == "structure":
+        _add_model_link(python_file, "cids", "StructureLinkC")
+        _add_model_link(python_file, "dids", "StructureLinkD")
+
     python_file.write(
-        """            new_record.save()
+        """
         except KeyError as ex:
             print(
                 "ERROR - Record not added, table: """
@@ -276,9 +293,16 @@ def _process_row(python_file, model_name, table_row):
 
     else:
         python_file.write(
-            f"""            try:
-                new_record.{row_name} = row.attrib["{row_name}"]
-            except KeyError:
+            f"""            try:\n    """
+        )
+        _get_details(
+            python_file,
+            model_name,
+            row_name,
+            row_attrib["type"],
+        )
+        python_file.write(
+            f"""            except KeyError:
                 pass\n"""
         )
 
@@ -289,9 +313,22 @@ def _get_details(python_file, model_name, row_name, xml_type):
         '.objects.filter(\n                uid=UUID_MAPPING[attribs["{row_name}"].'
         "lower()]\n            )[0]\n"
     )
-    if row_name == "cmid":
+
+    if row_name == "cfgid":
+        python_file.write(
+            fk_template.format(row_name=row_name, linked_table="ModelConfig")
+        )
+    elif row_name == "cid":
+        python_file.write(
+            fk_template.format(row_name=row_name, linked_table="VarChoice")
+        )
+    elif row_name == "cmid":
         python_file.write(
             fk_template.format(row_name=row_name, linked_table="CellMethods")
+        )
+    elif row_name == "dimid":
+        python_file.write(
+            fk_template.format(row_name=row_name, linked_table="Grids")
         )
     elif row_name == "egid":
         python_file.write(
@@ -299,6 +336,10 @@ def _get_details(python_file, model_name, row_name, xml_type):
         )
     # elif row_name == "esid":
     # python_file.write(fk_template.format(row_name=row_name, linked_table="Experiment")
+    elif row_name == "frid":
+        python_file.write(
+            fk_template.format(row_name=row_name, linked_table="Places")
+        )
     elif row_name == "gpid":
         python_file.write(
             fk_template.format(row_name=row_name, linked_table="Miptable")
@@ -339,6 +380,10 @@ def _get_details(python_file, model_name, row_name, xml_type):
         python_file.write(
             fk_template.format(row_name=row_name, linked_table="Structure")
         )
+    elif row_name == "tid":
+        python_file.write(
+            fk_template.format(row_name=row_name, linked_table="Grids")
+        )
     elif row_name == "tmid":
         python_file.write(
             fk_template.format(row_name=row_name, linked_table="TemporalShape")
@@ -376,6 +421,31 @@ def _get_required(required):
     return False
 
 
+def _add_model_link(python_file, link_name, linked_model):
+    python_file.write(f"""
+            try:
+                ids = attribs["{link_name}"]
+                for _id in ids.split(" "):
+                    grid = mip_dr_models.Grids.objects.filter(
+                        uid=UUID_MAPPING[_id.lower()]
+                        )[0]
+                    link_record = mip_dr_models.{linked_model}()""")
+    python_file.write("""
+                    link_record.label = f"{new_record.label}-{grid.label}"
+                    link_record.title = f"{new_record.title} [{grid.title}]"
+                    link_record.uid = uuid.uuid4()
+                    """)
+    if linked_model == "SpatialShapeLink":
+        python_file.write("link_record.spid = new_record")
+    else:
+        python_file.write("link_record.stid = new_record")
+    python_file.write("""
+                    link_record.gid = grid
+                    link_record.save()
+            except KeyError:
+                pass\n""")
+
+
 def main():
     with open("import_data.py", "w") as python_file:
         _write_header(python_file)
@@ -384,6 +454,9 @@ def main():
         tables = _process_xml(python_file, xml_string)
 
         xml_string = _read_url(DREQ_DEF_XML)
+        tables.extend(_process_xml(python_file, xml_string))
+
+        xml_string = _read_file(LINK_TABLES_FILE)
         tables.extend(_process_xml(python_file, xml_string))
 
         python_file.write("\n\n\ndef _delete_data():")

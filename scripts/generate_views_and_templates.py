@@ -16,9 +16,11 @@ DREQ_SUPP_DEF_XML = (
     "https://raw.githubusercontent.com/cmip6dr/data_request_snapshots/"
     "main/Release/dreqPy/docs/dreqSuppDefn.xml"
 )
+LINK_TABLES_FILE = "link_tables.xml"
 VIEWS_FILE = "../mip_dr_app_api/views.py"
 URLS_FILE = "../mip_dr_app_api/urls.py"
 INDEX_FILE = "../templates/mip_dr_app_api/index.html"
+SIDE_BAR_FILE = "../templates/mip_dr_app_api/sidebar.html"
 
 
 def _atoi(text):
@@ -41,6 +43,9 @@ def _read_url(url_):
     @return a str containing the data
 
     """
+    if not url_.startswith("http"):
+        return _read_file(url_)
+
     socket.setdefaulttimeout(HTTP_TIME_OUT)
     opener = request.build_opener()
 
@@ -61,6 +66,12 @@ def _read_url(url_):
             pass
 
     return response.read()
+
+
+def _read_file(file_name):
+    with open(file_name, "r") as file:
+        data = file.read()
+    return data
 
 
 def _write_views_py_file_header(python_file):
@@ -239,7 +250,7 @@ def _get_index(xml):
     return index_html, sidebar_html
 
 
-def _process_xml(python_views_file, python_urls_file, xml, sidebar_html):
+def _process_xml(python_views_file, python_urls_file, xml):
     """
     Process the xml string, loop through the tables.
 
@@ -252,12 +263,11 @@ def _process_xml(python_views_file, python_urls_file, xml, sidebar_html):
 
     for child in root:
         if child.tag == "{urn:w3id.org:cmip6.dreq.framework:a}table":
-            table_names.append(
-                child.attrib["label"][0].upper() + child.attrib["label"][1:]
-            )
-            _write_view_py_file(python_views_file, child)
-            _write_url_py_file(python_urls_file, child)
-            _write_template_list_file(child, sidebar_html)
+            model_name = child.attrib["label"][0].upper() + child.attrib["label"][1:]
+            table_names.append(model_name)
+            _write_view_py_file(python_views_file, model_name)
+            _write_url_py_file(python_urls_file, child.attrib["label"], model_name)
+            _write_template_list_file(child)
             _write_template_detail_file(child)
 
     return table_names
@@ -298,9 +308,11 @@ def _write_view_py_file_index(python_file, table_names):
 
     def render_to_xlsx_response(self):
         """
-        )
-    python_file.write('"""\n        Returns a XLSX response, transforming '
-                      '"resource" to make the payload.\n\n        """')
+    )
+    python_file.write(
+        '"""\n        Returns a XLSX response, transforming '
+        '"resource" to make the payload.\n\n        """'
+    )
     python_file.write(
         """
         wb = Workbook()
@@ -365,10 +377,7 @@ def _write_view_py_file_index(python_file, table_names):
     )
 
 
-def _write_view_py_file(python_file, table_xml):
-    table_attrib = table_xml.attrib
-    model_name = table_attrib["label"][0].upper() + table_attrib["label"][1:]
-
+def _write_view_py_file(python_file, model_name):
     python_file.write(
         f"""
 
@@ -476,11 +485,7 @@ class {model_name}ListView(
     )
 
 
-def _write_url_py_file(python_file, table_xml):
-    table_attrib = table_xml.attrib
-    table_name = table_attrib["label"]
-    model_name = table_attrib["label"][0].upper() + table_attrib["label"][1:]
-
+def _write_url_py_file(python_file, table_name, model_name):
     python_file.write(
         f"""
     path(
@@ -496,14 +501,14 @@ def _write_url_py_file(python_file, table_xml):
     )
 
 
-def _write_template_list_file(table_xml, sidebar_html):
+def _write_template_list_file(table_xml):
     table_attrib = table_xml.attrib
     table_name = table_attrib["label"]
     with open(
         f"../templates/mip_dr_app_api/{table_name.lower()}_list.html", "w"
     ) as python_file:
         python_file.write(
-            """{% extends "mip_dr_app_api/base.html" %}
+            """{% extends "mip_dr_app_api/sidebar.html" %}
 
 {% block title %}{{ table_id }}{% endblock %}
 
@@ -561,16 +566,7 @@ def _write_template_list_file(table_xml, sidebar_html):
 </nav>
 {% endblock %}
 
-{% block content %}
-<div class="row row-height">
-"""
-        )
-
-        _write_sidebar(python_file, sidebar_html)
-
-        python_file.write(
-            """
-<div class="col-10 right">
+{% block right_block %}
     <h1>Data Request Section: {{ table_name }} ("""
         )
         python_file.write(table_name)
@@ -598,8 +594,6 @@ def _write_template_list_file(table_xml, sidebar_html):
         <li>No articles yet.</li>
 {% endfor %}
     </ul>
-</div>
-</div>
 {% endblock %}"""
         )
 
@@ -723,6 +717,8 @@ def _write_template_detail_file_line(python_file, table_name, table_row):
         linked_model = "cellMethods"
     elif row_name == "egid":
         linked_model = "exptgroup"
+    elif row_name == "gid":
+        linked_model = "grids"
     elif row_name == "gpid":
         linked_model = "CMORvar"
     elif row_name == "mip":
@@ -806,6 +802,11 @@ def _write_sidebar(python_file, sidebar_html):
 
     python_file.write(
         """
+{% extends "mip_dr_app_api/base.html" %}
+
+{% block content %}
+<div class="row row-height">
+
 <div class="col-2 left">
     <div id="sidebar">
     <table class="table table-striped ">
@@ -827,6 +828,15 @@ def _write_sidebar(python_file, sidebar_html):
     </table>
 </div>
 </div>
+
+<div class="col-10 right">
+
+{% block right_block %}
+{% endblock %}
+</div>
+
+</div>
+{% endblock %}
 """
     )
 
@@ -846,7 +856,7 @@ def _get_index_html_file_line(index_html, table_xml):
         + table_attrib["description"].strip()
         + "</li>\n"
     )
-    index_html[table_attrib["title"].split(" ")[0]] = line
+    index_html[table_attrib["title"]] = line
 
 
 def _get_sidebar_html_line(sidebar_html, table_xml):
@@ -862,7 +872,7 @@ def _get_sidebar_html_line(sidebar_html, table_xml):
         + table_name
         + "]</a>"
     )
-    sidebar_html[table_attrib["title"].split(" ")[0]] = line
+    sidebar_html[table_attrib["title"]] = line
 
 
 def _write_index_file(index_html):
@@ -935,19 +945,25 @@ def main():
 
     index_html, sidebar_html = _get_index(DREQ_DEF_XML)
     html_1, html_2 = _get_index(DREQ_SUPP_DEF_XML)
+
+    index_html.update(html_1)
+    sidebar_html.update(html_2)
+
+    html_1, html_2 = _get_index(LINK_TABLES_FILE)
+
     index_html.update(html_1)
     sidebar_html.update(html_2)
 
     _write_index_file(index_html)
 
-    table_names = _process_xml(
-        python_views_file, python_urls_file, DREQ_DEF_XML, sidebar_html
-    )
+    with open(SIDE_BAR_FILE, "w") as sidebar_file:
+        _write_sidebar(sidebar_file, sidebar_html)
+
+    table_names = _process_xml(python_views_file, python_urls_file, DREQ_DEF_XML)
     table_names.extend(
-        _process_xml(
-            python_views_file, python_urls_file, DREQ_SUPP_DEF_XML, sidebar_html
-        )
+        _process_xml(python_views_file, python_urls_file, DREQ_SUPP_DEF_XML)
     )
+    table_names.extend(_process_xml(python_views_file, python_urls_file, LINK_TABLES_FILE))
     _write_view_py_file_index(python_views_file, table_names)
     _write_url_py_file_footer(python_urls_file)
 

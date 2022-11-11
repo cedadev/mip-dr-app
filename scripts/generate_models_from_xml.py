@@ -1,5 +1,5 @@
 """""
-This script generates admin.py and models.py
+This script generates admin.py, models.py and resource.py
 
 """
 import socket
@@ -17,6 +17,7 @@ DREQ_SUPP_XML = (
     "https://raw.githubusercontent.com/cmip6dr/data_request_snapshots/"
     "main/Release/dreqPy/docs/dreqSuppDefn.xml"
 )
+LINK_TABLES_FILE = "link_tables.xml"
 MODELS_FILE = "../mip_dr_app_api/models.py"
 ADMIN_FILE = "../mip_dr_app_api/admin.py"
 RESOURCES_FILE = "../mip_dr_app_api/resources.py"
@@ -52,6 +53,12 @@ def _read_url(url_):
             pass
 
     return response.read()
+
+
+def _read_file(file_name):
+    with open(file_name, "r") as file:
+        data = file.read()
+    return data
 
 
 def _write_models_py_file_header(python_file):
@@ -213,8 +220,17 @@ def _get_type(model_name, xml_type, name, verbose_name):
         verbose_name={verbose_name},
         on_delete=models.CASCADE"""
 
+    if name == "cfgid":
+        return fk_template.format(linked_table="ModelConfig", verbose_name=verbose_name)
+
+    if name == "cid":
+        return fk_template.format(linked_table="VarChoice", verbose_name=verbose_name)
+
     if name == "cmid":
         return fk_template.format(linked_table="CellMethods", verbose_name=verbose_name)
+
+    if name in ["dimid", "tid", "gid"]:
+        return fk_template.format(linked_table="Grids", verbose_name=verbose_name)
 
     if name == "egid":
         return fk_template.format(linked_table="Exptgroup", verbose_name=verbose_name)
@@ -222,6 +238,9 @@ def _get_type(model_name, xml_type, name, verbose_name):
     # TODO esid can be a link to an experiment, an experiment group or a MIP
     # if name == "esid":
     # return fk_template.format(linked_table="Experiment", verbose_name=verbose_name)
+
+    if name == "frid":
+        return fk_template.format(linked_table="Places", verbose_name=verbose_name) + ', related_name="source_identifier"'
 
     if name == "gpid":
         return fk_template.format(linked_table="Miptable", verbose_name=verbose_name)
@@ -263,6 +282,9 @@ def _get_type(model_name, xml_type, name, verbose_name):
         return fk_template.format(
             linked_table="TemporalShape", verbose_name=verbose_name
         )
+
+    if name == "toid":
+        return fk_template.format(linked_table="Places", verbose_name=verbose_name) + ', related_name="target_identifier"'
 
     if name == "unid":
         return fk_template.format(linked_table="Units", verbose_name=verbose_name)
@@ -347,7 +369,7 @@ def main():
         )
         models_names.extend(_process_xml(python_file, xml_string, ["exptgroup"], None))
         models_names.extend(
-            _process_xml(python_file, xml_string, ["requestLink", "experiment"], None)
+            _process_xml(python_file, xml_string, ["requestLink", "experiment", "grids"], None)
         )
         models_names.extend(
             _process_xml(
@@ -360,6 +382,7 @@ def main():
                     "miptable",
                     "requestLink",
                     "experiment",
+                    "grids",
                     "requestVarGroup",
                     "CMORvar",
                     "varChoiceLinkC",
@@ -385,6 +408,8 @@ def main():
         )
 
         models_names.extend(_process_xml(python_file, supp_xml_string, None, "units"))
+
+        models_names.extend(_process_xml(python_file, _read_file(LINK_TABLES_FILE), None, None))
 
     with open(RESOURCES_FILE, "w") as python_file:
         _write_resource_file(python_file, models_names)

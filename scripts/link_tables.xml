@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<defDoc 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="urn:w3id.org:cmip6.dreq.framework:a"
+xsi:schemaLocation="http://w3id.org/cmip6dr/ns vocabFrameworkSchema_v01beta.xsd">
+<table label="spatialShapeLink" uid="SECTION:spatialShapeLink" title="Link between a spatial shape and a grid" id="ssl" itemLabelMode="def" level="4" maxOccurs="1" labUnique="Yes" description="Each spatial shape link record joins one spatial shape to one grid.">
+  <rowAttribute label="label" type="xs:string" title="Record Label" description="Mnemonic label for record" uid="ATTRIBUTE::spatialShapeLink.label" required="True"/>
+  <rowAttribute label="title" type="xs:string" title="Record Title" description="Title of record" uid="ATTRIBUTE::spatialShapeLink.title" required="True"/>
+  <rowAttribute label="uid" type="aa:st__uid" title="Record Identifier" useClass="recordId" techNote="" description="" uid="ATTRIBUTE::spatialShapeLink.uid" superclass="" required="true"/>
+  <rowAttribute label="spid" type="xs:string" title="Link to Spatial Shape section" useClass="internalLink" techNote="" description="Link to a spatial shape record." uid="ATTRIBUTE::spatialShapeLink.spid" superclass="" required="true"/>
+  <rowAttribute label="gid" type="xs:string" title="Link to Grids section" useClass="internalLink" techNote="" description="Link to a grids record." uid="ATTRIBUTE::spatialShapeLink.gid" superclass="" required="true"/>
+</table>
+<table label="structureLinkC" uid="SECTION:structureLinkC" title="Link between a structure and a grid coordinate" id="slc" itemLabelMode="def" level="4" maxOccurs="1" labUnique="Yes" description="Each structure link record joins one structure to one grid coordinate.">
+  <rowAttribute label="label" type="xs:string" title="Record Label" description="Mnemonic label for record" uid="ATTRIBUTE::structureLinkC.label" required="True"/>
+  <rowAttribute label="title" type="xs:string" title="Record Title" description="Title of record" uid="ATTRIBUTE::structureLinkC.title" required="True"/>
+  <rowAttribute label="uid" type="aa:st__uid" title="Record Identifier" useClass="recordId" techNote="" description="" uid="ATTRIBUTE::structureLinkC.uid" superclass="" required="true"/>
+  <rowAttribute label="stid" type="xs:string" title="Link to Structure section" useClass="internalLink" techNote="" description="Link to a structure record." uid="ATTRIBUTE::structureLinkC.stid" superclass="" required="true"/>
+  <rowAttribute label="gid" type="xs:string" title="Link to Grids section" useClass="internalLink" techNote="" description="Link to a grids coordinate record." uid="ATTRIBUTE::structureLinkC.gid" superclass="" required="true"/>
+</table>
+<table label="structureLinkD" uid="SECTION:structureLinkD" title="Link between a structure and a grid dimension" id="sld" itemLabelMode="def" level="4" maxOccurs="1" labUnique="Yes" description="Each structure link record joins one structure to one grid dimension">
+  <rowAttribute label="label" type="xs:string" title="Record Label" description="Mnemonic label for record" uid="ATTRIBUTE::structureLinkD.label" required="True"/>
+  <rowAttribute label="title" type="xs:string" title="Record Title" description="Title of record" uid="ATTRIBUTE::structureLinkD.title" required="True"/>
+  <rowAttribute label="uid" type="aa:st__uid" title="Record Identifier" useClass="recordId" techNote="" description="" uid="ATTRIBUTE::structureLinkD.uid" superclass="" required="true"/>
+  <rowAttribute label="stid" type="xs:string" title="Link to Structure section" useClass="internalLink" techNote="" description="Link to a structure record." uid="ATTRIBUTE::structureLinkD.stid" superclass="" required="true"/>
+  <rowAttribute label="gid" type="xs:string" title="Link to Grids section" useClass="internalLink" techNote="" description="Link to a grids dimension record." uid="ATTRIBUTE::structureLinkD.gid" superclass="" required="true"/>
+</table>
+</defDoc>
