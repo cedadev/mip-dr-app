@@ -17,10 +17,11 @@ DREQ_SUPP_XML = (
     "https://raw.githubusercontent.com/cmip6dr/data_request_snapshots/"
     "main/Release/dreqPy/docs/dreqSuppDefn.xml"
 )
-LINK_TABLES_FILE = "link_tables.xml"
 MODELS_FILE = "../mip_dr_app_api/models.py"
 ADMIN_FILE = "../mip_dr_app_api/admin.py"
 RESOURCES_FILE = "../mip_dr_app_api/resources.py"
+
+MANY_TO_MANY = ["cids", "dids", "dimids"]
 
 
 def _read_url(url_):
@@ -53,12 +54,6 @@ def _read_url(url_):
             pass
 
     return response.read()
-
-
-def _read_file(file_name):
-    with open(file_name, "r") as file:
-        data = file.read()
-    return data
 
 
 def _write_models_py_file_header(python_file):
@@ -196,7 +191,10 @@ def _process_row(python_file, model_name, table_row):
         model_name, row_attrib["type"], row_attrib["label"], row_attrib["title"].strip()
     )
     help_text = _get_help_text(row_attrib["description"].strip())
-    blank = _get_blank(row_attrib["required"])
+    if row_attrib["label"] in MANY_TO_MANY:
+        blank = ""
+    else:
+        blank = _get_blank(row_attrib["required"])
     python_file.write(
         f"""    {row_name} = {row_type}{help_text}{blank}
     )\n"""
@@ -240,7 +238,10 @@ def _get_type(model_name, xml_type, name, verbose_name):
     # return fk_template.format(linked_table="Experiment", verbose_name=verbose_name)
 
     if name == "frid":
-        return fk_template.format(linked_table="Places", verbose_name=verbose_name) + ', related_name="source_identifier"'
+        return (
+            fk_template.format(linked_table="Places", verbose_name=verbose_name)
+            + ', related_name="source_identifier"'
+        )
 
     if name == "gpid":
         return fk_template.format(linked_table="Miptable", verbose_name=verbose_name)
@@ -284,7 +285,10 @@ def _get_type(model_name, xml_type, name, verbose_name):
         )
 
     if name == "toid":
-        return fk_template.format(linked_table="Places", verbose_name=verbose_name) + ', related_name="target_identifier"'
+        return (
+            fk_template.format(linked_table="Places", verbose_name=verbose_name)
+            + ', related_name="target_identifier"'
+        )
 
     if name == "unid":
         return fk_template.format(linked_table="Units", verbose_name=verbose_name)
@@ -294,6 +298,20 @@ def _get_type(model_name, xml_type, name, verbose_name):
 
     if name == "vid":
         return fk_template.format(linked_table="CMORvar", verbose_name=verbose_name)
+
+    # many to many
+    many_template = """models.ManyToManyField(
+        Grids,
+        related_name={related_name}"""
+
+    if name == "dimids":
+        return many_template.format(related_name='"grids"')
+
+    if name == "cids":
+        return many_template.format(related_name='"grid_coordinates"')
+
+    if name == "dids":
+        return many_template.format(related_name='"grids_dimensions"')
 
     # other
     if name == "url":
@@ -369,7 +387,9 @@ def main():
         )
         models_names.extend(_process_xml(python_file, xml_string, ["exptgroup"], None))
         models_names.extend(
-            _process_xml(python_file, xml_string, ["requestLink", "experiment", "grids"], None)
+            _process_xml(
+                python_file, xml_string, ["requestLink", "experiment", "grids"], None
+            )
         )
         models_names.extend(
             _process_xml(
@@ -408,8 +428,6 @@ def main():
         )
 
         models_names.extend(_process_xml(python_file, supp_xml_string, None, "units"))
-
-        models_names.extend(_process_xml(python_file, _read_file(LINK_TABLES_FILE), None, None))
 
     with open(RESOURCES_FILE, "w") as python_file:
         _write_resource_file(python_file, models_names)

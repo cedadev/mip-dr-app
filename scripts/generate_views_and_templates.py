@@ -16,11 +16,12 @@ DREQ_SUPP_DEF_XML = (
     "https://raw.githubusercontent.com/cmip6dr/data_request_snapshots/"
     "main/Release/dreqPy/docs/dreqSuppDefn.xml"
 )
-LINK_TABLES_FILE = "link_tables.xml"
 VIEWS_FILE = "../mip_dr_app_api/views.py"
 URLS_FILE = "../mip_dr_app_api/urls.py"
 INDEX_FILE = "../templates/mip_dr_app_api/index.html"
 SIDE_BAR_FILE = "../templates/mip_dr_app_api/sidebar.html"
+
+MANY_TO_MANY = ["cids", "dids", "dimids"]
 
 
 def _atoi(text):
@@ -43,9 +44,6 @@ def _read_url(url_):
     @return a str containing the data
 
     """
-    if not url_.startswith("http"):
-        return _read_file(url_)
-
     socket.setdefaulttimeout(HTTP_TIME_OUT)
     opener = request.build_opener()
 
@@ -66,12 +64,6 @@ def _read_url(url_):
             pass
 
     return response.read()
-
-
-def _read_file(file_name):
-    with open(file_name, "r") as file:
-        data = file.read()
-    return data
 
 
 def _write_views_py_file_header(python_file):
@@ -712,6 +704,8 @@ def _write_template_detail_file_line(python_file, table_name, table_row):
         required = False
         python_file.write("{% if object.")
         python_file.write(row_name)
+        if row_name in MANY_TO_MANY:
+            python_file.write(".all")
         python_file.write(" %}\n")
     if row_name == "cmid":
         linked_model = "cellMethods"
@@ -772,7 +766,16 @@ def _write_template_detail_file_line(python_file, table_name, table_row):
     {% endif %}</b>: """
     )
 
-    if linked_model is not None:
+    if row_name in MANY_TO_MANY:
+        python_file.write("{% for one in object.")
+        python_file.write(row_name)
+        python_file.write(
+            """.all %}
+        <a href={% url 'grids-detail' one.uid %}>{{ one.label }}</a>
+{% endfor %}"""
+        )
+
+    elif linked_model is not None:
         python_file.write("<a href={% url '")
         python_file.write(linked_model)
         python_file.write("-detail' object.")
@@ -949,8 +952,6 @@ def main():
     index_html.update(html_1)
     sidebar_html.update(html_2)
 
-    html_1, html_2 = _get_index(LINK_TABLES_FILE)
-
     index_html.update(html_1)
     sidebar_html.update(html_2)
 
@@ -963,7 +964,7 @@ def main():
     table_names.extend(
         _process_xml(python_views_file, python_urls_file, DREQ_SUPP_DEF_XML)
     )
-    table_names.extend(_process_xml(python_views_file, python_urls_file, LINK_TABLES_FILE))
+
     _write_view_py_file_index(python_views_file, table_names)
     _write_url_py_file_footer(python_urls_file)
 
