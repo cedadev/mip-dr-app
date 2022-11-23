@@ -78,6 +78,7 @@ from django.db.models.fields.reverse_related import ManyToOneRel
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.views.generic import TemplateView
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -212,7 +213,8 @@ from mip_dr_app_api import views as mip_dr_app_api_views
 
 
 urlpatterns = [
-    path("", mip_dr_app_api_views.index.as_view(), name="index"),"""
+    path("", mip_dr_app_api_views.index.as_view(), name="index"),
+    path("notes", mip_dr_app_api_views.notes.as_view(), name="notes"),"""
     )
 
 
@@ -276,6 +278,14 @@ def _write_view_py_file_index(python_file, table_names):
             or self.request.content_type == "application/json"
         ):
             return self.render_to_json_response()
+
+        # Look for a 'format=xlsx' GET argument
+        if (
+            self.request.GET.get("format") == "xlsx"
+            or self.request.content_type
+            == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        ):
+            return self.render_to_xlsx_response()
 
         # return html
         return render(request, "mip_dr_app_api/index.html", {})
@@ -365,6 +375,9 @@ def _write_view_py_file_index(python_file, table_names):
         response["Content-Disposition"] = 'attachment; filename="mip_dr.xlsx"'
 
         return response
+
+class notes(TemplateView):
+    template_name = "mip_dr_app_api/notes.html"
 """
     )
 
