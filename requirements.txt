@@ -1,5 +1,10 @@
+asgiref
+diff-match-patch
 django
-django-import-export
 django-extensions
+django-import-export
 pydot
 pyparsing
+pytz
+sqlparse
+tablib
