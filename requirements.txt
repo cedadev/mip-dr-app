@@ -3,6 +3,7 @@ diff-match-patch
 django
 django-extensions
 django-import-export
+et-xmlfile
 openpyxl
 pydot
 pyparsing
