@@ -4,7 +4,9 @@ This script generates import_data.py
 """
 import socket
 from urllib import error, request
+
 import xml.etree.ElementTree as ET
+
 
 HTTP_TIME_OUT = 300
 DREQ_DEF_XML = (
@@ -268,15 +270,24 @@ def _process_row(python_file, model_name, table_row):
         required = False
 
     if row_name == "uid":
-        python_file.write(
-            """            if UUID_MAPPING.get(attribs["uid"].lower()) is None:
-                try:
-                    uid = uuid.UUID("{" + attribs["uid"] + "}")
-                except ValueError:
-                    uid = uuid.uuid4()
-                UUID_MAPPING[attribs["uid"].lower()] = uid
+
+        if model_name == "Standardname":
+            python_file.write(
+                """            uid = attribs["uid"]
+            UUID_MAPPING[attribs["uid"].lower()] = uid
             new_record.uid = UUID_MAPPING[attribs["uid"].lower()]\n"""
-        )
+            )
+
+        else:
+            python_file.write(
+                """            if UUID_MAPPING.get(attribs["uid"].lower()) is None:
+                    try:
+                        uid = uuid.UUID("{" + attribs["uid"] + "}")
+                    except ValueError:
+                        uid = uuid.uuid4()
+                    UUID_MAPPING[attribs["uid"].lower()] = uid
+                    new_record.uid = UUID_MAPPING[attribs["uid"].lower()]\n"""
+            )
     elif row_name in MANY_TO_MANY:
         pass
     elif required:
@@ -391,6 +402,9 @@ def _get_details(python_file, model_name, row_name, xml_type):
         python_file.write(
             f'            new_record.{row_name} = _get_bool(attribs["class"])\n'
         )
+
+    elif row_name == "label" and model_name == "Standardname":
+        python_file.write(f'            new_record.{row_name} = attribs["uid"]\n')
 
     elif xml_type == "xs:boolean":
         python_file.write(

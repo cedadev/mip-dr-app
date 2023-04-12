@@ -72,9 +72,6 @@ def _write_views_py_file_header(python_file):
     )
     python_file.write(
         """
-from tempfile import NamedTemporaryFile
-
-from django.db.models.fields.reverse_related import ManyToOneRel
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -82,10 +79,11 @@ from django.views.generic import TemplateView
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from openpyxl import Workbook
+import tablib
 
 from mip_dr_app_api import models
 from mip_dr_app_api import resources
+from mip_dr_app_api import resources_pretty
 
 
 class ResponseMixin:
@@ -190,6 +188,7 @@ class XLSXResponseMixin(ResponseMixin):"""
     python_file.write(
         """
         dataset = resource.export(self.get_data(context))
+        dataset.title = filename.split(".")[0]
         response = HttpResponse(
             dataset.xlsx,
             content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -285,7 +284,7 @@ def _write_view_py_file_index(python_file, table_names):
             or self.request.content_type
             == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         ):
-            return self.render_to_xlsx_response()
+            return self.render_to_xlsx_response(self.request.GET.get("pretty"))
 
         # return html
         return render(request, "mip_dr_app_api/index.html", {})
@@ -308,7 +307,7 @@ def _write_view_py_file_index(python_file, table_names):
             safe=False,
         )
 
-    def render_to_xlsx_response(self):
+    def render_to_xlsx_response(self, pretty="false"):
         """
     )
     python_file.write(
@@ -317,8 +316,7 @@ def _write_view_py_file_index(python_file, table_names):
     )
     python_file.write(
         """
-        wb = Workbook()
-        first_ws = True
+        sheets = []
 
         for table, name in ["""
     )
@@ -330,51 +328,22 @@ def _write_view_py_file_index(python_file, table_names):
     python_file.write(
         """
         ]:
-
-            if first_ws:
-                first_ws = False
-                ws = wb.active
-                ws.title = name
+            if pretty.lower() == "true":
+                dataset = resources_pretty.get_resource(name).export(table.objects.all())
             else:
-                ws = wb.create_sheet(name)
+                dataset = resources.get_resource(name).export(table.objects.all())
+            dataset.title = name
+            sheets.append(dataset)
 
-            row_num = 0
-            field_names = []
-            for field in table._meta.get_fields():
-                if not isinstance(field, ManyToOneRel):
-                    field_names.append(field.name)
+        dataset = tablib.Databook(sheets)
 
-            for col_num in range(len(field_names)):
-                c = ws.cell(row=row_num + 1, column=col_num + 1)
-                c.value = field_names[col_num]
-
-            queryset = table.objects.all()
-
-            for obj in queryset.values():
-                row_num += 1
-                row = []
-
-                for field_name in field_names:
-                    try:
-                        row.append(obj[field_name])
-                    except KeyError:
-                        row.append("")
-
-                for col_num in range(len(row)):
-                    c = ws.cell(row=row_num + 1, column=col_num + 1)
-                    c.value = str(row[col_num])
-
-        with NamedTemporaryFile() as tmp:
-            wb.save(tmp.name)
-            tmp.seek(0)
-
-            response = HttpResponse(
-                tmp.read(),
-                content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            )
-        response["Content-Disposition"] = 'attachment; filename="mip_dr.xlsx"'
-
+        response = HttpResponse(
+            dataset.xlsx,
+            content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        )
+        response["Content-Disposition"] = f'attachment; filename="mip_dr.xlsx"'
         return response
+
 
 class notes(TemplateView):
     template_name = "mip_dr_app_api/notes.html"
@@ -424,6 +393,17 @@ class {model_name}DetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.{model_name}.objects.all()
+"""
+    )
+
+    if model_name == "RequestVarGroup":
+        python_file.write(
+            """        context["request_vars"] = models.RequestVar.objects.filter(vgid=context["object"])
+        context["request_links"] = models.RequestLink.objects.filter(refid=context["object"])"""
+        )
+
+    python_file.write(
+        f"""
         return context
 
 
@@ -456,9 +436,14 @@ class {model_name}ListView(
             self.request.GET.get("format") == "csv"
             or self.request.content_type == "text/csv"
         ):
-            return self.render_to_csv_response(
-                context, resources.{model_name}Resource(), "{model_name}.csv"
-            )
+            if self.request.GET.get("pretty") == "true":
+                return self.render_to_csv_response(
+                    context, resources_pretty.{model_name}Resource(), "{model_name}.csv"
+                )
+            else:
+                return self.render_to_csv_response(
+                    context, resources.{model_name}Resource(), "{model_name}.csv"
+                )
 
         # Look for a 'format=json' GET argument
         if (
@@ -473,9 +458,15 @@ class {model_name}ListView(
             or self.request.content_type
             == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         ):
-            return self.render_to_xlsx_response(
-                context, resources.{model_name}Resource(), "{model_name}.xlsx"
-            )
+
+            if self.request.GET.get("pretty") == "true":
+                return self.render_to_xlsx_response(
+                    context, resources_pretty.{model_name}Resource(), "{model_name}.xlsx"
+                )
+            else:
+                return self.render_to_xlsx_response(
+                    context, resources.{model_name}Resource(), "{model_name}.xlsx"
+                )
 
         # return html
         return super().render_to_response(context)
@@ -498,8 +489,16 @@ def _write_url_py_file(python_file, table_name, model_name):
         mip_dr_app_api_views.{model_name}ListView.as_view(),
         name="{table_name}-list",
     ),
-    path(
-        "{table_name}/<uuid:pk>",
+    path("""
+    )
+
+    if table_name == "standardname":
+        python_file.write(f'\n        "{table_name}/<pk>",')
+    else:
+        python_file.write(f'\n        "{table_name}/<uuid:pk>",')
+
+    python_file.write(
+        f"""
         mip_dr_app_api_views.{model_name}DetailView.as_view(),
         name="{table_name}-detail",
     ),"""
@@ -551,19 +550,38 @@ def _write_template_list_file(table_xml):
                     <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url '"""
         )
         python_file.write(table_name)
+        python_file.write("-list' %}?format=csv>CSV</a></li>")
+
         python_file.write(
-            """-list' %}?format=csv>CSV</a></li>
+            """
                     <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url '"""
         )
         python_file.write(table_name)
+        python_file.write("-list' %}?format=csv&pretty=true>CSV - pretty</a></li>")
+
         python_file.write(
-            """-list' %}?format=json>JSON</a></li>
+            """
                     <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url '"""
         )
         python_file.write(table_name)
+        python_file.write("-list' %}?format=json>JSON</a></li>")
+
         python_file.write(
-            """-list' %}?format=xlsx>XLSX</a></li>
-                </ul>
+            """
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url '"""
+        )
+        python_file.write(table_name)
+        python_file.write("-list' %}?format=xlsx>XLSX</a></li>")
+
+        python_file.write(
+            """
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url '"""
+        )
+        python_file.write(table_name)
+        python_file.write("-list' %}?format=xlsx&pretty=true>XLSX - pretty</a></li>")
+
+        python_file.write(
+            """                </ul>
             </div>
 
         </div>
@@ -700,6 +718,25 @@ def _write_template_detail_file(table_xml):
                     continue
                 title_found = True
             _write_template_detail_file_line(python_file, table_name, table_row)
+
+        if table_name == "requestVarGroup":
+            python_file.write(
+                """\n<p><b>Request variables:</b></p>
+<ul>
+{% for request_var in request_vars %}
+    <li><a href={% url 'requestVar-detail' request_var.pk %}>{{ request_var.label }}</a></li>
+{% endfor %}
+</ul>
+
+<p><b>Request links:</b></p>
+<ul>
+{% for request_link in request_links %}
+    <li><a href={% url 'requestLink-detail' request_link.pk %}>{{ request_link.label }}</a></li>
+{% endfor %}
+</ul>
+
+"""
+            )
 
         python_file.write("\n</div>\n</div>\n{% endblock %}\n")
 
@@ -923,6 +960,7 @@ def _write_index_file(index_html):
                 <ul class="dropdown-menu" role="menu" aria-labelledby="download_data">
                     <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'index' %}?format=json>JSON</a></li>
                     <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'index' %}?format=xlsx>XLSX</a></li>
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'index' %}?format=xlsx&pretty=true>XLSX - pretty</a></li>
                 </ul>
             </div>
 

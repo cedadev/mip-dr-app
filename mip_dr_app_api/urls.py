@@ -166,7 +166,7 @@ urlpatterns = [
         name="standardname-list",
     ),
     path(
-        "standardname/<uuid:pk>",
+        "standardname/<pk>",
         mip_dr_app_api_views.StandardnameDetailView.as_view(),
         name="standardname-detail",
     ),

@@ -12,14 +12,14 @@ class Units(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Identifier",
@@ -27,21 +27,21 @@ class Units(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     group = models.CharField(
         "Group",
         max_length=50,
         help_text="A group, designated by a string value, expresses a relationship between units.",
         blank=True,
-        null=True
+        null=True,
     )
     text = models.CharField(
         "Text representation of units",
         max_length=50,
         help_text="Plain text representation with no special characters",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -68,14 +68,14 @@ class Miptable(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record identifier",
@@ -83,34 +83,34 @@ class Miptable(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     description = models.CharField(
         "Description",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     frequency = models.CharField(
         "Frequency",
         max_length=50,
         help_text="Frequency of data variables defined in this table. Note that this has not been updated to reflect changes in the definition of the CMIP frequency controlled attribute. There are now multiple frequency values in each table.",
         blank=False,
-        null=False
+        null=False,
     )
     altLabel = models.CharField(
         "Alternative Label",
         max_length=50,
         help_text="Depricated: holds old form of the table label. Used for tracking changes.",
         blank=False,
-        null=False
+        null=False,
     )
     comment = models.CharField(
         "Comment",
         max_length=50,
         help_text="Comment about the table.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -137,14 +137,14 @@ class Mip(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record identifier",
@@ -152,19 +152,19 @@ class Mip(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     description = models.CharField(
         "Description of the Model Intercomparison Project",
         max_length=50,
         blank=True,
-        null=True
+        null=True,
     )
     url = models.URLField(
         "Project Home Page",
         help_text="Link to external site",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -191,14 +191,14 @@ class RequestVarGroup(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record Identifier",
@@ -206,7 +206,7 @@ class RequestVarGroup(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     mip = models.ForeignKey(
         Mip,
@@ -214,21 +214,21 @@ class RequestVarGroup(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to the MIP which specified this collection of variables. The collection may be re-used by other MIPs through the requestLink records.",
         blank=False,
-        null=False
+        null=False,
     )
     ref = models.CharField(
         "Reference",
         max_length=50,
         help_text="Information about the origins of this group",
         blank=False,
-        null=False
+        null=False,
     )
     refNote = models.CharField(
         "Reference Note",
         max_length=50,
         help_text="Further information about the origins of this group.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -255,14 +255,14 @@ class Exptgroup(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record identifier",
@@ -270,19 +270,19 @@ class Exptgroup(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     tierMin = models.IntegerField(
         "Minimum tier of experiments in group",
         help_text="Minimum tier of experiments associated with this group.",
         blank=False,
-        null=False
+        null=False,
     )
     ntot = models.IntegerField(
         "Total number of years",
         help_text="Total number of simulation years associated with experiments in this group.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -309,14 +309,14 @@ class RequestLink(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record Identifier",
@@ -324,7 +324,7 @@ class RequestLink(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     mip = models.ForeignKey(
         Mip,
@@ -332,56 +332,56 @@ class RequestLink(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to record defining the MIP using this record.",
         blank=False,
-        null=False
+        null=False,
     )
     tab = models.CharField(
         "Redundant",
         max_length=50,
         help_text="A redundant attribute.",
         blank=True,
-        null=True
+        null=True,
     )
     objective = models.CharField(
         "Science objectives associated with this request",
         max_length=50,
         help_text="Every request for model ouput is linked to one or more objectives. The XML link is made via objectiveLink records, each of which associates one requestLink with one objective record.",
         blank=False,
-        null=False
+        null=False,
     )
     grid = models.CharField(
         "Grid options",
         max_length=50,
         help_text="Specified required or preferred (depending on the value of gridreq) horizontal grid. Options: native (for model grid), 1deg, 2deg, 8 to 25km (8km preferred, less than 25km required), 5 to 25km (5km preferred, less than 25km required), blank (no prerefence).",
         blank=False,
-        null=False
+        null=False,
     )
     gridreq = models.CharField(
         "Grid option constraints",
         max_length=50,
         help_text="Is the grid specified by the grid attribute optional (yes) or (no), conditionally (no*1 -- used for ocean data, when native is required only from models using a regular grid)",
         blank=False,
-        null=False
+        null=False,
     )
     comment = models.CharField(
         "Comment",
         max_length=50,
         help_text="Comment on the requestLink record.",
         blank=False,
-        null=False
+        null=False,
     )
     ref = models.CharField(
         "Reference",
         max_length=50,
         help_text="Not used.",
         blank=True,
-        null=True
+        null=True,
     )
     refNote = models.CharField(
         "Note on reference",
         max_length=50,
         help_text="A comment on the provenance of the record.",
         blank=True,
-        null=True
+        null=True,
     )
     refid = models.ForeignKey(
         RequestVarGroup,
@@ -389,21 +389,21 @@ class RequestLink(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to the requestVarGroup record defining the variables associated with this requestLink.",
         blank=False,
-        null=False
+        null=False,
     )
     opt = models.CharField(
         "Option for selecting a subset of variables",
         max_length=50,
         help_text="Option for specifying that only a subset of the variables specified in the requestVarGroup should be used. This option is designed to enable the re-use of groups when an easily identified subset of an existing group is wanted. Forreen completed at the request compilation stage. If 'prioirty' is specified, then only variables with priority less than the value specified by 'opar' should be used.",
         blank=False,
-        null=False
+        null=False,
     )
     opar = models.CharField(
         "parameter associated with *opt*",
         max_length=50,
         help_text="Parameter associated with 'opar'. If 'opar' is 'priority' it should be set to '1', '2', or '3'.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -430,14 +430,14 @@ class Experiment(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record identifier",
@@ -445,13 +445,13 @@ class Experiment(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     description = models.CharField(
         "Description",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     egid = models.ForeignKey(
         Exptgroup,
@@ -459,7 +459,7 @@ class Experiment(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to the exptgroup record associated with this experiment. Each experiment belongs to one experiment group.",
         blank=False,
-        null=False
+        null=False,
     )
     mip = models.ForeignKey(
         Mip,
@@ -467,67 +467,67 @@ class Experiment(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to a record defining the primary Model Intercomparison Project responsible for the definition of this experiment.",
         blank=False,
-        null=False
+        null=False,
     )
     mcfg = models.CharField(
         "Model Source Types",
         max_length=50,
         help_text="Specifies the model source types which are required/allowed for this experiment (see https://github.com/WCRP-CMIP/CMIP6_Cvs/blob/master/CMIP6_source_type.json). Syntax is a space separated list of required source types, follwed by a | and a space separated list of additional allowed source types.",
         blank=False,
-        null=False
+        null=False,
     )
     tier = models.CharField(
         "Tier of Experiment",
         max_length=50,
         help_text="Experiments are assigned a tier by the MIP specifying the tier, tier 1 experiments being the most important.",
         blank=False,
-        null=False
+        null=False,
     )
     nstart = models.IntegerField(
         "Number of Start Dates",
         help_text="For experiments with multiple start times, this gives the number of start times requested. Set to '1' otherwise.",
         blank=False,
-        null=False
+        null=False,
     )
     starty = models.CharField(
         "Start year",
         max_length=50,
         help_text="Start year specified for the experiment. This is a string. Fit may contain a year or an explanation which makes reference to another experiment, e.g. 'Year 111 of abrupt4xCO2'.",
         blank=False,
-        null=False
+        null=False,
     )
     endy = models.CharField(
         "End year",
         max_length=50,
         help_text="End year specified for the experiment. This is a string. Fit may contain a year or an explanation which makes reference to another experiment, e.g. 'Year 140 of abrupt4xCO2'.",
         blank=False,
-        null=False
+        null=False,
     )
     yps = models.IntegerField(
         "Years per Simulation Including all Start Years",
         help_text="The number of years per simulation, including all start years. Equal to ES-DOC min_number_yrs_per_sim times nstart.",
         blank=False,
-        null=False
+        null=False,
     )
     ensz = models.CharField(
         "Ensemble size",
         max_length=50,
         help_text="Default ensemble size, excluding multiple start times. Total number of model executions will be nstart time ensz. Note that some MIPs may request data from more than the default ensemble size.",
         blank=False,
-        null=False
+        null=False,
     )
     ntot = models.IntegerField(
         "Total number of years",
         help_text="Depricated. Initially used as an estimate of number of years.",
         blank=False,
-        null=False
+        null=False,
     )
     comment = models.CharField(
         "Comment",
         max_length=50,
         help_text="Additional information about this experiment group.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -554,21 +554,21 @@ class Grids(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     tables = models.CharField(
         "CMOR table(s)",
         max_length=50,
         help_text="List of tables which make use of this dimension",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Identifier",
@@ -576,127 +576,127 @@ class Grids(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     altLabel = models.CharField(
         "output dimension name",
         max_length=50,
         help_text="Name used for the dimension in NetCDF files",
         blank=False,
-        null=False
+        null=False,
     )
     description = models.CharField(
         "description",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     standardName = models.CharField(
         "standard name",
         max_length=50,
         help_text="Standard Name from the CF Conventions, used for the standard_name attribute of the axis variable.",
         blank=True,
-        null=True
+        null=True,
     )
     axis = models.CharField(
         "axis",
         max_length=50,
         help_text="For spatial or temporal dimensions, set to X, Y, Z or T.",
         blank=False,
-        null=False
+        null=False,
     )
     units = models.CharField(
         "units",
         max_length=50,
         help_text="Units of measure used for the axis data variable.",
         blank=False,
-        null=False
+        null=False,
     )
     isIndex = models.CharField(
         "index axis?",
         max_length=50,
         help_text="Set to 'OK' if the axis is an index axis with no coordinate values. Used, for example, for the generic vertical coordinates in the atmosphere, 'alev'.",
         blank=False,
-        null=False
+        null=False,
     )
     coords = models.CharField(
         "coords_attrib",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     bounds = models.CharField(
         "bounds?",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     direction = models.CharField(
         "stored direction",
         max_length=50,
         help_text="decreasing, increasing or empty",
         blank=False,
-        null=False
+        null=False,
     )
     valid_min = models.FloatField(
         "valid_min",
         blank=True,
-        null=True
+        null=True,
     )
     valid_max = models.FloatField(
         "valid_max",
         blank=True,
-        null=True
+        null=True,
     )
     type = models.CharField(
         "type",
         max_length=50,
         help_text="Data type is specified using Fortran code words: character, double, integer, real",
         blank=False,
-        null=False
+        null=False,
     )
     positive = models.CharField(
         "positive",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     value = models.CharField(
         "value of a scalar coordinate",
         max_length=50,
         help_text="This attribute is only for scalar coordinates. Otherwise use *requested*",
         blank=False,
-        null=False
+        null=False,
     )
     boundsValues = models.CharField(
         "bounds _values",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     requested = models.CharField(
         "requested",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     boundsRequested = models.CharField(
         "bounds_ requested",
         max_length=50,
         blank=True,
-        null=True
+        null=True,
     )
     tolRequested = models.CharField(
         "tol_on_requests: variance from requested values that is tolerated",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     isGrid = models.CharField(
         "grid?",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -723,14 +723,14 @@ class RequestItem(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record Identifier",
@@ -738,7 +738,7 @@ class RequestItem(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     mip = models.ForeignKey(
         Mip,
@@ -746,21 +746,21 @@ class RequestItem(models.Model):
         on_delete=models.CASCADE,
         help_text="Model Intecomparison Project associated with the requestItem. Redundant because this is specified through the requestLink.",
         blank=False,
-        null=False
+        null=False,
     )
     tab = models.CharField(
         "Redundant?",
         max_length=50,
         help_text="Redundant attribute ...",
         blank=True,
-        null=True
+        null=True,
     )
     expt = models.CharField(
         "Name of experiment or group of experiments",
         max_length=50,
         help_text="This is redundant: the information is provided through the esid link.",
         blank=False,
-        null=False
+        null=False,
     )
     rlid = models.ForeignKey(
         RequestLink,
@@ -768,64 +768,64 @@ class RequestItem(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to a requestLink record, which makes the connection to a variableGroup and a set of objectives.",
         blank=False,
-        null=False
+        null=False,
     )
     esid = models.CharField(
         "A link to an experiment, an experiment group or a MIP",
         max_length=50,
         help_text="This links to an individual experiment, to an experimentGroup, specifying a collection of experiments, or to a MIP. If it links to a MIP it means that the request applies to all experiments defined by that MIP.",
         blank=False,
-        null=False
+        null=False,
     )
     esidComment = models.CharField(
         "Comment on experiment(s) linked to.",
         max_length=50,
         help_text="An explanatory commemt for the esid attribute.",
         blank=True,
-        null=True
+        null=True,
     )
     preset = models.IntegerField(
         "Option to override priority set in each variable group",
         help_text="If, for example, preset is set to 2, all priority one variables in the variable group associated with this request are treated as priority 2 variables.",
         blank=False,
-        null=False
+        null=False,
     )
     treset = models.IntegerField(
         "Option to override tier set for experiment(s)",
         help_text="If, for example, treset is set to 1, all tier 2 and 3 experiments associated with this request are treated as tier 1 variables.",
         blank=True,
-        null=True
+        null=True,
     )
     ny = models.IntegerField(
         "Default number of years.",
         help_text="Default number of years, only used if experiment specifications are incomplete: will be redundant in final request.",
         blank=False,
-        null=False
+        null=False,
     )
     nexmax = models.IntegerField(
         "Maximum number of experiments requested.",
         help_text="Used to provide volume estimate before the links to experiment groups was fully functional.",
         blank=True,
-        null=True
+        null=True,
     )
     nenmax = models.IntegerField(
         "Number of ensemble members requested.",
         help_text="If set to -1 then the request applies to to all the ensemble members specified in the ensz attribute of the experiment or experiments associated with the request. Note that ensz is a default ensemble size, and nenmax may be greater if one MIP wants more than the default number of ensembles.",
         blank=False,
-        null=False
+        null=False,
     )
     nymax = models.FloatField(
         "Number of years requested.",
         help_text="Number of years specified by the requesting MIP (will be redundant when links to temporal slices are fully implemented).",
         blank=False,
-        null=False
+        null=False,
     )
     tslice = models.CharField(
         "Selection of years from experiment",
         max_length=50,
         help_text="Optional link to a time slice specifier which will define subset of the years from an experiment.",
         blank=True,
-        null=True
+        null=True,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -852,14 +852,14 @@ class Objective(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record identifier",
@@ -867,13 +867,13 @@ class Objective(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     description = models.CharField(
         "Description",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     mip = models.ForeignKey(
         Mip,
@@ -881,7 +881,7 @@ class Objective(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to Model Intercomparison Project with this objective.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -908,14 +908,14 @@ class SpatialShape(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record Identifier",
@@ -923,14 +923,14 @@ class SpatialShape(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     dimensions = models.CharField(
         "List of spatial dimensions",
         max_length=50,
         help_text="List of the labels of dimension attributes (redundant with dimids).",
         blank=False,
-        null=False
+        null=False,
     )
     dimids = models.ManyToManyField(
         Grids,
@@ -941,13 +941,13 @@ class SpatialShape(models.Model):
         "Number of vertical levels (ignored if levelFlag=false)",
         help_text="The number of vertical levels, if fixed.",
         blank=False,
-        null=False
+        null=False,
     )
     levelFlag = models.BooleanField(
         "Flag set to *false* if number of levels is optional (e.g. determined by the model)",
         help_text="True is there is a fixed number of levels specified by the 'levels' attribute.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -974,14 +974,14 @@ class ModelConfig(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record identifier",
@@ -989,35 +989,35 @@ class ModelConfig(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     MIPs = models.CharField(
         "MIPs which make use of this feature",
         max_length=50,
         help_text="List of MIPs using this option.",
         blank=False,
-        null=False
+        null=False,
     )
     usage = models.CharField(
         "How the feature is relevant to the data request",
         max_length=50,
         help_text="Usage notes.",
         blank=False,
-        null=False
+        null=False,
     )
     type = models.CharField(
         "Type of model",
         max_length=50,
         help_text="A categorisation of model configuration options: capability (indicating whether a model has a specific capability); size (indicating a size, such as number of grid points); category (inidcating a type of model);  ioOption (indicating a choice taken regarding IO).",
         blank=False,
-        null=False
+        null=False,
     )
     range = models.CharField(
         "Range of valid values, e.g. xs:boolean",
         max_length=50,
         help_text="Specification of the value type, e.g. 'xs:boolean'.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -1044,14 +1044,14 @@ class ObjectiveLink(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record identifier",
@@ -1059,7 +1059,7 @@ class ObjectiveLink(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     oid = models.ForeignKey(
         Objective,
@@ -1067,7 +1067,7 @@ class ObjectiveLink(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to record defining an objective.",
         blank=False,
-        null=False
+        null=False,
     )
     rid = models.ForeignKey(
         RequestLink,
@@ -1075,7 +1075,7 @@ class ObjectiveLink(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to a record defining a requestLink.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -1102,14 +1102,14 @@ class Remarks(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record identifier",
@@ -1117,7 +1117,7 @@ class Remarks(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     tid = models.ForeignKey(
         Grids,
@@ -1125,48 +1125,48 @@ class Remarks(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to a record which this remark relates to.",
         blank=True,
-        null=True
+        null=True,
     )
     tattr = models.CharField(
         "Target attribute: an attribute of the target item, or 'ALL'",
         max_length=50,
         help_text="This attribute may be used to identify a specific attribute on the record identified by tid.",
         blank=False,
-        null=False
+        null=False,
     )
     description = models.CharField(
         "Free text remarks -- unless there are specific restrictions associated with the class attribute of this remark",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     class_name = models.CharField(
         "Class categorisation of remarks",
         max_length=50,
         help_text="Different classes of remark support a range of specialised usages: free (a free text comment), modelTypeReq (a model type requirement), modelTypeExcl (a model type exclusion), varAlt (an alternative variable that my be used instead of this one), varSup (an alternative variable which, if selected makes this one redundant), attChange (a change in the value of an attribute -- old value provided in 'techNote').",
         blank=False,
-        null=False
+        null=False,
     )
     qid = models.CharField(
         "Identifier linking to a related record.",
         max_length=50,
         help_text="Identifier required for classes modelTypeReq, modelTypeExcl, varAlt, varSup. For the first two classes, the identifier points to a model type specification, for the last two it points to an output variable specification.",
         blank=True,
-        null=True
+        null=True,
     )
     techNote = models.CharField(
         "Optional additional machine readable content (though not restricted by the schema)",
         max_length=50,
         help_text="Intended for machine readable content.",
         blank=True,
-        null=True
+        null=True,
     )
     prov = models.CharField(
         "Provenance",
         max_length=50,
         help_text="Information about the provenance of this record.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -1193,35 +1193,35 @@ class Standardname(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
-    uid = models.UUIDField(
+    uid = models.CharField(
         "CF Standard Name",
+        max_length=100,
         primary_key=True,
-        default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     description = models.CharField(
         "Record Description",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     units = models.CharField(
         "Canonical Units",
         max_length=50,
         help_text="The canonical units provide reference unit of measure. Any variable using the standard name should us units which conform with the canonical units. For example, if the canonical units are 'm' (metres) then 'km' (kilometres) would be valid variable units.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -1248,14 +1248,14 @@ class Var(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     sn = models.ForeignKey(
         Standardname,
@@ -1263,41 +1263,41 @@ class Var(models.Model):
         on_delete=models.CASCADE,
         help_text="The CF Standard Name is part of an extensive vocabulary maintained within the CF Convention.",
         blank=False,
-        null=False
+        null=False,
     )
     units = models.CharField(
         "Units of Measure",
         max_length=50,
         help_text="The units in which the variable is to be measured, as a short text string. They must conform with the canonical units of the CF Standard Name. A link to a record describing the units in more detail is given be the unid attribute.",
         blank=False,
-        null=False
+        null=False,
     )
     description = models.CharField(
         "Record Description",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     procnote = models.CharField(
         "Processing Notes",
         max_length=50,
         help_text="Space separated list of keywords.",
         blank=False,
-        null=False
+        null=False,
     )
     procComment = models.CharField(
         "Processing Comments",
         max_length=50,
         help_text="Free text comment about processing of the variable.",
         blank=False,
-        null=False
+        null=False,
     )
     prov = models.CharField(
         "Notes on Provenance of Variable Specifications",
         max_length=50,
         help_text="Information on the provenance of the specification of this variables.",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record Identifier",
@@ -1305,7 +1305,7 @@ class Var(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     provmip = models.ForeignKey(
         Mip,
@@ -1313,7 +1313,7 @@ class Var(models.Model):
         on_delete=models.CASCADE,
         help_text="The MIP responsible for the original definition of this quantity",
         blank=False,
-        null=False
+        null=False,
     )
     unid = models.ForeignKey(
         Units,
@@ -1321,7 +1321,7 @@ class Var(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to a unit description record.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -1348,14 +1348,14 @@ class VarChoice(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record identifier",
@@ -1363,34 +1363,34 @@ class VarChoice(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     choiceClass = models.CharField(
         "Class of choice: heirarchy|cfg",
         max_length=50,
         help_text="Specifies which class of choice this is. 'ConfigurationOptionSet' (a set of variables for which the choice depends on some aspect of model configuration) or 'RedundancySet' (a set of variables which have some mutual redundancy, such as having overlapping sets of pressure levels).",
         blank=False,
-        null=False
+        null=False,
     )
     description = models.CharField(
         "Record description",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     varList = models.CharField(
         "A colon separated list of variable names",
         max_length=50,
         help_text="A list of the labels of the variables associated with this choice.",
         blank=False,
-        null=False
+        null=False,
     )
     optionList = models.CharField(
         "A list of options, one for each variable",
         max_length=50,
         help_text="Redundant attribute: instructions are taken from rank attribute of varChoiceLinkR records.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -1417,14 +1417,14 @@ class TemporalShape(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record Identifier",
@@ -1432,7 +1432,7 @@ class TemporalShape(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     dimid = models.ForeignKey(
         Grids,
@@ -1440,20 +1440,20 @@ class TemporalShape(models.Model):
         on_delete=models.CASCADE,
         help_text="List of links to dimensions specified by records in the grids section.",
         blank=True,
-        null=True
+        null=True,
     )
     dimensions = models.CharField(
         "Dimensions",
         max_length=50,
         help_text="List of the labels of dimension attributes (redundant with dimids).",
         blank=False,
-        null=False
+        null=False,
     )
     description = models.CharField(
         "Description",
         max_length=50,
         blank=True,
-        null=True
+        null=True,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -1480,51 +1480,51 @@ class TimeSlice(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     type = models.CharField(
         "Type of time slice",
         max_length=50,
         help_text="This is a string indicating how the year selection is described: 'simpleRange' is a single span of years indicated by a start and duration; 'yearList' is a collection of single years indicated by a start, number of years and a step; 'sliceList' is a list of multi-year time slices, indicated by a start year, a slice length, a total number of years (which must be an integer multiple of the slice length) and a step between slice starts; 'dayList' specifies a list of days as y/m/d triples; 'monthlyClimatology' implies 12 monthly values averaged over a specified range of years; 'relativeRange' specifies a range of years relative to the start of the simulation; 'branchedYears' specifies a list of years relative to a time in a branched experiment (can also be used for a climatology); 'siblingBranchClimatology' refers to a slice tied to years in another experiment branched from the same parent .. usually historical; 'monthlyClimatologyFinal' refers to a climatology over a final range of years (start and end should be blank).",
         blank=False,
-        null=False
+        null=False,
     )
     start = models.IntegerField(
         "Start year",
         help_text="First year of the time slice. Blank if a startList is given.",
         blank=True,
-        null=True
+        null=True,
     )
     end = models.IntegerField(
         "End year",
         help_text="Last year of the time slice. Blank if a startList is given.",
         blank=True,
-        null=True
+        null=True,
     )
     step = models.FloatField(
         "Step (years)",
         help_text="The step, in years, between different years in a 'yearList' or different start years in a 'sliceList' or 'sliceListExt'.",
         blank=True,
-        null=True
+        null=True,
     )
     sliceLen = models.IntegerField(
         "Length of slice",
         help_text="Length of slice if less than the full range from start to end. Units specified by 'sliceLenUnit' if present, otherwise in years.",
         blank=True,
-        null=True
+        null=True,
     )
     nyears = models.FloatField(
         "Total number of years",
         help_text="Total number of years. Leave blank for dayList. For sliceList, the number of discrete slices is given by nyears divided by sliceLen. Otherwise, nyears should be equal to start minus end plus one.",
         blank=True,
-        null=True
+        null=True,
     )
     uid = models.UUIDField(
         "Unique identifier",
@@ -1532,34 +1532,34 @@ class TimeSlice(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     startList = models.CharField(
         "Optional list of start times.",
         max_length=50,
         help_text="If type is 'dayList', then a list of (year,month,day) triples can be specified. E.g. '1850 1 1 1850 4 1' for first January and April 1850. If this value is given, start and end attributes should be empty.",
         blank=True,
-        null=True
+        null=True,
     )
     sliceLenUnit = models.CharField(
         "Units of slice length",
         max_length=50,
         help_text="The units used to specify the slice length. Set to years if left blank.",
         blank=True,
-        null=True
+        null=True,
     )
     description = models.CharField(
         "Description",
         max_length=50,
         blank=True,
-        null=True
+        null=True,
     )
     child = models.CharField(
         "Child experiment",
         max_length=50,
         help_text="For type branchOffsetRange, the child attribute carries the name of the experiment which is branched. The time range is then specified in terms of the years in the child experiment.",
         blank=True,
-        null=True
+        null=True,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -1586,14 +1586,14 @@ class CellMethods(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record Identifier",
@@ -1601,20 +1601,20 @@ class CellMethods(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     cell_methods = models.CharField(
         "Cell Methods String",
         max_length=50,
         help_text="The string to be used in the NetCDF cell_methods attribute",
         blank=False,
-        null=False
+        null=False,
     )
     description = models.CharField(
         "Record Description",
         max_length=50,
         blank=True,
-        null=True
+        null=True,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -1641,14 +1641,14 @@ class Structure(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record Identifier",
@@ -1656,14 +1656,14 @@ class Structure(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     spid = models.ForeignKey(
         SpatialShape,
         verbose_name="Spatial Shape",
         on_delete=models.CASCADE,
         blank=False,
-        null=False
+        null=False,
     )
     tmid = models.ForeignKey(
         TemporalShape,
@@ -1671,14 +1671,14 @@ class Structure(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to a temporalShape record, defining the temporal dimensions.",
         blank=False,
-        null=False
+        null=False,
     )
     odims = models.CharField(
         "Other Dimensions",
         max_length=50,
         help_text="Dimensions other than temporal and spatial dimensions (redundant with dids).",
         blank=True,
-        null=True
+        null=True,
     )
     dids = models.ManyToManyField(
         Grids,
@@ -1690,7 +1690,7 @@ class Structure(models.Model):
         max_length=50,
         help_text="List of labels of coordinates. Redundant with cids.",
         blank=True,
-        null=True
+        null=True,
     )
     cids = models.ManyToManyField(
         Grids,
@@ -1702,48 +1702,48 @@ class Structure(models.Model):
         max_length=50,
         help_text="Text for the NetCDF cell_methods attribute: describes processing used to generate the data values (redundant with cmid).",
         blank=False,
-        null=False
+        null=False,
     )
     cell_measures = models.CharField(
         "Cell Measures",
         max_length=50,
         help_text="This can be either a string value for inclusion in the NetCDF variable attribute cell_measures, or a directive. In the latter case it will be a single word, --OPT or --MODEL. The first of these indicates that the data may be provided either on the cell centres or on the cell boundaries. --MODEL indicates that the data should be provided at the cell locations used for that variable in the model code (e.g. cell vertices).",
         blank=False,
-        null=False
+        null=False,
     )
     flag_values = models.CharField(
         "Flag Values",
         max_length=50,
         help_text="If present, specifies values to be inlcuded in the 'flag_values' attribute.",
         blank=False,
-        null=False
+        null=False,
     )
     flag_meanings = models.CharField(
         "FLag Meanings",
         max_length=50,
         help_text="If present, specifies values to be inlcuded in the 'flag_meanings' attribute.",
         blank=False,
-        null=False
+        null=False,
     )
     description = models.CharField(
         "Description",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     procNote = models.CharField(
         "Processing Note",
         max_length=50,
         help_text="This is used to specify the category of structure. One of: areaType, areaTypeP, glsl, glslp, glslo, gm, h2mcm, misc, oneLevel, xyz, icesheet, xyzplus, zonaletc.",
         blank=False,
-        null=False
+        null=False,
     )
     prov = models.CharField(
         "Provenance",
         max_length=50,
         help_text="Information about the origins of this record.",
         blank=False,
-        null=False
+        null=False,
     )
     cmid = models.ForeignKey(
         CellMethods,
@@ -1751,7 +1751,7 @@ class Structure(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to a cell methods record.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -1778,14 +1778,14 @@ class CMORvar(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record Identifier",
@@ -1793,7 +1793,7 @@ class CMORvar(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     stid = models.ForeignKey(
         Structure,
@@ -1801,7 +1801,7 @@ class CMORvar(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to a record describing the structure of the variable (e.g. spatial and temporal dimensions).",
         blank=False,
-        null=False
+        null=False,
     )
     vid = models.ForeignKey(
         Var,
@@ -1809,62 +1809,62 @@ class CMORvar(models.Model):
         on_delete=models.CASCADE,
         help_text="The MIP Variable specifies the physical quantity.",
         blank=False,
-        null=False
+        null=False,
     )
     deflate = models.CharField(
         "Deflate: NetCDF compression parameter",
         max_length=50,
         help_text="Obsolete, not used in CMIP6.",
         blank=False,
-        null=False
+        null=False,
     )
     deflate_level = models.CharField(
         "Deflate Level: NetCDF compression parameter",
         max_length=50,
         help_text="Obsolete, not used in CMIP6.",
         blank=False,
-        null=False
+        null=False,
     )
     shuffle = models.CharField(
         "Shuffle: NetCDF compression parameter",
         max_length=50,
         help_text="Obsolete, not used in CMIP6.",
         blank=False,
-        null=False
+        null=False,
     )
     defaultPriority = models.IntegerField(
         "Indicative priority for this parameter, which is over-ruled by the requestVar priority setting, but provides a reference for organisation of the CMORvariables",
         help_text="For the priority of requested data, the priority attribute of the requestVar section should be used.",
         blank=False,
-        null=False
+        null=False,
     )
     type = models.CharField(
         "Data value type, e.g. float or double",
         max_length=50,
         help_text="Data type is specified using Fortran code words: character, double, integer, real",
         blank=False,
-        null=False
+        null=False,
     )
     modeling_realm = models.CharField(
         "Modeling Realm",
         max_length=50,
         help_text="A string that  indicates the high level modeling component  which is particularly relevant.  Note  that  sometimes  a  variable  will  be  equally  (or  almost  equally  relevant)  to  two  or  more  realms,  in  which  case  a  primary  realm  is  assigned as the first listed and other relevant realms follow in a space separated list.",
         blank=False,
-        null=False
+        null=False,
     )
     positive = models.CharField(
         "CMOR Directive Positive",
         max_length=50,
         help_text="For any variable where the DREQ has specified a value for 'positive', CMOR requires users to say whether the data they're giving CMOR assumes 'positive is up' or 'positive is down'. If the user's direction is opposite what is requested by DREQ, CMOR multiplies the data by -1 before storing it, so that it will conform with the specifications.",
         blank=False,
-        null=False
+        null=False,
     )
     mipTableSection = models.CharField(
         "Section of a table",
         max_length=50,
         help_text="Some MIP tables are divided into subsections containing different categories of variables.",
         blank=True,
-        null=True
+        null=True,
     )
     mtid = models.ForeignKey(
         Miptable,
@@ -1872,61 +1872,61 @@ class CMORvar(models.Model):
         on_delete=models.CASCADE,
         help_text="A link to the record for the MIP table identified by the mipTable attribute.",
         blank=False,
-        null=False
+        null=False,
     )
     mipTable = models.CharField(
         "The MIP table",
         max_length=50,
         help_text="Each table identifies a collection of variables with a common frequency.",
         blank=False,
-        null=False
+        null=False,
     )
     prov = models.CharField(
         "Provenance",
         max_length=50,
         help_text="Provides some indication of the origins of the parameter definition (e.g. the MIP responsible for first defining the variable). Once defined, a variable may be requested by multiple MIPs.",
         blank=False,
-        null=False
+        null=False,
     )
     processing = models.CharField(
         "Processing Notes",
         max_length=50,
         help_text="Processing notes (questions and issues)",
         blank=True,
-        null=True
+        null=True,
     )
     provNote = models.CharField(
         "Provenance Note",
         max_length=50,
         help_text="Additional information on provenance, intended to be machine interpretable.",
         blank=False,
-        null=False
+        null=False,
     )
     frequency = models.CharField(
         "Frequency of Time Steps to be Archived",
         max_length=50,
         help_text="See https://earthsystemcog.org/projects/wip/time_of_day for details of time of day for sub-hourly frequencies.",
         blank=False,
-        null=False
+        null=False,
     )
     rowIndex = models.IntegerField(
         "Row index of entry in source sheet",
         help_text="Information about source of information.",
         blank=False,
-        null=False
+        null=False,
     )
     description = models.CharField(
         "Description",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     subGroup = models.CharField(
         "Sub-group of variables in a table",
         max_length=50,
         help_text="Identify a sub-group, for ease of processing. A sub-group can be copied to a request variable group.",
         blank=True,
-        null=True
+        null=True,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -1953,14 +1953,14 @@ class VarChoiceLinkC(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record identifier",
@@ -1968,7 +1968,7 @@ class VarChoiceLinkC(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     vid = models.ForeignKey(
         CMORvar,
@@ -1976,7 +1976,7 @@ class VarChoiceLinkC(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to a variable which should be treated as requested if the configuration option is appropriately set.",
         blank=False,
-        null=False
+        null=False,
     )
     cfgid = models.ForeignKey(
         ModelConfig,
@@ -1984,13 +1984,13 @@ class VarChoiceLinkC(models.Model):
         on_delete=models.CASCADE,
         help_text="A link to a record defining a model configuration options. Configuration options should be defined so that they are either True of False when a model is configured for execution. E.g. does the model have a Boussinesq ocean?",
         blank=False,
-        null=False
+        null=False,
     )
     cfg = models.BooleanField(
         "Configuration Value",
         help_text="Gives the configuration option value for which the variable linked from thos record should be used.",
         blank=False,
-        null=False
+        null=False,
     )
     cid = models.ForeignKey(
         VarChoice,
@@ -1998,7 +1998,7 @@ class VarChoiceLinkC(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to a record which  identifies the collection of related variables associated with this configuration option.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -2025,14 +2025,14 @@ class RequestVar(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record identifier",
@@ -2040,13 +2040,13 @@ class RequestVar(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     priority = models.IntegerField(
         "Variable priority",
         help_text="The priority of the variable (1: high, 2: medium or 3: low). An indication of the importance of the variable for the science team requesting it.",
         blank=False,
-        null=False
+        null=False,
     )
     vid = models.ForeignKey(
         CMORvar,
@@ -2054,7 +2054,7 @@ class RequestVar(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to a CMORvar record.",
         blank=False,
-        null=False
+        null=False,
     )
     vgid = models.ForeignKey(
         RequestVarGroup,
@@ -2062,7 +2062,7 @@ class RequestVar(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to a requestVarGroup record.",
         blank=False,
-        null=False
+        null=False,
     )
     mip = models.ForeignKey(
         Mip,
@@ -2070,7 +2070,7 @@ class RequestVar(models.Model):
         on_delete=models.CASCADE,
         help_text="Name of the Model Intercomparison Project requesting this variable.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -2097,14 +2097,14 @@ class VarChoiceLinkR(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record identifier",
@@ -2112,7 +2112,7 @@ class VarChoiceLinkR(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     vid = models.ForeignKey(
         CMORvar,
@@ -2120,7 +2120,7 @@ class VarChoiceLinkR(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to a record defining a variable.",
         blank=False,
-        null=False
+        null=False,
     )
     cid = models.ForeignKey(
         VarChoice,
@@ -2128,13 +2128,13 @@ class VarChoiceLinkR(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to a record identifying a choice group.",
         blank=False,
-        null=False
+        null=False,
     )
     rank = models.IntegerField(
         "For ranked choices, the rank of this variable (higher rank makes lower ranks redundant)",
         help_text="Integer specifying the rank of the variable identified by vid. If multiple variables in the the choice group are requested, only the highest ranking variable needs to be provided.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -2161,14 +2161,14 @@ class TableSection(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record Identifier",
@@ -2176,7 +2176,7 @@ class TableSection(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     gpid = models.ForeignKey(
         Miptable,
@@ -2184,7 +2184,7 @@ class TableSection(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to a record defining a CMOR table.",
         blank=False,
-        null=False
+        null=False,
     )
     mip = models.ForeignKey(
         Mip,
@@ -2192,21 +2192,21 @@ class TableSection(models.Model):
         on_delete=models.CASCADE,
         help_text="Redundant. Specification of a MIP.",
         blank=False,
-        null=False
+        null=False,
     )
     ref = models.CharField(
         "Reference",
         max_length=50,
         help_text="Comment on provenance.",
         blank=True,
-        null=True
+        null=True,
     )
     refNote = models.CharField(
         "Note on reference",
         max_length=50,
         help_text="Further information on provenance.",
         blank=True,
-        null=True
+        null=True,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -2233,14 +2233,14 @@ class Qcranges(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Record identifier",
@@ -2248,25 +2248,25 @@ class Qcranges(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     url = models.URLField(
         "Link to review page",
         help_text="Link to a web page providing background information.",
         blank=True,
-        null=True
+        null=True,
     )
     comment = models.CharField(
         "Comment",
         max_length=50,
         blank=True,
-        null=True
+        null=True,
     )
     prov = models.CharField(
         "Provenance",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     vid = models.ForeignKey(
         CMORvar,
@@ -2274,59 +2274,59 @@ class Qcranges(models.Model):
         on_delete=models.CASCADE,
         help_text="Link to variable record",
         blank=False,
-        null=False
+        null=False,
     )
     valid_min = models.FloatField(
         "Minimum expected value for this variable.",
         help_text="The minimum expected value will be used, if set, in quality control tests, and files containing data values below this value will be marked as containing errors.",
         blank=True,
-        null=True
+        null=True,
     )
     valid_max = models.FloatField(
         "Maximum expected value for this variable.",
         help_text="The maximum expected value will be used, if set, in quality control tests, and files containing data values above this value will be marked as containing errors.",
         blank=True,
-        null=True
+        null=True,
     )
     ok_min_mean_abs = models.FloatField(
         "Minimum expected value of the global mean absolute value at each point in time",
         help_text="This value, if set, will be used  in quality control tests, and files containing data values above this value will be marked as containing errors.",
         blank=True,
-        null=True
+        null=True,
     )
     ok_max_mean_abs = models.FloatField(
         "Maximum expected value of the global mean absolute value at each point in time",
         help_text="This value, if set, will be used  in quality control tests, and files containing data values above this value will be marked as containing errors.",
         blank=True,
-        null=True
+        null=True,
     )
     valid_min_status = models.CharField(
         "Status of valid_min",
         max_length=50,
         help_text="Indicates the degree of confidence in the valid_min value provided. Valid values are robust, suggested or tentative. Robust values are based on previous results from a broad range of models with consistent output or on clear physical constraints.",
         blank=False,
-        null=False
+        null=False,
     )
     valid_max_status = models.CharField(
         "Status of valid_max",
         max_length=50,
         help_text="Indicates the degree of confidence in the valid_max value provided. Valid values are robust, suggested or tentative. Robust values are based on previous results from a broad range of models with consistent output or on clear physical constraints.",
         blank=False,
-        null=False
+        null=False,
     )
     ok_min_mean_abs_status = models.CharField(
         "Status of ok_min_mean_abs",
         max_length=50,
         help_text="Indicates the degree of confidence in the value ok_min_mean_abs provided. Valid values are robust, suggested or tentative. Robust values are based on previous results from a broad range of models with consistent output or on clear physical constraints.",
         blank=False,
-        null=False
+        null=False,
     )
     ok_max_mean_abs_status = models.CharField(
         "Status of ok_mx_mean_abs",
         max_length=50,
         help_text="Indicates the degree of confidence in the value ok_max_mean_abs provided. Valid values are robust, suggested or tentative. Robust values are based on previous results from a broad range of models with consistent output or on clear physical constraints.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -2353,14 +2353,14 @@ class Places(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Identifier",
@@ -2368,34 +2368,34 @@ class Places(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     matter = models.CharField(
         "Substance",
         max_length=50,
         blank=False,
-        null=False
+        null=False,
     )
     mip = models.ForeignKey(
         Mip,
         verbose_name="Model Intercomparison Project (MIP)",
         on_delete=models.CASCADE,
         blank=False,
-        null=False
+        null=False,
     )
     vid = models.ForeignKey(
         CMORvar,
         verbose_name="Variable Identifier",
         on_delete=models.CASCADE,
         blank=True,
-        null=True
+        null=True,
     )
     pid = models.CharField(
         "Parent Entity",
         max_length=50,
         help_text="A place, state or reservoir containing this one.",
         blank=True,
-        null=True
+        null=True,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
@@ -2422,14 +2422,14 @@ class Transfers(models.Model):
         max_length=50,
         help_text="Mnemonic label for record",
         blank=False,
-        null=False
+        null=False,
     )
     title = models.CharField(
         "Record Title",
         max_length=50,
         help_text="Title of record",
         blank=False,
-        null=False
+        null=False,
     )
     uid = models.UUIDField(
         "Identifier",
@@ -2437,42 +2437,44 @@ class Transfers(models.Model):
         default=uuid.uuid4,
         editable=False,
         blank=False,
-        null=False
+        null=False,
     )
     frid = models.ForeignKey(
         Places,
         verbose_name="Source Identifier",
-        on_delete=models.CASCADE, related_name="source_identifier",
+        on_delete=models.CASCADE,
+        related_name="source_identifier",
         help_text="Identifier of the 'place' that the flux is from.",
         blank=False,
-        null=False
+        null=False,
     )
     toid = models.ForeignKey(
         Places,
         verbose_name="Target Identifier",
-        on_delete=models.CASCADE, related_name="target_identifier",
+        on_delete=models.CASCADE,
+        related_name="target_identifier",
         help_text="Identifier of the 'place' that the flux is to.",
         blank=False,
-        null=False
+        null=False,
     )
     isOneWay = models.BooleanField(
         "Unidirectional Flag",
         help_text="Set true if the flux is associated with a physical process which only transfers mass in one direction. E.g.",
         blank=False,
-        null=False
+        null=False,
     )
     signInverted = models.BooleanField(
         "Sign Inversion",
         help_text="Sign Inverted should be set True for one way fluxes if the variable is defined to be negative definite. The competing constraints of CF Standard Name protocols and domain usage can cuase problems with the sign convention.",
         blank=False,
-        null=False
+        null=False,
     )
     mip = models.ForeignKey(
         Mip,
         verbose_name="Model Intercomparison Project (MIP)",
         on_delete=models.CASCADE,
         blank=False,
-        null=False
+        null=False,
     )
     vid = models.ForeignKey(
         CMORvar,
@@ -2480,7 +2482,7 @@ class Transfers(models.Model):
         on_delete=models.CASCADE,
         help_text="Identifier of the 'CMORvar' associated with the flux.",
         blank=False,
-        null=False
+        null=False,
     )
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(auto_now_add=True)
