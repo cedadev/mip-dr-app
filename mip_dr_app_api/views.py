@@ -1740,7 +1740,24 @@ class RequestVarListView(
         context["table_name"] = models.RequestVar._meta.verbose_name
         context["table_description"] = models.RequestVar.table_description
         context["table_id"] = models.RequestVar.table_id
+        context["requestVarGroup"] = models.RequestVarGroup.objects.all()
+
+        requestVarGroupId = self.request.GET.get("requestVarGroup")
+        if requestVarGroupId is not None and requestVarGroupId != "":
+            context["search"] = f"&requestVarGroup={requestVarGroupId}"
+        else:
+            context["search"] = ""
+
         return context
+
+    def get_queryset(self):
+        requestVarGroupId = self.request.GET.get("requestVarGroup")
+        if requestVarGroupId is not None and requestVarGroupId != "":
+            # get the data for the given requestVarGroup
+            return models.RequestVar.objects.filter(vgid=requestVarGroupId)
+
+        # get all data
+        return models.RequestVar.objects.all()
 
 
 class StandardnameDetailView(
