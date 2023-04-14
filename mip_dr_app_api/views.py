@@ -805,6 +805,7 @@ class SpatialShapeDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.SpatialShape.objects.all()
+        context["structure"] = models.Structure.objects.filter(spid=context["object"])
 
         return context
 
@@ -913,6 +914,8 @@ class RequestLinkDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.RequestLink.objects.all()
+        context["objectiveLink"] = models.ObjectiveLink.objects.filter(rlid=context["object"])
+        context["requestItem"] = models.RequestItem.objects.filter(rid=context["object"])
 
         return context
 
@@ -1778,6 +1781,7 @@ class StandardnameDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.Standardname.objects.all()
+        context["var"] = models.Var.objects.filter(sn=context["object"])
 
         return context
 
@@ -1994,6 +1998,7 @@ class VarDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.Var.objects.all()
+        context["CMORvar"] = models.CMORvar.objects.filter(vid=context["object"])
 
         return context
 
@@ -2220,6 +2225,8 @@ class VarChoiceDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.VarChoice.objects.all()
+        context["varChoiceLinkC"] = models.VarChoiceLinkC.objects.filter(cid=context["object"])
+        context["varChoiceLinkR"] = models.VarChoiceLinkR.objects.filter(cid=context["object"])
 
         return context
 
@@ -2328,6 +2335,7 @@ class TemporalShapeDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.TemporalShape.objects.all()
+        context["structure"] = models.Structure.objects.filter(tmid=context["object"])
 
         return context
 
@@ -2436,6 +2444,7 @@ class StructureDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.Structure.objects.all()
+        context["CMORvar"] = models.CMORvar.objects.filter(stid=context["object"])
 
         return context
 
@@ -3200,6 +3209,7 @@ class UnitsDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.Units.objects.all()
+        context["var"] = models.Var.objects.filter(unid=context["object"])
 
         return context
 
