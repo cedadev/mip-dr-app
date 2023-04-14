@@ -1745,8 +1745,10 @@ class RequestVarListView(
         requestVarGroupId = self.request.GET.get("requestVarGroup")
         if requestVarGroupId is not None and requestVarGroupId != "":
             context["search"] = f"&requestVarGroup={requestVarGroupId}"
+            context["filter"] = f"request variable group: {models.RequestVarGroup.objects.get(uid=requestVarGroupId).title}"
         else:
             context["search"] = ""
+            context["filter"] = ""
 
         return context
 

@@ -25,6 +25,21 @@
                 </li>
             </ul>
 
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <div class="dropdown">
+                    <a class="btn btn-outline-secondary dropdown-toggle"
+                        href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">Filter on request variable group</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="?requestVarGroup=">---------------</a>
+                        {% for group in requestVarGroup %}
+                        <a class="dropdown-item"
+                            href="?requestVarGroup={{ group.uid }}">{{ group }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
             <div class="dropdown clearfix">
                 <a class="btn btn-primary dropdown-toggle float-end m-1" href="#" role="button" id="download_data" data-bs-toggle="dropdown" aria-expanded="false">
         Download requestVar</a>
@@ -45,22 +60,9 @@
     <h1>Data Request Section: {{ table_name }} (requestVar)</h1>
 
     <h2>{{ table_description }}</h2>
-
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <div class="dropdown">
-            <a class="btn btn-outline-secondary dropdown-toggle"
-                href="#" role="button" data-bs-toggle="dropdown"
-                aria-expanded="false">Filter on request variable group</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="?requestVarGroup=">---------------</a>
-                {% for group in requestVarGroup %}
-                <a class="dropdown-item"
-                    href="?requestVarGroup={{ group.uid }}">{{ group }}</a>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-
+{% if filter %}
+    <h2>Filtered on {{ filter }}</h2>
+{% endif %}
     <ul>
 {% for object in object_list %}
         <li><a href={% url 'requestVar-detail' object.pk %}>{{ object.label }}</a>: {{ object.title }}{% if object.units %} [{{ object.units }}]{% endif %}</li>
