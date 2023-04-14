@@ -145,8 +145,9 @@ class RequestVarGroupDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.RequestVarGroup.objects.all()
-        context["request_vars"] = models.RequestVar.objects.filter(vgid=context["object"])
-        context["request_links"] = models.RequestLink.objects.filter(refid=context["object"])
+        context["requestLink"] = models.RequestLink.objects.filter(refid=context["object"])
+        context["requestVar"] = models.RequestVar.objects.filter(vgid=context["object"])
+
         return context
 
 
@@ -362,6 +363,7 @@ class ExptgroupDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.Exptgroup.objects.all()
+        context["experiment"] = models.Experiment.objects.filter(egid=context["object"])
 
         return context
 
@@ -470,6 +472,8 @@ class MiptableDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.Miptable.objects.all()
+        context["CMORvar"] = models.CMORvar.objects.filter(mtid=context["object"])
+        context["tableSection"] = models.TableSection.objects.filter(gpid=context["object"])
 
         return context
 
@@ -578,6 +582,12 @@ class CMORvarDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.CMORvar.objects.all()
+        context["places"] = models.Places.objects.filter(vid=context["object"])
+        context["qcranges"] = models.Qcranges.objects.filter(vid=context["object"])
+        context["requestVar"] = models.RequestVar.objects.filter(vid=context["object"])
+        context["transfers"] = models.Transfers.objects.filter(vid=context["object"])
+        context["varChoiceLinkC"] = models.VarChoiceLinkC.objects.filter(vid=context["object"])
+        context["varChoiceLinkR"] = models.VarChoiceLinkR.objects.filter(vid=context["object"])
 
         return context
 
@@ -686,6 +696,7 @@ class ObjectiveDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.Objective.objects.all()
+        context["objectiveLink"] = models.ObjectiveLink.objects.filter(oid=context["object"])
 
         return context
 
@@ -1118,6 +1129,7 @@ class ModelConfigDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.ModelConfig.objects.all()
+        context["varChoiceLinkC"] = models.VarChoiceLinkC.objects.filter(cfgid=context["object"])
 
         return context
 
@@ -2090,6 +2102,16 @@ class MipDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.Mip.objects.all()
+        context["experiment"] = models.Experiment.objects.filter(mip=context["object"])
+        context["objective"] = models.Objective.objects.filter(mip=context["object"])
+        context["places"] = models.Places.objects.filter(mip=context["object"])
+        context["requestItem"] = models.RequestItem.objects.filter(mip=context["object"])
+        context["requestLink"] = models.RequestLink.objects.filter(mip=context["object"])
+        context["requestVar"] = models.RequestVar.objects.filter(mip=context["object"])
+        context["requestVarGroup"] = models.RequestVarGroup.objects.filter(mip=context["object"])
+        context["tableSection"] = models.TableSection.objects.filter(mip=context["object"])
+        context["transfers"] = models.Transfers.objects.filter(mip=context["object"])
+        context["var"] = models.Var.objects.filter(provmip=context["object"])
 
         return context
 
@@ -2522,6 +2544,11 @@ class GridsDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.Grids.objects.all()
+        context["remarks"] = models.Remarks.objects.filter(tid=context["object"])
+        context["spatialShape"] = models.SpatialShape.objects.filter(dimids=context["object"])
+        context["structure_d"] = models.Structure.objects.filter(dids=context["object"])
+        context["structure_c"] = models.Structure.objects.filter(cids=context["object"])
+        context["temporalShape"] = models.TemporalShape.objects.filter(dimid=context["object"])
 
         return context
 
@@ -2738,6 +2765,7 @@ class CellMethodsDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.CellMethods.objects.all()
+        context["structure"] = models.Structure.objects.filter(cmid=context["object"])
 
         return context
 
@@ -2954,6 +2982,8 @@ class PlacesDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.Places.objects.all()
+        context["transfers_f"] = models.Transfers.objects.filter(frid=context["object"])
+        context["transfers_t"] = models.Transfers.objects.filter(toid=context["object"])
 
         return context
 

@@ -396,11 +396,7 @@ class {model_name}DetailView(
 """
     )
 
-    if model_name == "RequestVarGroup":
-        python_file.write(
-            """        context["request_vars"] = models.RequestVar.objects.filter(vgid=context["object"])
-        context["request_links"] = models.RequestLink.objects.filter(refid=context["object"])"""
-        )
+    _write_view_py_file_extra_context(python_file, model_name)
 
     python_file.write(
         f"""
@@ -478,6 +474,161 @@ class {model_name}ListView(
         context["table_id"] = models.{model_name}.table_id
         return context
 """
+    )
+
+
+def _write_view_py_file_extra_context(python_file, model_name):
+
+    if model_name == "CMORvar":
+        _write_view_py_file_extra_context_line(python_file, "places", "Places", "vid")
+        _write_view_py_file_extra_context_line(
+            python_file, "qcranges", "Qcranges", "vid"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "requestVar", "RequestVar", "vid"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "transfers", "Transfers", "vid"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "varChoiceLinkC", "VarChoiceLinkC", "vid"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "varChoiceLinkR", "VarChoiceLinkR", "vid"
+        )
+
+    if model_name == "CellMethods":
+        _write_view_py_file_extra_context_line(
+            python_file, "structure", "Structure", "cmid"
+        )
+
+    if model_name == "Exptgroup":
+        _write_view_py_file_extra_context_line(
+            python_file, "experiment", "Experiment", "egid"
+        )
+
+    if model_name == "Grids":
+        _write_view_py_file_extra_context_line(python_file, "remarks", "Remarks", "tid")
+        _write_view_py_file_extra_context_line(
+            python_file, "spatialShape", "SpatialShape", "dimids"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "structure_d", "Structure", "dids"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "structure_c", "Structure", "cids"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "temporalShape", "TemporalShape", "dimid"
+        )
+
+    if model_name == "Mip":
+        _write_view_py_file_extra_context_line(
+            python_file, "experiment", "Experiment", "mip"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "objective", "Objective", "mip"
+        )
+        _write_view_py_file_extra_context_line(python_file, "places", "Places", "mip")
+        _write_view_py_file_extra_context_line(
+            python_file, "requestItem", "RequestItem", "mip"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "requestLink", "RequestLink", "mip"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "requestVar", "RequestVar", "mip"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "requestVarGroup", "RequestVarGroup", "mip"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "tableSection", "TableSection", "mip"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "transfers", "Transfers", "mip"
+        )
+        _write_view_py_file_extra_context_line(python_file, "var", "Var", "provmip")
+
+    if model_name == "Miptable":
+        _write_view_py_file_extra_context_line(
+            python_file, "CMORvar", "CMORvar", "mtid"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "tableSection", "TableSection", "gpid"
+        )
+
+    if model_name == "ModelConfig":
+        _write_view_py_file_extra_context_line(
+            python_file, "varChoiceLinkC", "VarChoiceLinkC", "cfgid"
+        )
+
+    if model_name == "Objective":
+        _write_view_py_file_extra_context_line(
+            python_file, "objectiveLink", "ObjectiveLink", "oid"
+        )
+
+    if model_name == "Places":
+        _write_view_py_file_extra_context_line(
+            python_file, "transfers_f", "Transfers", "frid"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "transfers_t", "Transfers", "toid"
+        )
+
+    if model_name == "RequestLink":
+        _write_view_py_file_extra_context_line(
+            python_file, "objectiveLink", "ObjectiveLink", "rlid"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "requestItem", "RequestItem", "rid"
+        )
+
+    if model_name == "RequestVarGroup":
+        _write_view_py_file_extra_context_line(
+            python_file, "requestLink", "RequestLink", "refid"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "requestVar", "RequestVar", "vgid"
+        )
+
+    if model_name == "SpatialShape":
+        _write_view_py_file_extra_context_line(
+            python_file, "structure", "Structure", "spid"
+        )
+
+    if model_name == "Standardname":
+        _write_view_py_file_extra_context_line(python_file, "var", "Var", "sn")
+
+    if model_name == "Structure":
+        _write_view_py_file_extra_context_line(
+            python_file, "CMORvar", "CMORvar", "stid"
+        )
+
+    if model_name == "TemporalShape":
+        _write_view_py_file_extra_context_line(
+            python_file, "structure", "Structure", "tmid"
+        )
+
+    if model_name == "Units":
+        _write_view_py_file_extra_context_line(python_file, "var", "Var", "unid")
+
+    if model_name == "Var":
+        _write_view_py_file_extra_context_line(python_file, "CMORvar", "CMORvar", "vid")
+
+    if model_name == "VarChoice":
+        _write_view_py_file_extra_context_line(
+            python_file, "varChoiceLinkC", "VarChoiceLinkC", "cid"
+        )
+        _write_view_py_file_extra_context_line(
+            python_file, "varChoiceLinkR", "VarChoiceLinkR", "cid"
+        )
+
+
+def _write_view_py_file_extra_context_line(python_file, name, model_name, attrib):
+
+    python_file.write(
+        f'        context["{name}"] = models.{model_name}.objects.filter({attrib}=context["object"])\n'
     )
 
 
@@ -719,26 +870,244 @@ def _write_template_detail_file(table_xml):
                 title_found = True
             _write_template_detail_file_line(python_file, table_name, table_row)
 
-        if table_name == "requestVarGroup":
-            python_file.write(
-                """\n<p><b>Request variables:</b></p>
-<ul>
-{% for request_var in request_vars %}
-    <li><a href={% url 'requestVar-detail' request_var.pk %}>{{ request_var.label }}</a></li>
-{% endfor %}
-</ul>
-
-<p><b>Request links:</b></p>
-<ul>
-{% for request_link in request_links %}
-    <li><a href={% url 'requestLink-detail' request_link.pk %}>{{ request_link.label }}</a></li>
-{% endfor %}
-</ul>
-
-"""
-            )
+        _write_template_detail_file_extra_links(python_file, table_name)
 
         python_file.write("\n</div>\n</div>\n{% endblock %}\n")
+
+
+def _write_template_detail_file_extra_links(python_file, table_name):
+
+    if table_name == "CMORvar":
+        _write_template_detail_file_extra_link(
+            python_file, "Places, States or Reservoirs", "places"
+        )
+        _write_template_detail_file_extra_link(
+            python_file, "Quality Control Ranges", "qcranges"
+        )
+        _write_template_detail_file_extra_link(
+            python_file,
+            "Request variable (carrying priority and link to group)",
+            "requestVar",
+        )
+        _write_template_detail_file_extra_link(
+            python_file, "Transfers of Material", "transfers"
+        )
+        _write_template_detail_file_extra_link(
+            python_file, "Links a variable to a choice element", "varChoiceLinkC"
+        )
+        _write_template_detail_file_extra_link(
+            python_file, "Links a variable to a choice element", "varChoiceLinkR"
+        )
+
+    if table_name == "cellMethods":
+        _write_template_detail_file_extra_link(
+            python_file, "Dimensions and related information", "structure"
+        )
+
+    if table_name == "exptgroup":
+        _write_template_detail_file_extra_link(python_file, "Experiments", "experiment")
+
+    if table_name == "grids":
+        _write_template_detail_file_extra_link(
+            python_file,
+            "Remarks about other items",
+            "remarks",
+        )
+        _write_template_detail_file_extra_link(
+            python_file, "Spatial dimensions", "spatialShape"
+        )
+        _write_template_detail_file_extra_link(
+            python_file,
+            "Dimensions and related information",
+            "structure_d",
+            "structure",
+        )
+        _write_template_detail_file_extra_link(
+            python_file,
+            "Dimensions and related information",
+            "structure_c",
+            "structure",
+        )
+        _write_template_detail_file_extra_link(
+            python_file, "Temporal dimension", "temporalShape"
+        )
+
+    if table_name == "mip":
+        _write_template_detail_file_extra_link(python_file, "Experiments", "experiment")
+        _write_template_detail_file_extra_link(
+            python_file, "Scientific objectives", "objective"
+        )
+        _write_template_detail_file_extra_link(
+            python_file, "Places, States or Reservoirs", "places"
+        )
+        _write_template_detail_file_extra_link(
+            python_file,
+            "Request Item: specifying the number of years for an experiment",
+            "requestItem",
+        )
+        _write_template_detail_file_extra_link(
+            python_file,
+            "Request link: linking a set of variables and a set of experiments",
+            "requestLink",
+        )
+        _write_template_detail_file_extra_link(
+            python_file,
+            "Request variable (carrying priority and link to group)",
+            "requestVar",
+        )
+        _write_template_detail_file_extra_link(
+            python_file,
+            "Request variable group: a collection of request variables",
+            "requestVarGroup",
+        )
+        _write_template_detail_file_extra_link(
+            python_file, "CMOR Table Sections", "tableSection"
+        )
+        _write_template_detail_file_extra_link(
+            python_file, "Transfers of Material", "transfers"
+        )
+        _write_template_detail_file_extra_link(python_file, "MIP Variable", "var")
+
+    if table_name == "miptable":
+        _write_template_detail_file_extra_link(python_file, "CMOR Variable", "CMORvar")
+        _write_template_detail_file_extra_link(
+            python_file, "CMOR Table Sections", "tableSection"
+        )
+
+    if table_name == "modelConfig":
+        _write_template_detail_file_extra_link(
+            python_file, "Links a variable to a choice element", "varChoiceLinkC"
+        )
+
+    if table_name == "objective":
+        _write_template_detail_file_extra_link(
+            python_file,
+            "Link between scientific objectives and requests",
+            "objectiveLink",
+        )
+
+    if table_name == "places":
+        _write_template_detail_file_extra_link(
+            python_file, "Source Identifier", "transfers_f", "transfers"
+        )
+        _write_template_detail_file_extra_link(
+            python_file, "Target Identifier", "transfers_t", "transfers"
+        )
+
+    if table_name == "requestLink":
+        _write_template_detail_file_extra_link(
+            python_file,
+            "Link between scientific objectives and requests",
+            "objectiveLink",
+        )
+        _write_template_detail_file_extra_link(
+            python_file,
+            "3.2 Request Item: specifying the number of years for an experiment",
+            "requestItem",
+        )
+
+    if table_name == "requestVarGroup":
+        _write_template_detail_file_extra_link(
+            python_file,
+            "Request variable (carrying priority and link to group)",
+            "requestVar",
+        )
+        _write_template_detail_file_extra_link(
+            python_file,
+            "Request link: linking a set of variables and a set of experiments",
+            "requestLink",
+        )
+
+    if table_name == "spatialShape":
+        _write_template_detail_file_extra_link(
+            python_file, "Dimensions and related information", "structure"
+        )
+
+    if table_name == "standardname":
+        _write_template_detail_file_extra_link(python_file, "MIP Variable", "var")
+
+    if table_name == "structure":
+        _write_template_detail_file_extra_link(python_file, "CMOR Variable", "CMORvar")
+
+    if table_name == "temporalShape":
+        _write_template_detail_file_extra_link(
+            python_file, "Dimensions and related information", "structure"
+        )
+
+    if table_name == "units":
+        _write_template_detail_file_extra_link(python_file, "MIP Variable", "var")
+
+    if table_name == "var":
+        _write_template_detail_file_extra_link(python_file, "CMOR Variable", "CMORvar")
+
+    if table_name == "varChoice":
+        _write_template_detail_file_extra_link(
+            python_file, "Links a variable to a choice element", "varChoiceLinkC"
+        )
+        _write_template_detail_file_extra_link(
+            python_file, "Links a variable to a choice element", "varChoiceLinkR"
+        )
+
+
+def _write_template_detail_file_extra_link(python_file, title, data_name, link=None):
+    if link is None:
+        link = data_name
+    python_file.write("\n{% if " + data_name + " %}\n")
+
+    python_file.write("{% if " + data_name + ".count == 1 %}\n")
+    python_file.write(
+        "        <p>\n            <b>"
+        + title
+        + " :</b> <a href={% url '"
+        + link
+        + "-detail' "
+        + data_name
+        + ".first.pk %}>{{ "
+        + data_name
+        + ".first.title }}\n        </p>\n"
+    )
+    python_file.write("{% endif %}\n")
+
+    python_file.write(
+        "{% if " + data_name + ".count > 1  and " + data_name + ".count < 6 %}\n"
+    )
+    python_file.write(
+        f"        <p>\n            <b>{title} :</b>\n        </p>\n        <ul>\n"
+    )
+    python_file.write("{% for item in " + data_name + " %}\n")
+    python_file.write(
+        "            <li><a href={% url '"
+        + link
+        + "-detail' item.pk %}>{{ item.title }}</a></li>\n"
+    )
+    python_file.write(
+        """{% endfor %}
+        </ul>
+{% endif %}\n"""
+    )
+    python_file.write("{% if " + data_name + ".count > 5 %}\n")
+    python_file.write(
+        f"""        <p>
+            <b>{title} : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#{data_name}">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="{data_name}" class="collapse">\n"""
+    )
+    python_file.write("            <ul>\n{% for item in " + data_name + " %}\n")
+    python_file.write(
+        "            <li><a href={% url '"
+        + data_name
+        + "-detail' item.pk %}>{{ item.title }}</a></li>\n"
+    )
+    python_file.write(
+        """{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}\n"""
+    )
 
 
 def _write_template_detail_file_line(python_file, table_name, table_row):
