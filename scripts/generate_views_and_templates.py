@@ -1064,7 +1064,7 @@ def _write_template_detail_file_extra_link(python_file, title, data_name, link=N
         + data_name
         + ".first.pk %}>{{ "
         + data_name
-        + ".first.title }}\n        </p>\n"
+        + ".first.title }}</a>\n        </p>\n"
     )
     python_file.write("{% endif %}\n")
 
