@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "import_export",
     "mip_dr_app_api",
+    "mip_dr_app_search",
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,444 @@
+{% extends "mip_dr_app_api/base.html" %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block nav %}
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSearch"
+            aria-controls="navbarSearch" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"
+            id="navbarSearch">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="home page" href="/">Home</a>
+                </li>
+                <li class="navbar-text"><i class="bi bi-arrow-right" aria-hidden="true"></i></li>
+                <li class="nav-item">
+                    <p class="nav-link active">Search</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="row row-height">
+    <div class="col-2"></div>
+    <div class="col-10">
+<h1>Search Results for "{{ request.GET.q }}"</h1>
+
+{% if mip %}
+<h2>{{mip_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#mip">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="mip" class="collapse show">
+<ul>
+{% for object in mip %}
+<li><a href={% url 'mip-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if var %}
+<h2>{{var_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#var">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="var" class="collapse show">
+<ul>
+{% for object in var %}
+<li><a href={% url 'var-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if CMORvar %}
+<h2>{{CMORvar_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#CMORvar">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="CMORvar" class="collapse show">
+<ul>
+{% for object in CMORvar %}
+<li><a href={% url 'CMORvar-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if requestVar %}
+<h2>{{requestVar_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#requestVar">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="requestVar" class="collapse show">
+<ul>
+{% for object in requestVar %}
+<li><a href={% url 'requestVar-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if experiment %}
+<h2>{{experiment_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#experiment">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="experiment" class="collapse show">
+<ul>
+{% for object in experiment %}
+<li><a href={% url 'experiment-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if objective %}
+<h2>{{objective_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#objective">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="objective" class="collapse show">
+<ul>
+{% for object in objective %}
+<li><a href={% url 'objective-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if grids %}
+<h2>{{grids_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#grids">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="grids" class="collapse show">
+<ul>
+{% for object in grids %}
+<li><a href={% url 'grids-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if standardname %}
+<h2>{{standardname_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#standardname">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="standardname" class="collapse show">
+<ul>
+{% for object in standardname %}
+<li><a href={% url 'standardname-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if exptgroup %}
+<h2>{{exptgroup_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#exptgroup">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="exptgroup" class="collapse show">
+<ul>
+{% for object in exptgroup %}
+<li><a href={% url 'exptgroup-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if spatialShape %}
+<h2>{{spatialShape_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#spatialShape">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="spatialShape" class="collapse show">
+<ul>
+{% for object in spatialShape %}
+<li><a href={% url 'spatialShape-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if temporalShape %}
+<h2>{{temporalShape_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#temporalShape">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="temporalShape" class="collapse show">
+<ul>
+{% for object in temporalShape %}
+<li><a href={% url 'temporalShape-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if structure %}
+<h2>{{structure_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#structure">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="structure" class="collapse show">
+<ul>
+{% for object in structure %}
+<li><a href={% url 'structure-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if miptable %}
+<h2>{{miptable_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#miptable">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="miptable" class="collapse show">
+<ul>
+{% for object in miptable %}
+<li><a href={% url 'miptable-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if requestVarGroup %}
+<h2>{{requestVarGroup_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#requestVarGroup">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="requestVarGroup" class="collapse show">
+<ul>
+{% for object in requestVarGroup %}
+<li><a href={% url 'requestVarGroup-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if requestItem %}
+<h2>{{requestItem_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#requestItem">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="requestItem" class="collapse show">
+<ul>
+{% for object in requestItem %}
+<li><a href={% url 'requestItem-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if requestLink %}
+<h2>{{requestLink_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#requestLink">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="requestLink" class="collapse show">
+<ul>
+{% for object in requestLink %}
+<li><a href={% url 'requestLink-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if tableSection %}
+<h2>{{tableSection_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#tableSection">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="tableSection" class="collapse show">
+<ul>
+{% for object in tableSection %}
+<li><a href={% url 'tableSection-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if modelConfig %}
+<h2>{{modelConfig_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#modelConfig">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="modelConfig" class="collapse show">
+<ul>
+{% for object in modelConfig %}
+<li><a href={% url 'modelConfig-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if varChoiceLinkC %}
+<h2>{{varChoiceLinkC_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#varChoiceLinkC">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="varChoiceLinkC" class="collapse show">
+<ul>
+{% for object in varChoiceLinkC %}
+<li><a href={% url 'varChoiceLinkC-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if objectiveLink %}
+<h2>{{objectiveLink_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#objectiveLink">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="objectiveLink" class="collapse show">
+<ul>
+{% for object in objectiveLink %}
+<li><a href={% url 'objectiveLink-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if remarks %}
+<h2>{{remarks_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#remarks">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="remarks" class="collapse show">
+<ul>
+{% for object in remarks %}
+<li><a href={% url 'remarks-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if varChoiceLinkR %}
+<h2>{{varChoiceLinkR_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#varChoiceLinkR">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="varChoiceLinkR" class="collapse show">
+<ul>
+{% for object in varChoiceLinkR %}
+<li><a href={% url 'varChoiceLinkR-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if varChoice %}
+<h2>{{varChoice_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#varChoice">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="varChoice" class="collapse show">
+<ul>
+{% for object in varChoice %}
+<li><a href={% url 'varChoice-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if timeSlice %}
+<h2>{{timeSlice_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#timeSlice">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="timeSlice" class="collapse show">
+<ul>
+{% for object in timeSlice %}
+<li><a href={% url 'timeSlice-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if cellMethods %}
+<h2>{{cellMethods_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#cellMethods">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="cellMethods" class="collapse show">
+<ul>
+{% for object in cellMethods %}
+<li><a href={% url 'cellMethods-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if places %}
+<h2>{{places_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#places">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="places" class="collapse show">
+<ul>
+{% for object in places %}
+<li><a href={% url 'places-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if qcranges %}
+<h2>{{qcranges_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#qcranges">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="qcranges" class="collapse show">
+<ul>
+{% for object in qcranges %}
+<li><a href={% url 'qcranges-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if transfers %}
+<h2>{{transfers_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#transfers">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="transfers" class="collapse show">
+<ul>
+{% for object in transfers %}
+<li><a href={% url 'transfers-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% if units %}
+<h2>{{units_table_name}}</h2>
+<a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#units">
+  <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+</a>
+<div id="units" class="collapse show">
+<ul>
+{% for object in units %}
+<li><a href={% url 'units-detail' object.pk %}>{{object.label}}</a> {{object.title}}</li>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+{% endblock %}
