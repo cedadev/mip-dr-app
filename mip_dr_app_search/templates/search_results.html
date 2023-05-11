@@ -36,10 +36,11 @@
 <h1>Search Results for "{{ request.GET.q }}"</h1>
 
 {% if mip %}
-<h2>{{mip_table_name}}</h2>
+<h2>{{mip_table_name}} ({{ mip.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#mip">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="mip" class="collapse show">
 <ul>
 {% for object in mip %}
@@ -50,10 +51,11 @@
 {% endif %}
 
 {% if var %}
-<h2>{{var_table_name}}</h2>
+<h2>{{var_table_name}} ({{ var.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#var">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="var" class="collapse show">
 <ul>
 {% for object in var %}
@@ -64,10 +66,11 @@
 {% endif %}
 
 {% if CMORvar %}
-<h2>{{CMORvar_table_name}}</h2>
+<h2>{{CMORvar_table_name}} ({{ CMORvar.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#CMORvar">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="CMORvar" class="collapse show">
 <ul>
 {% for object in CMORvar %}
@@ -78,10 +81,11 @@
 {% endif %}
 
 {% if requestVar %}
-<h2>{{requestVar_table_name}}</h2>
+<h2>{{requestVar_table_name}} ({{ requestVar.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#requestVar">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="requestVar" class="collapse show">
 <ul>
 {% for object in requestVar %}
@@ -92,10 +96,11 @@
 {% endif %}
 
 {% if experiment %}
-<h2>{{experiment_table_name}}</h2>
+<h2>{{experiment_table_name}} ({{ experiment.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#experiment">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="experiment" class="collapse show">
 <ul>
 {% for object in experiment %}
@@ -106,10 +111,11 @@
 {% endif %}
 
 {% if objective %}
-<h2>{{objective_table_name}}</h2>
+<h2>{{objective_table_name}} ({{ objective.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#objective">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="objective" class="collapse show">
 <ul>
 {% for object in objective %}
@@ -120,10 +126,11 @@
 {% endif %}
 
 {% if grids %}
-<h2>{{grids_table_name}}</h2>
+<h2>{{grids_table_name}} ({{ grids.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#grids">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="grids" class="collapse show">
 <ul>
 {% for object in grids %}
@@ -134,10 +141,11 @@
 {% endif %}
 
 {% if standardname %}
-<h2>{{standardname_table_name}}</h2>
+<h2>{{standardname_table_name}} ({{ standardname.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#standardname">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="standardname" class="collapse show">
 <ul>
 {% for object in standardname %}
@@ -148,10 +156,11 @@
 {% endif %}
 
 {% if exptgroup %}
-<h2>{{exptgroup_table_name}}</h2>
+<h2>{{exptgroup_table_name}} ({{ exptgroup.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#exptgroup">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="exptgroup" class="collapse show">
 <ul>
 {% for object in exptgroup %}
@@ -162,10 +171,11 @@
 {% endif %}
 
 {% if spatialShape %}
-<h2>{{spatialShape_table_name}}</h2>
+<h2>{{spatialShape_table_name}} ({{ spatialShape.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#spatialShape">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="spatialShape" class="collapse show">
 <ul>
 {% for object in spatialShape %}
@@ -176,10 +186,11 @@
 {% endif %}
 
 {% if temporalShape %}
-<h2>{{temporalShape_table_name}}</h2>
+<h2>{{temporalShape_table_name}} ({{ temporalShape.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#temporalShape">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="temporalShape" class="collapse show">
 <ul>
 {% for object in temporalShape %}
@@ -190,10 +201,11 @@
 {% endif %}
 
 {% if structure %}
-<h2>{{structure_table_name}}</h2>
+<h2>{{structure_table_name}} ({{ structure.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#structure">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="structure" class="collapse show">
 <ul>
 {% for object in structure %}
@@ -204,10 +216,11 @@
 {% endif %}
 
 {% if miptable %}
-<h2>{{miptable_table_name}}</h2>
+<h2>{{miptable_table_name}} ({{ miptable.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#miptable">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="miptable" class="collapse show">
 <ul>
 {% for object in miptable %}
@@ -218,10 +231,11 @@
 {% endif %}
 
 {% if requestVarGroup %}
-<h2>{{requestVarGroup_table_name}}</h2>
+<h2>{{requestVarGroup_table_name}} ({{ requestVarGroup.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#requestVarGroup">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="requestVarGroup" class="collapse show">
 <ul>
 {% for object in requestVarGroup %}
@@ -232,10 +246,11 @@
 {% endif %}
 
 {% if requestItem %}
-<h2>{{requestItem_table_name}}</h2>
+<h2>{{requestItem_table_name}} ({{ requestItem.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#requestItem">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="requestItem" class="collapse show">
 <ul>
 {% for object in requestItem %}
@@ -246,10 +261,11 @@
 {% endif %}
 
 {% if requestLink %}
-<h2>{{requestLink_table_name}}</h2>
+<h2>{{requestLink_table_name}} ({{ requestLink.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#requestLink">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="requestLink" class="collapse show">
 <ul>
 {% for object in requestLink %}
@@ -260,10 +276,11 @@
 {% endif %}
 
 {% if tableSection %}
-<h2>{{tableSection_table_name}}</h2>
+<h2>{{tableSection_table_name}} ({{ tableSection.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#tableSection">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="tableSection" class="collapse show">
 <ul>
 {% for object in tableSection %}
@@ -274,10 +291,11 @@
 {% endif %}
 
 {% if modelConfig %}
-<h2>{{modelConfig_table_name}}</h2>
+<h2>{{modelConfig_table_name}} ({{ modelConfig.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#modelConfig">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="modelConfig" class="collapse show">
 <ul>
 {% for object in modelConfig %}
@@ -288,10 +306,11 @@
 {% endif %}
 
 {% if varChoiceLinkC %}
-<h2>{{varChoiceLinkC_table_name}}</h2>
+<h2>{{varChoiceLinkC_table_name}} ({{ varChoiceLinkC.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#varChoiceLinkC">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="varChoiceLinkC" class="collapse show">
 <ul>
 {% for object in varChoiceLinkC %}
@@ -302,10 +321,11 @@
 {% endif %}
 
 {% if objectiveLink %}
-<h2>{{objectiveLink_table_name}}</h2>
+<h2>{{objectiveLink_table_name}} ({{ objectiveLink.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#objectiveLink">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="objectiveLink" class="collapse show">
 <ul>
 {% for object in objectiveLink %}
@@ -316,10 +336,11 @@
 {% endif %}
 
 {% if remarks %}
-<h2>{{remarks_table_name}}</h2>
+<h2>{{remarks_table_name}} ({{ remarks.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#remarks">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="remarks" class="collapse show">
 <ul>
 {% for object in remarks %}
@@ -330,10 +351,11 @@
 {% endif %}
 
 {% if varChoiceLinkR %}
-<h2>{{varChoiceLinkR_table_name}}</h2>
+<h2>{{varChoiceLinkR_table_name}} ({{ varChoiceLinkR.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#varChoiceLinkR">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="varChoiceLinkR" class="collapse show">
 <ul>
 {% for object in varChoiceLinkR %}
@@ -344,10 +366,11 @@
 {% endif %}
 
 {% if varChoice %}
-<h2>{{varChoice_table_name}}</h2>
+<h2>{{varChoice_table_name}} ({{ varChoice.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#varChoice">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="varChoice" class="collapse show">
 <ul>
 {% for object in varChoice %}
@@ -358,10 +381,11 @@
 {% endif %}
 
 {% if timeSlice %}
-<h2>{{timeSlice_table_name}}</h2>
+<h2>{{timeSlice_table_name}} ({{ timeSlice.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#timeSlice">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="timeSlice" class="collapse show">
 <ul>
 {% for object in timeSlice %}
@@ -372,10 +396,11 @@
 {% endif %}
 
 {% if cellMethods %}
-<h2>{{cellMethods_table_name}}</h2>
+<h2>{{cellMethods_table_name}} ({{ cellMethods.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#cellMethods">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="cellMethods" class="collapse show">
 <ul>
 {% for object in cellMethods %}
@@ -386,10 +411,11 @@
 {% endif %}
 
 {% if places %}
-<h2>{{places_table_name}}</h2>
+<h2>{{places_table_name}} ({{ places.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#places">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="places" class="collapse show">
 <ul>
 {% for object in places %}
@@ -400,10 +426,11 @@
 {% endif %}
 
 {% if qcranges %}
-<h2>{{qcranges_table_name}}</h2>
+<h2>{{qcranges_table_name}} ({{ qcranges.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#qcranges">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="qcranges" class="collapse show">
 <ul>
 {% for object in qcranges %}
@@ -414,10 +441,11 @@
 {% endif %}
 
 {% if transfers %}
-<h2>{{transfers_table_name}}</h2>
+<h2>{{transfers_table_name}} ({{ transfers.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#transfers">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="transfers" class="collapse show">
 <ul>
 {% for object in transfers %}
@@ -428,10 +456,11 @@
 {% endif %}
 
 {% if units %}
-<h2>{{units_table_name}}</h2>
+<h2>{{units_table_name}} ({{ units.count }}):
 <a class="list-heading show" data-bs-toggle="collapse" aria-expanded="true" href="#units">
   <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
 </a>
+</h2>
 <div id="units" class="collapse show">
 <ul>
 {% for object in units %}
@@ -441,4 +470,5 @@
 </div>
 {% endif %}
 
+<h2 class="ps-5 pt-5">--- END OF RESULTS ---</h2>
 {% endblock %}

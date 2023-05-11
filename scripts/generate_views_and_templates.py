@@ -802,6 +802,24 @@ def _write_template_detail_file(table_xml):
 
 {% block title %}{{ object.label }}{% endblock %}
 
+{% block search %}
+<form class="d-flex" role="search" action="{% url 'search:search' %}" method="GET">
+    <div class="input-group me-auto mb-2 mb-lg-0">
+        <input class="form-control" type="text" placeholder="""
+        )
+        python_file.write(f'"Search {table_name}"')
+        python_file.write(
+            """ aria-label="Search" name="q">
+        <input type="hidden" id="vocab" name="vocab" value="""
+        )
+        python_file.write(f'"{table_name}"')
+        python_file.write(
+            """>
+        <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+    </div>
+</form>
+{% endblock %}
+
 {% block nav %}
 {% load mip_dr_app_api_tags %}
 <nav class="navbar navbar-expand-lg bg-light">
