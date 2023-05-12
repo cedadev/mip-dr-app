@@ -1,5 +1,6 @@
 from django.db.models import Q
 from django.views.generic import TemplateView
+from django.http import JsonResponse
 
 from mip_dr_app_api import models
 
@@ -17,10 +18,27 @@ class SearchView(TemplateView):
 
     template_name = "search_results.html"
 
+    def render_to_response(self, context):
+        if (
+            self.request.GET.get("format") == "json"
+            or self.request.content_type == "application/json"
+        ):
+            data = {}
+            for key in context.keys():
+                if key in ["table", "q", "view"] or "_table_name" in key:
+                    continue
+                values = list(context[key].values())
+                if len(values) > 0:
+                    data[key] = values
+            return JsonResponse(data, json_dumps_params={"indent": 2})
+        return super().render_to_response(context)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         query = self.request.GET.get("q")
         table_name = self.request.GET.get("vocab", "*")
+        context["table"] = table_name
+        context["q"] = query
 
         if query is not None:
             lookups = Q(title__icontains=query) | Q(label__icontains=query)

@@ -145,6 +145,7 @@ class JSONResponseMixin:"""
         """
         return JsonResponse(
             self.get_j_data(context),
+            json_dumps_params={"indent": 2},
             safe=False,
         )
 
@@ -304,6 +305,7 @@ def _write_view_py_file_index(python_file, table_names):
             data[name] = list(table.objects.all().values())
         return JsonResponse(
             data,
+            json_dumps_params={"indent": 2},
             safe=False,
         )
 

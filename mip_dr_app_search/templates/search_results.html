@@ -23,6 +23,12 @@
                     <p class="nav-link active">Search</p>
                 </li>
             </ul>
+
+            <div class="dropdown clearfix">
+                <a class="btn btn-primary float-end m-1" href="{% url 'search:search' %}?q={{ q }}&table={{ table }}&format=json" role="button" id="json_search_results">
+        View results as json</a>
+            </div>
+
         </div>
     </div>
 </nav>
