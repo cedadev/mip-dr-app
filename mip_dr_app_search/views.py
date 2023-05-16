@@ -1,8 +1,234 @@
 from django.db.models import Q
-from django.views.generic import TemplateView
 from django.http import JsonResponse
+from django.views.generic import TemplateView
 
 from mip_dr_app_api import models
+
+
+class SuggestionView(TemplateView):
+    """
+    The suggestion view provides search terms for the search functionality.
+
+    The intention is that the terms are used in a type ahead search widget. As the
+    search is based on the "title" and "label" fields of the model(s), the suggestions
+    are also taken from those fields. By default terms from all tables are provided. If
+    the name of a json file is also provided in the URL, e.g. mip.json, then only terms
+    for the associated table are returned.
+
+    """
+
+    def render_to_response(self, context):
+        return JsonResponse(
+            context["suggestion"],
+            safe=False,
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            vocab = context["vocab"]
+        except KeyError:
+            vocab = "*"
+        table_name = vocab.split(".")[0]
+        values = set()
+
+        if table_name in ["*", "mip"]:
+            values.update(
+                _get_suggestions(models.Mip.objects.values_list("title", "label"))
+            )
+
+        if table_name in ["*", "var"]:
+            values.update(
+                _get_suggestions(models.Var.objects.values_list("title", "label"))
+            )
+
+        if table_name in ["*", "CMORvar"]:
+            values.update(
+                _get_suggestions(models.CMORvar.objects.values_list("title", "label"))
+            )
+
+        if table_name in ["*", "requestVar"]:
+            values.update(
+                _get_suggestions(
+                    models.RequestVar.objects.values_list("title", "label")
+                )
+            )
+
+        if table_name in ["*", "experiment"]:
+            values.update(
+                _get_suggestions(
+                    models.Experiment.objects.values_list("title", "label")
+                )
+            )
+
+        if table_name in ["*", "objective"]:
+            values.update(
+                _get_suggestions(models.Objective.objects.values_list("title", "label"))
+            )
+
+        if table_name in ["*", "grids"]:
+            values.update(
+                _get_suggestions(models.Grids.objects.values_list("title", "label"))
+            )
+
+        if table_name in ["*", "standardname"]:
+            values.update(
+                _get_suggestions(
+                    models.Standardname.objects.values_list("title", "label")
+                )
+            )
+
+        if table_name in ["*", "exptgroup"]:
+            values.update(
+                _get_suggestions(models.Exptgroup.objects.values_list("title", "label"))
+            )
+
+        if table_name in ["*", "spatialShape"]:
+            values.update(
+                _get_suggestions(
+                    models.SpatialShape.objects.values_list("title", "label")
+                )
+            )
+
+        if table_name in ["*", "temporalShape"]:
+            values.update(
+                _get_suggestions(
+                    models.TemporalShape.objects.values_list("title", "label")
+                )
+            )
+
+        if table_name in ["*", "structure"]:
+            values.update(
+                _get_suggestions(models.Structure.objects.values_list("title", "label"))
+            )
+
+        if table_name in ["*", "miptable"]:
+            values.update(
+                _get_suggestions(models.Miptable.objects.values_list("title", "label"))
+            )
+
+        if table_name in ["*", "requestVarGroup"]:
+            values.update(
+                _get_suggestions(
+                    models.RequestVarGroup.objects.values_list("title", "label")
+                )
+            )
+
+        if table_name in ["*", "requestItem"]:
+            values.update(
+                _get_suggestions(
+                    models.RequestItem.objects.values_list("title", "label")
+                )
+            )
+
+        if table_name in ["*", "requestLink"]:
+            values.update(
+                _get_suggestions(
+                    models.RequestLink.objects.values_list("title", "label")
+                )
+            )
+
+        if table_name in ["*", "tableSection"]:
+            values.update(
+                _get_suggestions(
+                    models.TableSection.objects.values_list("title", "label")
+                )
+            )
+
+        if table_name in ["*", "modelConfig"]:
+            values.update(
+                _get_suggestions(
+                    models.ModelConfig.objects.values_list("title", "label")
+                )
+            )
+
+        if table_name in ["*", "varChoiceLinkC"]:
+            values.update(
+                _get_suggestions(
+                    models.VarChoiceLinkC.objects.values_list("title", "label")
+                )
+            )
+
+        if table_name in ["*", "objectiveLink"]:
+            values.update(
+                _get_suggestions(
+                    models.ObjectiveLink.objects.values_list("title", "label")
+                )
+            )
+
+        if table_name in ["*", "remarks"]:
+            values.update(
+                _get_suggestions(models.Remarks.objects.values_list("title", "label"))
+            )
+
+        if table_name in ["*", "varChoiceLinkR"]:
+            values.update(
+                _get_suggestions(
+                    models.VarChoiceLinkR.objects.values_list("title", "label")
+                )
+            )
+
+        if table_name in ["*", "varChoice"]:
+            values.update(
+                _get_suggestions(models.VarChoice.objects.values_list("title", "label"))
+            )
+
+        if table_name in ["*", "timeSlice"]:
+            values.update(
+                _get_suggestions(models.TimeSlice.objects.values_list("title", "label"))
+            )
+
+        if table_name in ["*", "cellMethods"]:
+            values.update(
+                _get_suggestions(
+                    models.CellMethods.objects.values_list("title", "label")
+                )
+            )
+
+        if table_name in ["*", "places"]:
+            values.update(
+                _get_suggestions(models.Places.objects.values_list("title", "label"))
+            )
+
+        if table_name in ["*", "qcranges"]:
+            values.update(
+                _get_suggestions(models.Qcranges.objects.values_list("title", "label"))
+            )
+
+        if table_name in ["*", "transfers"]:
+            values.update(
+                _get_suggestions(models.Transfers.objects.values_list("title", "label"))
+            )
+
+        if table_name in ["*", "units"]:
+            values.update(
+                _get_suggestions(models.Units.objects.values_list("title", "label"))
+            )
+
+        context["suggestion"] = sorted(list(values))
+        return context
+
+
+def _get_suggestions(result_set):
+    values = set()
+    for result in result_set:
+        for word in result[0].split(" "):
+            word = _clean_word(word)
+            if word in ["", "-", "--", "..", "..."]:
+                continue
+            values.add(word)
+        for word in result[1].split(" "):
+            word = _clean_word(word)
+            if word in ["-", "--", "..", "..."]:
+                continue
+            values.add(word)
+    return values
+
+
+def _clean_word(word):
+    for symbol in ["(", ")", '"', ","]:
+        word = word.replace(symbol, "")
+    return word
 
 
 class SearchView(TemplateView):

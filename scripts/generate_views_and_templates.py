@@ -667,26 +667,14 @@ def _write_template_list_file(table_xml):
         python_file.write(
             """{% extends "mip_dr_app_api/sidebar.html" %}
 
-{% block title %}{{ table_id }}{% endblock %}
-
-{% block search %}
-<form class="d-flex" role="search" action="{% url 'search:search' %}" method="GET">
-    <div class="input-group me-auto mb-2 mb-lg-0">
-        <input class="form-control" type="text" placeholder="""
+{% block title %}{{ table_id }}{% endblock %}"""
         )
-        python_file.write(f'"Search {table_name}"')
         python_file.write(
-            """ aria-label="Search" name="q">
-        <input type="hidden" id="vocab" name="vocab" value="""
+            '{% block search-placeholder %}"Search ' + table_name + '"{% endblock %}'
         )
-        python_file.write(f'"{table_name}"')
+        python_file.write('{% block search-vocab %}"' + table_name + '"{% endblock %}')
         python_file.write(
-            """>
-        <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
-    </div>
-</form>
-{% endblock %}
-
+            """
 {% block nav %}
 {% load mip_dr_app_api_tags %}
 <nav class="navbar navbar-expand-lg bg-light">
@@ -790,6 +778,11 @@ def _write_template_list_file(table_xml):
     </ul>
 {% endblock %}"""
         )
+        python_file.write(
+            """{% block prefetch_url %}"{% url 'search:suggestion' %}"""
+            + table_name
+            + """.json"{% endblock %}"""
+        )
 
 
 def _write_template_detail_file(table_xml):
@@ -802,26 +795,14 @@ def _write_template_detail_file(table_xml):
         python_file.write(
             """{% extends "mip_dr_app_api/base.html" %}
 
-{% block title %}{{ object.label }}{% endblock %}
-
-{% block search %}
-<form class="d-flex" role="search" action="{% url 'search:search' %}" method="GET">
-    <div class="input-group me-auto mb-2 mb-lg-0">
-        <input class="form-control" type="text" placeholder="""
+{% block title %}{{ object.label }}{% endblock %}"""
         )
-        python_file.write(f'"Search {table_name}"')
         python_file.write(
-            """ aria-label="Search" name="q">
-        <input type="hidden" id="vocab" name="vocab" value="""
+            '{% block search-placeholder %}"Search ' + table_name + '"{% endblock %}'
         )
-        python_file.write(f'"{table_name}"')
+        python_file.write('{% block search-vocab %}"' + table_name + '"{% endblock %}')
         python_file.write(
-            """>
-        <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
-    </div>
-</form>
-{% endblock %}
-
+            """
 {% block nav %}
 {% load mip_dr_app_api_tags %}
 <nav class="navbar navbar-expand-lg bg-light">
@@ -912,6 +893,11 @@ def _write_template_detail_file(table_xml):
 
         python_file.write("\n</div>\n</div>\n{% endblock %}\n")
 
+        python_file.write(
+            """{% block prefetch_url %}"{% url 'search:suggestion' %}"""
+            + table_name
+            + """.json"{% endblock %}"""
+        )
 
 def _write_template_detail_file_extra_links(python_file, table_name):
 

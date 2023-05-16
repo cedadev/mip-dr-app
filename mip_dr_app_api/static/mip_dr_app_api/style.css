@@ -41,6 +41,22 @@ td.sidebar_table {
 	display: inline-block;
 }
 
+/*Set up typeahead formatting*/
+.tt-menu {
+	background-color: #FFFFFF;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 8px;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	margin-top: 12px;
+	padding: 8px 0;
+	left: auto !important;
+	right: 0px;
+}
+
+.tt-suggestion {
+	padding: 3px 20px;
+}
+
 /*Remove the scrollbar from Chrome, Safari, Edge and IE*/
 ::-webkit-scrollbar {
 	width: 0px;
