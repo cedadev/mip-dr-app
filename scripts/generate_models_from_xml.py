@@ -17,10 +17,10 @@ DREQ_SUPP_XML = (
     "https://raw.githubusercontent.com/cmip6dr/data_request_snapshots/"
     "main/Release/dreqPy/docs/dreqSuppDefn.xml"
 )
-MODELS_FILE = "../mip_dr_app_api/models.py"
-ADMIN_FILE = "../mip_dr_app_api/admin.py"
-RESOURCES_FILE = "../mip_dr_app_api/resources.py"
-RESOURCES_PRETTY_FILE = "../mip_dr_app_api/resources_pretty.py"
+MODELS_FILE = "../mip_dr_app_vocab/models.py"
+ADMIN_FILE = "../mip_dr_app_vocab/admin.py"
+RESOURCES_FILE = "../mip_dr_app_vocab/resources.py"
+RESOURCES_PRETTY_FILE = "../mip_dr_app_vocab/resources_pretty.py"
 
 MANY_TO_MANY = ["cids", "dids", "dimids"]
 
@@ -103,8 +103,8 @@ def _write_admin_file(python_file, models_names):
     python_file.write(
         """from django.contrib import admin
 from import_export.admin import ImportExportActionModelAdmin\n
-from mip_dr_app_api import models
-from mip_dr_app_api import resources\n"""
+from mip_dr_app_vocab import models
+from mip_dr_app_vocab import resources\n"""
     )
 
     for table in models_names:
@@ -124,7 +124,7 @@ def _write_resource_file(python_file, models_names):
     )
     python_file.write('"""\n')
     python_file.write("from import_export import resources\n\n")
-    python_file.write(f"from mip_dr_app_api import models\n")
+    python_file.write(f"from mip_dr_app_vocab import models\n")
 
     for table in models_names:
         python_file.write(
@@ -158,7 +158,7 @@ def _write_resource_pretty_file(python_file, models_names):
     python_file.write(
         "from import_export.widgets import ForeignKeyWidget, ManyToManyWidget\n\n"
     )
-    python_file.write("from mip_dr_app_api import models\n\n\n")
+    python_file.write("from mip_dr_app_vocab import models\n\n\n")
     python_file.write("class VerboseExportMixin:\n")
     python_file.write('    """Export with verbose name"""\n')
 

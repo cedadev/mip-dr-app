@@ -1,8 +1,8 @@
-{% extends "mip_dr_app_api/sidebar.html" %}
+{% extends "mip_dr_app_vocab/sidebar.html" %}
 
 {% block title %}{{ table_id }}{% endblock %}{% block search-placeholder %}"Search requestVar"{% endblock %}{% block search-vocab %}"requestVar"{% endblock %}
 {% block nav %}
-{% load mip_dr_app_api_tags %}
+{% load mip_dr_app_vocab_tags %}
 <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button"
@@ -43,11 +43,11 @@
                 <a class="btn btn-primary dropdown-toggle float-end m-1" href="#" role="button" id="download_data" data-bs-toggle="dropdown" aria-expanded="false">
         Download requestVar</a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="download_data">
-                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'requestVar-list' %}?format=csv{{ search }}>CSV</a></li>
-                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'requestVar-list' %}?format=csv{{ search }}&pretty=true>CSV - pretty</a></li>
-                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'requestVar-list' %}?format=json{{ search }}>JSON</a></li>
-                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'requestVar-list' %}?format=xlsx{{ search }}>XLSX</a></li>
-                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'requestVar-list' %}?format=xlsx{{ search }}&pretty=true>XLSX - pretty</a></li>                </ul>
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:requestVar-list' %}?format=csv>CSV</a></li>
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:requestVar-list' %}?format=csv&pretty=true>CSV - pretty</a></li>
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:requestVar-list' %}?format=json>JSON</a></li>
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:requestVar-list' %}?format=xlsx>XLSX</a></li>
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:requestVar-list' %}?format=xlsx&pretty=true>XLSX - pretty</a></li>                </ul>
             </div>
 
         </div>
@@ -65,7 +65,7 @@
 
     <ul>
 {% for object in object_list %}
-        <li><a href={% url 'requestVar-detail' object.pk %}>{{ object.label }}</a>: {{ object.title }}{% if object.units %} [{{ object.units }}]{% endif %}</li>
+        <li><a href={% url 'vocab:requestVar-detail' object.pk %}>{{ object.label }}</a>: {{ object.title }}{% if object.units %} [{{ object.units }}]{% endif %}</li>
 {% empty %}
         <li>No articles yet.</li>
 {% endfor %}

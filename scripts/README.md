@@ -6,7 +6,7 @@ python generate_views_and_templates.py
 
 python generate_models_from_xml.py
 
-python manage.py makemigrations mip_dr_app_api
+python manage.py makemigrations mip_dr_app_vocab
 
 python manage.py migrate
 

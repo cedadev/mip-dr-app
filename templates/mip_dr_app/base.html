@@ -15,9 +15,11 @@
 
 {% load static %}
 <link rel="stylesheet" type="text/css"
-    href="{% static 'mip_dr_app_api/style.css' %}" />
+    href="{% static 'mip_dr_app/style.css' %}" />
 <link rel="stylesheet" type="text/css"
-    href="{% static 'mip_dr_app_api/bootstrap-icons-1.9.1/bootstrap-icons.css' %}" />
+    href="{% static 'external/bootstrap-icons-1.9.1/bootstrap-icons.css' %}" />
+
+{% block head-extras %}{% endblock %}
 
 <title>{% block title %}MIP Data Request{% endblock %}</title>
 
@@ -37,11 +39,14 @@
             </button>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% static 'mip_dr_app_api/erd.png' %}">Entity Relationship Diagram</a>
+                    <a class="nav-link" href="{% static 'mip_dr_app_docs/erd.png' %}">Entity Relationship Diagram</a>
                 </li>
                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'notes'  %}">Notes</a>
+                    <a class="nav-link" href="{% url 'docs:notes' %}">Notes</a>
                 </li>
+                 <!--  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'docs:api' %}">API Docs</a>
+                </li> -->
            </ul>
             {% block search %}
             <form class="d-flex" role="search" action="{% url 'search:search' %}" method="GET">
@@ -75,7 +80,7 @@
 
     <script 
         type="text/javascript" 
-        src="{% static 'mip_dr_app_api/typeahead-0.11.1/typeahead.bundle.js' %}"></script>
+        src="{% static 'external/typeahead-0.11.1/typeahead.bundle.js' %}"></script>
 
     <script>
     $(document).ready(function(){     

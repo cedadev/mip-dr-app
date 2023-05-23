@@ -194,7 +194,7 @@ def _write_main(python_file):
     import django
 
     django.setup()
-    from mip_dr_app_api import models as mip_dr_models
+    from mip_dr_app_vocab import models as mip_dr_models
 
     main()\n"""
     )

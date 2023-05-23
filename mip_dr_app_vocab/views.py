@@ -11,9 +11,9 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 import tablib
 
-from mip_dr_app_api import models
-from mip_dr_app_api import resources
-from mip_dr_app_api import resources_pretty
+from mip_dr_app_vocab import models
+from mip_dr_app_vocab import resources
+from mip_dr_app_vocab import resources_pretty
 
 
 class ResponseMixin:
@@ -3318,7 +3318,7 @@ class index(View):
             return self.render_to_xlsx_response(self.request.GET.get("pretty"))
 
         # return html
-        return render(request, "mip_dr_app_api/index.html", {})
+        return render(request, "mip_dr_app_vocab/index.html", {})
 
     def render_to_json_response(self):
         data = {}
@@ -3413,7 +3413,3 @@ class index(View):
         )
         response["Content-Disposition"] = f'attachment; filename="mip_dr.xlsx"'
         return response
-
-
-class notes(TemplateView):
-    template_name = "mip_dr_app_api/notes.html"

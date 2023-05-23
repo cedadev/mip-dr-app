@@ -1,4 +1,4 @@
-{% extends "mip_dr_app_api/base.html" %}
+{% extends "mip_dr_app/base.html" %}
 
 {% block title %}Notes about the MIP Data Request Service{% endblock %}
 
@@ -36,30 +36,15 @@
         <h1>Notes about the MIP Data Request Service</h1>
         <h2>Web Pages</h2>
         <p>The MIP Data Request web pages allows you to view and navigate through the vocabularies.</p>
-        <p>The <a href="{% static 'mip_dr_app_api/erd.png' %}">Entity Relationship Diagram</a> provides
+        <p>The <a href="{% static 'mip_dr_app_docs/erd.png' %}">Entity Relationship Diagram</a> provides
         an overview showing links between the vocabularies.
         </p>
         <p>From the home page you can download all of the vocabularies as a single json file or as a Excel
         workbook, with one vocabulary per spreadsheet in the workbook.</p>
         <p>From the top level page of each vocabulary you can download the vocabulary as a csv, json or xlsx file.</p>
-
-        <h2>Content Negotiation</h2>
-        <p>All of the vocabularies are available via an API. The required format can be specified in the
-        URL or via content negotiation. For example:</p>
-        <ul>
-            <li>To get a vocabulary as a csv file:
-            <pre>    <code>curl http://127.0.0.1:8000/mip/?format=csv</code>
-or
-    <code>curl http://127.0.0.1:8000/mip/ -H "Accept: text/csv"</code></pre></li>
-            <li>To get a vocabulary as a json file:
-            <pre>    <code>curl http://127.0.0.1:8000/mip/?format=json</code>
-or
-    <code>curl http://127.0.0.1:8000/mip/ -H "Accept: application/json"</code></pre></li>
-            <li>To get a vocabulary as an Excel spreadsheet:
-            <pre>    <code>curl http://127.0.0.1:8000/mip/?format=xlsx</code>
-or
-    <code>curl http://127.0.0.1:8000/mip/ -H "Accept: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"</code></pre></li>
-        </ul>
+<!--
+        <h2>API</h2>
+        <p>A description of the API can be found on the <a href="{% url 'docs:api' %}">API docs</a> page</p>  -->
     </div>
 </div>
 {% endblock %}

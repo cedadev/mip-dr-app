@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.views.generic import TemplateView
 
-from mip_dr_app_api import models
+from mip_dr_app_vocab import models
 
 
 class SuggestionView(TemplateView):
@@ -242,7 +242,7 @@ class SearchView(TemplateView):
 
     """
 
-    template_name = "search_results.html"
+    template_name = "mip_dr_app_search/search_results.html"
 
     def render_to_response(self, context):
         if (

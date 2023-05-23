@@ -1,5 +1,5 @@
 """
-mip_dr_app URL configuration.
+mip_dr_app_search URL configuration.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.0/topics/http/urls/
@@ -14,16 +14,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 
-from mip_dr_app.views import HomeView
+from mip_dr_app_docs.views import APIView, NotesView
 
 
+app_name = "docs"
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("search/", include("mip_dr_app_search.urls")),
-    path("doc/", include("mip_dr_app_docs.urls")),
-    path("vocab/", include("mip_dr_app_vocab.urls")),
-    path("", HomeView.as_view(), name="home"),
+    path("", NotesView.as_view(), name="docs"),
+    path("notes/", NotesView.as_view(), name="notes"),
+    path("api/", APIView.as_view(), name="api"),
 ]

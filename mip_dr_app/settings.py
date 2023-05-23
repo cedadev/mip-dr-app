@@ -40,8 +40,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "import_export",
-    "mip_dr_app_api",
+    "mip_dr_app_docs",
     "mip_dr_app_search",
+    "mip_dr_app_vocab",
 ]
 
 MIDDLEWARE = [
@@ -128,6 +129,6 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 GRAPH_MODELS = {
-    "app_labels": ["mip_dr_app_api"],
+    "app_labels": ["mip_dr_app_vocab"],
     "group_models": True,
 }

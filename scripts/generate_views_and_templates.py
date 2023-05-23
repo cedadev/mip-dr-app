@@ -16,10 +16,10 @@ DREQ_SUPP_DEF_XML = (
     "https://raw.githubusercontent.com/cmip6dr/data_request_snapshots/"
     "main/Release/dreqPy/docs/dreqSuppDefn.xml"
 )
-VIEWS_FILE = "../mip_dr_app_api/views.py"
-URLS_FILE = "../mip_dr_app_api/urls.py"
-INDEX_FILE = "../templates/mip_dr_app_api/index.html"
-SIDE_BAR_FILE = "../templates/mip_dr_app_api/sidebar.html"
+VIEWS_FILE = "../mip_dr_app_vocab/views.py"
+URLS_FILE = "../mip_dr_app_vocab/urls.py"
+INDEX_FILE = "../templates/mip_dr_app_vocab/index.html"
+SIDE_BAR_FILE = "../templates/mip_dr_app_vocab/sidebar.html"
 
 MANY_TO_MANY = ["cids", "dids", "dimids"]
 
@@ -81,9 +81,9 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 import tablib
 
-from mip_dr_app_api import models
-from mip_dr_app_api import resources
-from mip_dr_app_api import resources_pretty
+from mip_dr_app_vocab import models
+from mip_dr_app_vocab import resources
+from mip_dr_app_vocab import resources_pretty
 
 
 class ResponseMixin:
@@ -209,12 +209,12 @@ def _write_url_py_file_header(python_file):
         """
 from django.urls import path
 
-from mip_dr_app_api import views as mip_dr_app_api_views
+from mip_dr_app_vocab import views as mip_dr_app_vocab_views
 
 
+app_name = "vocab"
 urlpatterns = [
-    path("", mip_dr_app_api_views.index.as_view(), name="index"),
-    path("notes", mip_dr_app_api_views.notes.as_view(), name="notes"),"""
+    path("", mip_dr_app_vocab_views.index.as_view(), name="index"),"""
     )
 
 
@@ -288,7 +288,7 @@ def _write_view_py_file_index(python_file, table_names):
             return self.render_to_xlsx_response(self.request.GET.get("pretty"))
 
         # return html
-        return render(request, "mip_dr_app_api/index.html", {})
+        return render(request, "mip_dr_app_vocab/index.html", {})
 
     def render_to_json_response(self):
         data = {}
@@ -345,10 +345,6 @@ def _write_view_py_file_index(python_file, table_names):
         )
         response["Content-Disposition"] = f'attachment; filename="mip_dr.xlsx"'
         return response
-
-
-class notes(TemplateView):
-    template_name = "mip_dr_app_api/notes.html"
 """
     )
 
@@ -639,7 +635,7 @@ def _write_url_py_file(python_file, table_name, model_name):
         f"""
     path(
         "{table_name}/",
-        mip_dr_app_api_views.{model_name}ListView.as_view(),
+        mip_dr_app_vocab_views.{model_name}ListView.as_view(),
         name="{table_name}-list",
     ),
     path("""
@@ -652,7 +648,7 @@ def _write_url_py_file(python_file, table_name, model_name):
 
     python_file.write(
         f"""
-        mip_dr_app_api_views.{model_name}DetailView.as_view(),
+        mip_dr_app_vocab_views.{model_name}DetailView.as_view(),
         name="{table_name}-detail",
     ),"""
     )
@@ -662,10 +658,10 @@ def _write_template_list_file(table_xml):
     table_attrib = table_xml.attrib
     table_name = table_attrib["label"]
     with open(
-        f"../templates/mip_dr_app_api/{table_name.lower()}_list.html", "w"
+        f"../templates/mip_dr_app_vocab/{table_name.lower()}_list.html", "w"
     ) as python_file:
         python_file.write(
-            """{% extends "mip_dr_app_api/sidebar.html" %}
+            """{% extends "mip_dr_app_vocab/sidebar.html" %}
 
 {% block title %}{{ table_id }}{% endblock %}"""
         )
@@ -676,7 +672,7 @@ def _write_template_list_file(table_xml):
         python_file.write(
             """
 {% block nav %}
-{% load mip_dr_app_api_tags %}
+{% load mip_dr_app_vocab_tags %}
 <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button"
@@ -706,35 +702,35 @@ def _write_template_list_file(table_xml):
         python_file.write(
             """</a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="download_data">
-                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url '"""
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:"""
         )
         python_file.write(table_name)
         python_file.write("-list' %}?format=csv>CSV</a></li>")
 
         python_file.write(
             """
-                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url '"""
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:"""
         )
         python_file.write(table_name)
         python_file.write("-list' %}?format=csv&pretty=true>CSV - pretty</a></li>")
 
         python_file.write(
             """
-                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url '"""
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:"""
         )
         python_file.write(table_name)
         python_file.write("-list' %}?format=json>JSON</a></li>")
 
         python_file.write(
             """
-                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url '"""
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:"""
         )
         python_file.write(table_name)
         python_file.write("-list' %}?format=xlsx>XLSX</a></li>")
 
         python_file.write(
             """
-                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url '"""
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:"""
         )
         python_file.write(table_name)
         python_file.write("-list' %}?format=xlsx&pretty=true>XLSX - pretty</a></li>")
@@ -759,7 +755,7 @@ def _write_template_list_file(table_xml):
 
     <ul>
 {% for object in object_list %}
-        <li><a href={% url '"""
+        <li><a href={% url 'vocab:"""
         )
         python_file.write(table_name)
         python_file.write(
@@ -789,11 +785,11 @@ def _write_template_detail_file(table_xml):
     table_attrib = table_xml.attrib
     table_name = table_attrib["label"]
     with open(
-        f"../templates/mip_dr_app_api/{table_name.lower()}_detail.html", "w"
+        f"../templates/mip_dr_app_vocab/{table_name.lower()}_detail.html", "w"
     ) as python_file:
 
         python_file.write(
-            """{% extends "mip_dr_app_api/base.html" %}
+            """{% extends "mip_dr_app/base.html" %}
 
 {% block title %}{{ object.label }}{% endblock %}"""
         )
@@ -804,7 +800,7 @@ def _write_template_detail_file(table_xml):
         python_file.write(
             """
 {% block nav %}
-{% load mip_dr_app_api_tags %}
+{% load mip_dr_app_vocab_tags %}
 <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button"
@@ -825,7 +821,7 @@ def _write_template_detail_file(table_xml):
                     <a class="nav-link" aria-current='"""
         )
         python_file.write(table_name)
-        python_file.write(""" list' href={%url '""")
+        python_file.write(""" list' href={% url 'vocab:""")
         python_file.write(table_name)
         python_file.write(
             """-list' %}>{{object|verbose_name }}</a>
@@ -853,7 +849,7 @@ def _write_template_detail_file(table_xml):
         <tbody>
 {% for model in models %}
             <tr>
-                <td class="sidebar_table"><a href={% url '"""
+                <td class="sidebar_table"><a href={% url 'vocab:"""
         )
         python_file.write(table_name)
         python_file.write(
@@ -1082,7 +1078,7 @@ def _write_template_detail_file_extra_link(python_file, title, data_name, link=N
     python_file.write(
         "        <p>\n            <b>"
         + title
-        + " :</b> <a href={% url '"
+        + " :</b> <a href={% url 'vocab:"
         + link
         + "-detail' "
         + data_name
@@ -1100,7 +1096,7 @@ def _write_template_detail_file_extra_link(python_file, title, data_name, link=N
     )
     python_file.write("{% for item in " + data_name + " %}\n")
     python_file.write(
-        "            <li><a href={% url '"
+        "            <li><a href={% url 'vocab:"
         + link
         + "-detail' item.pk %}>{{ item.title }}</a></li>\n"
     )
@@ -1121,7 +1117,7 @@ def _write_template_detail_file_extra_link(python_file, title, data_name, link=N
     )
     python_file.write("            <ul>\n{% for item in " + data_name + " %}\n")
     python_file.write(
-        "            <li><a href={% url '"
+        "            <li><a href={% url 'vocab:"
         + data_name
         + "-detail' item.pk %}>{{ item.title }}</a></li>\n"
     )
@@ -1214,12 +1210,12 @@ def _write_template_detail_file_line(python_file, table_name, table_row):
         python_file.write(row_name)
         python_file.write(
             """.all %}
-        <a href={% url 'grids-detail' one.uid %}>{{ one.label }}</a>
+        <a href={% url 'vocab:grids-detail' one.uid %}>{{ one.label }}</a>
 {% endfor %}"""
         )
 
     elif linked_model is not None:
-        python_file.write("<a href={% url '")
+        python_file.write("<a href={% url 'vocab:")
         python_file.write(linked_model)
         python_file.write("-detail' object.")
         python_file.write(row_name)
@@ -1248,7 +1244,7 @@ def _write_sidebar(python_file, sidebar_html):
 
     python_file.write(
         """
-{% extends "mip_dr_app_api/base.html" %}
+{% extends "mip_dr_app/base.html" %}
 
 {% block content %}
 <div class="row row-height">
@@ -1292,7 +1288,7 @@ def _get_index_html_file_line(index_html, table_xml):
     table_name = table_attrib["label"]
 
     line = (
-        "<li><a href={% url '"
+        "<li><a href={% url 'vocab:"
         + table_name
         + "-list' %}>"
         + table_attrib["title"].strip()
@@ -1310,7 +1306,7 @@ def _get_sidebar_html_line(sidebar_html, table_xml):
     table_name = table_attrib["label"]
 
     line = (
-        """<a href={% url '"""
+        """<a href={% url 'vocab:"""
         + table_name
         + "-list' %}>"
         + table_attrib["title"].strip()
@@ -1324,12 +1320,12 @@ def _get_sidebar_html_line(sidebar_html, table_xml):
 def _write_index_file(index_html):
     with open(INDEX_FILE, "w") as python_index_file:
         python_index_file.write(
-            """{% extends "mip_dr_app_api/base.html" %}
+            """{% extends "mip_dr_app/base.html" %}
 
 {% block title %}Data Request{% endblock %}
 
 {% block nav %}
-{% load mip_dr_app_api_tags %}
+{% load mip_dr_app_vocab_tags %}
 <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button"
@@ -1351,9 +1347,9 @@ def _write_index_file(index_html):
                 <a class="btn btn-primary dropdown-toggle float-end m-1" href="#" role="button" id="download_data" data-bs-toggle="dropdown" aria-expanded="false">
                     Download Data Request</a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="download_data">
-                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'index' %}?format=json>JSON</a></li>
-                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'index' %}?format=xlsx>XLSX</a></li>
-                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'index' %}?format=xlsx&pretty=true>XLSX - pretty</a></li>
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:index' %}?format=json>JSON</a></li>
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:index' %}?format=xlsx>XLSX</a></li>
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:index' %}?format=xlsx&pretty=true>XLSX - pretty</a></li>
                 </ul>
             </div>
 
