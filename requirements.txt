@@ -5,6 +5,7 @@ django-extensions
 django-import-export
 et-xmlfile
 openpyxl
+psycopg2
 pydot
 pyparsing
 pytz
