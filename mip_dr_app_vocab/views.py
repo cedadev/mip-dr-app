@@ -915,7 +915,7 @@ class RequestLinkDetailView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["models"] = models.RequestLink.objects.all()
-        context["objectiveLink"] = models.ObjectiveLink.objects.filter(rlid=context["object"])
+        context["objectiveLink"] = models.ObjectiveLink.objects.filter(rid=context["object"])
         context["requestItem"] = models.RequestItem.objects.filter(rid=context["object"])
 
         return context

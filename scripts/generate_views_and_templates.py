@@ -576,7 +576,7 @@ def _write_view_py_file_extra_context(python_file, model_name):
 
     if model_name == "RequestLink":
         _write_view_py_file_extra_context_line(
-            python_file, "objectiveLink", "ObjectiveLink", "rlid"
+            python_file, "objectiveLink", "ObjectiveLink", "rid"
         )
         _write_view_py_file_extra_context_line(
             python_file, "requestItem", "RequestItem", "rid"
