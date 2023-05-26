@@ -579,7 +579,7 @@ def _write_view_py_file_extra_context(python_file, model_name):
             python_file, "objectiveLink", "ObjectiveLink", "rid"
         )
         _write_view_py_file_extra_context_line(
-            python_file, "requestItem", "RequestItem", "rid"
+            python_file, "requestItem", "RequestItem", "rlid"
         )
 
     if model_name == "RequestVarGroup":
