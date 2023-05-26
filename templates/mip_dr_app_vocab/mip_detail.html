@@ -1,0 +1,449 @@
+{% extends "mip_dr_app/base.html" %}
+
+{% block title %}{{ object.label }}{% endblock %}{% block search-placeholder %}"Search mip"{% endblock %}{% block search-vocab %}"mip"{% endblock %}
+{% block nav %}
+{% load mip_dr_app_vocab_tags %}
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"
+            id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="home page" href="/">Home</a>
+                </li>
+                <li class="navbar-text"><i class="bi bi-arrow-right" aria-hidden="true"></i></li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current='mip list' href={% url 'vocab:mip-list' %}>{{object|verbose_name }}</a>
+                </li>
+                <li class="navbar-text"><i class="bi bi-arrow-right" aria-hidden="true"></i></li>
+                <li class="nav-item">
+                    <p class="nav-link active">{{ object.title }}</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="row row-height">
+<div class="col-2 left">
+    <div id="sidebar">
+    <table class="table table-striped ">
+        <thead>
+            <tr>
+                <th scope="col" class="sidebar_table">{{ object|verbose_name }}</th>
+            </tr>
+        </thead>
+        <tbody>
+{% for model in models %}
+            <tr>
+                <td class="sidebar_table"><a href={% url 'vocab:mip-detail' model.pk %}>{{ model.label }}</a></td>
+            </tr>
+{% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+<div class="col-10 right">
+
+<h1>{{ object|verbose_name }}: {{ object.title }} ({{ object.label }})</h1>
+<p><b>{% field_verbose_name object "label" %}{% field_help_text object "label" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'label' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.label }}</p>
+<p><b>{% field_verbose_name object "title" %}{% field_help_text object "title" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'title' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.title }}</p>
+<p><b>{% field_verbose_name object "uid" %}{% field_help_text object "uid" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'uid' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.uid }}</p>
+{% if object.description %}
+<p><b>{% field_verbose_name object "description" %}{% field_help_text object "description" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'description' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.description }}</p>
+{% endif %}
+<p><b>{% field_verbose_name object "url" %}{% field_help_text object "url" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'url' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: <a href={{ object.url }}>{{ object.url }}</a></p>
+
+{% if experiment %}
+{% if experiment.count == 1 %}
+        <p>
+            <b>Experiments :</b> <a href={% url 'vocab:experiment-detail' experiment.first.pk %}>{{ experiment.first.title }}</a>
+        </p>
+{% endif %}
+{% if experiment.count > 1  and experiment.count < 6 %}
+        <p>
+            <b>Experiments :</b>
+        </p>
+        <ul>
+{% for item in experiment %}
+            <li><a href={% url 'vocab:experiment-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+        </ul>
+{% endif %}
+{% if experiment.count > 5 %}
+        <p>
+            <b>Experiments : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#experiment">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="experiment" class="collapse">
+            <ul>
+{% for item in experiment %}
+            <li><a href={% url 'vocab:experiment-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}
+
+{% if objective %}
+{% if objective.count == 1 %}
+        <p>
+            <b>Scientific objectives :</b> <a href={% url 'vocab:objective-detail' objective.first.pk %}>{{ objective.first.title }}</a>
+        </p>
+{% endif %}
+{% if objective.count > 1  and objective.count < 6 %}
+        <p>
+            <b>Scientific objectives :</b>
+        </p>
+        <ul>
+{% for item in objective %}
+            <li><a href={% url 'vocab:objective-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+        </ul>
+{% endif %}
+{% if objective.count > 5 %}
+        <p>
+            <b>Scientific objectives : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#objective">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="objective" class="collapse">
+            <ul>
+{% for item in objective %}
+            <li><a href={% url 'vocab:objective-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}
+
+{% if places %}
+{% if places.count == 1 %}
+        <p>
+            <b>Places, States or Reservoirs :</b> <a href={% url 'vocab:places-detail' places.first.pk %}>{{ places.first.title }}</a>
+        </p>
+{% endif %}
+{% if places.count > 1  and places.count < 6 %}
+        <p>
+            <b>Places, States or Reservoirs :</b>
+        </p>
+        <ul>
+{% for item in places %}
+            <li><a href={% url 'vocab:places-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+        </ul>
+{% endif %}
+{% if places.count > 5 %}
+        <p>
+            <b>Places, States or Reservoirs : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#places">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="places" class="collapse">
+            <ul>
+{% for item in places %}
+            <li><a href={% url 'vocab:places-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}
+
+{% if requestItem %}
+{% if requestItem.count == 1 %}
+        <p>
+            <b>Request Item: specifying the number of years for an experiment :</b> <a href={% url 'vocab:requestItem-detail' requestItem.first.pk %}>{{ requestItem.first.title }}</a>
+        </p>
+{% endif %}
+{% if requestItem.count > 1  and requestItem.count < 6 %}
+        <p>
+            <b>Request Item: specifying the number of years for an experiment :</b>
+        </p>
+        <ul>
+{% for item in requestItem %}
+            <li><a href={% url 'vocab:requestItem-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+        </ul>
+{% endif %}
+{% if requestItem.count > 5 %}
+        <p>
+            <b>Request Item: specifying the number of years for an experiment : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#requestItem">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="requestItem" class="collapse">
+            <ul>
+{% for item in requestItem %}
+            <li><a href={% url 'vocab:requestItem-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}
+
+{% if requestLink %}
+{% if requestLink.count == 1 %}
+        <p>
+            <b>Request link: linking a set of variables and a set of experiments :</b> <a href={% url 'vocab:requestLink-detail' requestLink.first.pk %}>{{ requestLink.first.title }}</a>
+        </p>
+{% endif %}
+{% if requestLink.count > 1  and requestLink.count < 6 %}
+        <p>
+            <b>Request link: linking a set of variables and a set of experiments :</b>
+        </p>
+        <ul>
+{% for item in requestLink %}
+            <li><a href={% url 'vocab:requestLink-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+        </ul>
+{% endif %}
+{% if requestLink.count > 5 %}
+        <p>
+            <b>Request link: linking a set of variables and a set of experiments : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#requestLink">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="requestLink" class="collapse">
+            <ul>
+{% for item in requestLink %}
+            <li><a href={% url 'vocab:requestLink-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}
+
+{% if requestVar %}
+{% if requestVar.count == 1 %}
+        <p>
+            <b>Request variable (carrying priority and link to group) :</b> <a href={% url 'vocab:requestVar-detail' requestVar.first.pk %}>{{ requestVar.first.title }}</a>
+        </p>
+{% endif %}
+{% if requestVar.count > 1  and requestVar.count < 6 %}
+        <p>
+            <b>Request variable (carrying priority and link to group) :</b>
+        </p>
+        <ul>
+{% for item in requestVar %}
+            <li><a href={% url 'vocab:requestVar-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+        </ul>
+{% endif %}
+{% if requestVar.count > 5 %}
+        <p>
+            <b>Request variable (carrying priority and link to group) : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#requestVar">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="requestVar" class="collapse">
+            <ul>
+{% for item in requestVar %}
+            <li><a href={% url 'vocab:requestVar-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}
+
+{% if requestVarGroup %}
+{% if requestVarGroup.count == 1 %}
+        <p>
+            <b>Request variable group: a collection of request variables :</b> <a href={% url 'vocab:requestVarGroup-detail' requestVarGroup.first.pk %}>{{ requestVarGroup.first.title }}</a>
+        </p>
+{% endif %}
+{% if requestVarGroup.count > 1  and requestVarGroup.count < 6 %}
+        <p>
+            <b>Request variable group: a collection of request variables :</b>
+        </p>
+        <ul>
+{% for item in requestVarGroup %}
+            <li><a href={% url 'vocab:requestVarGroup-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+        </ul>
+{% endif %}
+{% if requestVarGroup.count > 5 %}
+        <p>
+            <b>Request variable group: a collection of request variables : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#requestVarGroup">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="requestVarGroup" class="collapse">
+            <ul>
+{% for item in requestVarGroup %}
+            <li><a href={% url 'vocab:requestVarGroup-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}
+
+{% if tableSection %}
+{% if tableSection.count == 1 %}
+        <p>
+            <b>CMOR Table Sections :</b> <a href={% url 'vocab:tableSection-detail' tableSection.first.pk %}>{{ tableSection.first.title }}</a>
+        </p>
+{% endif %}
+{% if tableSection.count > 1  and tableSection.count < 6 %}
+        <p>
+            <b>CMOR Table Sections :</b>
+        </p>
+        <ul>
+{% for item in tableSection %}
+            <li><a href={% url 'vocab:tableSection-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+        </ul>
+{% endif %}
+{% if tableSection.count > 5 %}
+        <p>
+            <b>CMOR Table Sections : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#tableSection">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="tableSection" class="collapse">
+            <ul>
+{% for item in tableSection %}
+            <li><a href={% url 'vocab:tableSection-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}
+
+{% if transfers %}
+{% if transfers.count == 1 %}
+        <p>
+            <b>Transfers of Material :</b> <a href={% url 'vocab:transfers-detail' transfers.first.pk %}>{{ transfers.first.title }}</a>
+        </p>
+{% endif %}
+{% if transfers.count > 1  and transfers.count < 6 %}
+        <p>
+            <b>Transfers of Material :</b>
+        </p>
+        <ul>
+{% for item in transfers %}
+            <li><a href={% url 'vocab:transfers-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+        </ul>
+{% endif %}
+{% if transfers.count > 5 %}
+        <p>
+            <b>Transfers of Material : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#transfers">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="transfers" class="collapse">
+            <ul>
+{% for item in transfers %}
+            <li><a href={% url 'vocab:transfers-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}
+
+{% if var %}
+{% if var.count == 1 %}
+        <p>
+            <b>MIP Variable :</b> <a href={% url 'vocab:var-detail' var.first.pk %}>{{ var.first.title }}</a>
+        </p>
+{% endif %}
+{% if var.count > 1  and var.count < 6 %}
+        <p>
+            <b>MIP Variable :</b>
+        </p>
+        <ul>
+{% for item in var %}
+            <li><a href={% url 'vocab:var-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+        </ul>
+{% endif %}
+{% if var.count > 5 %}
+        <p>
+            <b>MIP Variable : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#var">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="var" class="collapse">
+            <ul>
+{% for item in var %}
+            <li><a href={% url 'vocab:var-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}
+
+</div>
+</div>
+{% endblock %}
+{% block prefetch_url %}"{% url 'search:suggestion' %}mip.json"{% endblock %}

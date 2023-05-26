@@ -1,0 +1,488 @@
+{% extends "mip_dr_app/base.html" %}
+
+{% block title %}{{ object.label }}{% endblock %}{% block search-placeholder %}"Search grids"{% endblock %}{% block search-vocab %}"grids"{% endblock %}
+{% block nav %}
+{% load mip_dr_app_vocab_tags %}
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"
+            id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="home page" href="/">Home</a>
+                </li>
+                <li class="navbar-text"><i class="bi bi-arrow-right" aria-hidden="true"></i></li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current='grids list' href={% url 'vocab:grids-list' %}>{{object|verbose_name }}</a>
+                </li>
+                <li class="navbar-text"><i class="bi bi-arrow-right" aria-hidden="true"></i></li>
+                <li class="nav-item">
+                    <p class="nav-link active">{{ object.title }}</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="row row-height">
+<div class="col-2 left">
+    <div id="sidebar">
+    <table class="table table-striped ">
+        <thead>
+            <tr>
+                <th scope="col" class="sidebar_table">{{ object|verbose_name }}</th>
+            </tr>
+        </thead>
+        <tbody>
+{% for model in models %}
+            <tr>
+                <td class="sidebar_table"><a href={% url 'vocab:grids-detail' model.pk %}>{{ model.label }}</a></td>
+            </tr>
+{% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+<div class="col-10 right">
+
+<h1>{{ object|verbose_name }}: {{ object.title }} ({{ object.label }})</h1>
+<p><b>{% field_verbose_name object "label" %}{% field_help_text object "label" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'label' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.label }}</p>
+<p><b>{% field_verbose_name object "title" %}{% field_help_text object "title" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'title' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.title }}</p>
+<p><b>{% field_verbose_name object "tables" %}{% field_help_text object "tables" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'tables' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.tables }}</p>
+<p><b>{% field_verbose_name object "uid" %}{% field_help_text object "uid" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'uid' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.uid }}</p>
+<p><b>{% field_verbose_name object "altLabel" %}{% field_help_text object "altLabel" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'altLabel' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.altLabel }}</p>
+<p><b>{% field_verbose_name object "description" %}{% field_help_text object "description" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'description' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.description }}</p>
+{% if object.standardName %}
+<p><b>{% field_verbose_name object "standardName" %}{% field_help_text object "standardName" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'standardName' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.standardName }}</p>
+{% endif %}
+<p><b>{% field_verbose_name object "axis" %}{% field_help_text object "axis" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'axis' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.axis }}</p>
+<p><b>{% field_verbose_name object "units" %}{% field_help_text object "units" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'units' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.units }}</p>
+<p><b>{% field_verbose_name object "isIndex" %}{% field_help_text object "isIndex" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'isIndex' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.isIndex }}</p>
+<p><b>{% field_verbose_name object "coords" %}{% field_help_text object "coords" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'coords' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.coords }}</p>
+<p><b>{% field_verbose_name object "bounds" %}{% field_help_text object "bounds" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'bounds' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.bounds }}</p>
+<p><b>{% field_verbose_name object "direction" %}{% field_help_text object "direction" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'direction' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.direction }}</p>
+{% if object.valid_min %}
+<p><b>{% field_verbose_name object "valid_min" %}{% field_help_text object "valid_min" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'valid_min' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.valid_min }}</p>
+{% endif %}
+{% if object.valid_max %}
+<p><b>{% field_verbose_name object "valid_max" %}{% field_help_text object "valid_max" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'valid_max' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.valid_max }}</p>
+{% endif %}
+<p><b>{% field_verbose_name object "type" %}{% field_help_text object "type" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'type' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.type }}</p>
+<p><b>{% field_verbose_name object "positive" %}{% field_help_text object "positive" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'positive' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.positive }}</p>
+<p><b>{% field_verbose_name object "value" %}{% field_help_text object "value" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'value' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.value }}</p>
+<p><b>{% field_verbose_name object "boundsValues" %}{% field_help_text object "boundsValues" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'boundsValues' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.boundsValues }}</p>
+<p><b>{% field_verbose_name object "requested" %}{% field_help_text object "requested" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'requested' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.requested }}</p>
+{% if object.boundsRequested %}
+<p><b>{% field_verbose_name object "boundsRequested" %}{% field_help_text object "boundsRequested" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'boundsRequested' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.boundsRequested }}</p>
+{% endif %}
+<p><b>{% field_verbose_name object "tolRequested" %}{% field_help_text object "tolRequested" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'tolRequested' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.tolRequested }}</p>
+<p><b>{% field_verbose_name object "isGrid" %}{% field_help_text object "isGrid" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'isGrid' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.isGrid }}</p>
+
+{% if remarks %}
+{% if remarks.count == 1 %}
+        <p>
+            <b>Remarks about other items :</b> <a href={% url 'vocab:remarks-detail' remarks.first.pk %}>{{ remarks.first.title }}</a>
+        </p>
+{% endif %}
+{% if remarks.count > 1  and remarks.count < 6 %}
+        <p>
+            <b>Remarks about other items :</b>
+        </p>
+        <ul>
+{% for item in remarks %}
+            <li><a href={% url 'vocab:remarks-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+        </ul>
+{% endif %}
+{% if remarks.count > 5 %}
+        <p>
+            <b>Remarks about other items : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#remarks">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="remarks" class="collapse">
+            <ul>
+{% for item in remarks %}
+            <li><a href={% url 'vocab:remarks-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}
+
+{% if spatialShape %}
+{% if spatialShape.count == 1 %}
+        <p>
+            <b>Spatial dimensions :</b> <a href={% url 'vocab:spatialShape-detail' spatialShape.first.pk %}>{{ spatialShape.first.title }}</a>
+        </p>
+{% endif %}
+{% if spatialShape.count > 1  and spatialShape.count < 6 %}
+        <p>
+            <b>Spatial dimensions :</b>
+        </p>
+        <ul>
+{% for item in spatialShape %}
+            <li><a href={% url 'vocab:spatialShape-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+        </ul>
+{% endif %}
+{% if spatialShape.count > 5 %}
+        <p>
+            <b>Spatial dimensions : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#spatialShape">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="spatialShape" class="collapse">
+            <ul>
+{% for item in spatialShape %}
+            <li><a href={% url 'vocab:spatialShape-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}
+
+{% if structure_d %}
+{% if structure_d.count == 1 %}
+        <p>
+            <b>Dimensions and related information :</b> <a href={% url 'vocab:structure-detail' structure_d.first.pk %}>{{ structure_d.first.title }}</a>
+        </p>
+{% endif %}
+{% if structure_d.count > 1  and structure_d.count < 6 %}
+        <p>
+            <b>Dimensions and related information :</b>
+        </p>
+        <ul>
+{% for item in structure_d %}
+            <li><a href={% url 'vocab:structure-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+        </ul>
+{% endif %}
+{% if structure_d.count > 5 %}
+        <p>
+            <b>Dimensions and related information : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#structure_d">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="structure_d" class="collapse">
+            <ul>
+{% for item in structure_d %}
+            <li><a href={% url 'vocab:structure_d-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}
+
+{% if structure_c %}
+{% if structure_c.count == 1 %}
+        <p>
+            <b>Dimensions and related information :</b> <a href={% url 'vocab:structure-detail' structure_c.first.pk %}>{{ structure_c.first.title }}</a>
+        </p>
+{% endif %}
+{% if structure_c.count > 1  and structure_c.count < 6 %}
+        <p>
+            <b>Dimensions and related information :</b>
+        </p>
+        <ul>
+{% for item in structure_c %}
+            <li><a href={% url 'vocab:structure-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+        </ul>
+{% endif %}
+{% if structure_c.count > 5 %}
+        <p>
+            <b>Dimensions and related information : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#structure_c">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="structure_c" class="collapse">
+            <ul>
+{% for item in structure_c %}
+            <li><a href={% url 'vocab:structure_c-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}
+
+{% if temporalShape %}
+{% if temporalShape.count == 1 %}
+        <p>
+            <b>Temporal dimension :</b> <a href={% url 'vocab:temporalShape-detail' temporalShape.first.pk %}>{{ temporalShape.first.title }}</a>
+        </p>
+{% endif %}
+{% if temporalShape.count > 1  and temporalShape.count < 6 %}
+        <p>
+            <b>Temporal dimension :</b>
+        </p>
+        <ul>
+{% for item in temporalShape %}
+            <li><a href={% url 'vocab:temporalShape-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+        </ul>
+{% endif %}
+{% if temporalShape.count > 5 %}
+        <p>
+            <b>Temporal dimension : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#temporalShape">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="temporalShape" class="collapse">
+            <ul>
+{% for item in temporalShape %}
+            <li><a href={% url 'vocab:temporalShape-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}
+
+</div>
+</div>
+{% endblock %}
+{% block prefetch_url %}"{% url 'search:suggestion' %}grids.json"{% endblock %}

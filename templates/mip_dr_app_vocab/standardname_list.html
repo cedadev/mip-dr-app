@@ -1,0 +1,55 @@
+{% extends "mip_dr_app_vocab/sidebar.html" %}
+
+{% block title %}{{ table_id }}{% endblock %}{% block search-placeholder %}"Search standardname"{% endblock %}{% block search-vocab %}"standardname"{% endblock %}
+{% block nav %}
+{% load mip_dr_app_vocab_tags %}
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"
+            id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="home page" href="/">Home</a>
+                </li>
+                <li class="navbar-text"><i class="bi bi-arrow-right" aria-hidden="true"></i></li>
+                <li class="nav-item">
+                    <p class="nav-link active">{{ table_name }}</p>
+                </li>
+            </ul>
+
+            <div class="dropdown clearfix">
+                <a class="btn btn-primary dropdown-toggle float-end m-1" href="#" role="button" id="download_data" data-bs-toggle="dropdown" aria-expanded="false">
+        Download standardname</a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="download_data">
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:standardname-list' %}?format=csv>CSV</a></li>
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:standardname-list' %}?format=csv&pretty=true>CSV - pretty</a></li>
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:standardname-list' %}?format=json>JSON</a></li>
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:standardname-list' %}?format=xlsx>XLSX</a></li>
+                    <li role="presentation"><a class="dropdown-item" role="menuitem" href={% url 'vocab:standardname-list' %}?format=xlsx&pretty=true>XLSX - pretty</a></li>                </ul>
+            </div>
+
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block right_block %}
+    <h1>Data Request Section: {{ table_name }} (standardname)</h1>
+
+    <h2>{{ table_description }}</h2>
+
+    <ul>
+{% for object in object_list %}
+        <li><a href={% url 'vocab:standardname-detail' object.pk %}>{{ object.label }}</a>: {{ object.title }}{% if object.units %} [{{ object.units }}]{% endif %}</li>
+{% empty %}
+        <li>No articles yet.</li>
+{% endfor %}
+    </ul>
+{% endblock %}{% block prefetch_url %}"{% url 'search:suggestion' %}standardname.json"{% endblock %}

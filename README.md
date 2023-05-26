@@ -27,9 +27,6 @@ export DJANGO_SETTINGS_MODULE=mip_dr_app.settings
 
 ```
 cd scripts/
-python generate_views_and_templates.py
-python generate_models_from_xml.py
-
 django-admin makemigrations mip_dr_app_api
 django-admin migrate
 

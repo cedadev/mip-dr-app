@@ -1,0 +1,288 @@
+{% extends "mip_dr_app/base.html" %}
+
+{% block title %}{{ object.label }}{% endblock %}{% block search-placeholder %}"Search requestLink"{% endblock %}{% block search-vocab %}"requestLink"{% endblock %}
+{% block nav %}
+{% load mip_dr_app_vocab_tags %}
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"
+            id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="home page" href="/">Home</a>
+                </li>
+                <li class="navbar-text"><i class="bi bi-arrow-right" aria-hidden="true"></i></li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current='requestLink list' href={% url 'vocab:requestLink-list' %}>{{object|verbose_name }}</a>
+                </li>
+                <li class="navbar-text"><i class="bi bi-arrow-right" aria-hidden="true"></i></li>
+                <li class="nav-item">
+                    <p class="nav-link active">{{ object.title }}</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="row row-height">
+<div class="col-2 left">
+    <div id="sidebar">
+    <table class="table table-striped ">
+        <thead>
+            <tr>
+                <th scope="col" class="sidebar_table">{{ object|verbose_name }}</th>
+            </tr>
+        </thead>
+        <tbody>
+{% for model in models %}
+            <tr>
+                <td class="sidebar_table"><a href={% url 'vocab:requestLink-detail' model.pk %}>{{ model.label }}</a></td>
+            </tr>
+{% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+<div class="col-10 right">
+
+<h1>{{ object|verbose_name }}: {{ object.title }} ({{ object.label }})</h1>
+<p><b>{% field_verbose_name object "label" %}{% field_help_text object "label" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'label' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.label }}</p>
+<p><b>{% field_verbose_name object "title" %}{% field_help_text object "title" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'title' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.title }}</p>
+<p><b>{% field_verbose_name object "uid" %}{% field_help_text object "uid" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'uid' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.uid }}</p>
+<p><b>{% field_verbose_name object "mip" %}{% field_help_text object "mip" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'mip' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: <a href={% url 'vocab:mip-detail' object.mip.uid %}>{{ object.mip.label }}</a></p>
+{% if object.tab %}
+<p><b>{% field_verbose_name object "tab" %}{% field_help_text object "tab" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'tab' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.tab }}</p>
+{% endif %}
+<p><b>{% field_verbose_name object "objective" %}{% field_help_text object "objective" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'objective' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.objective }}</p>
+<p><b>{% field_verbose_name object "grid" %}{% field_help_text object "grid" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'grid' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.grid }}</p>
+<p><b>{% field_verbose_name object "gridreq" %}{% field_help_text object "gridreq" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'gridreq' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.gridreq }}</p>
+<p><b>{% field_verbose_name object "comment" %}{% field_help_text object "comment" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'comment' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.comment }}</p>
+{% if object.ref %}
+<p><b>{% field_verbose_name object "ref" %}{% field_help_text object "ref" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'ref' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.ref }}</p>
+{% endif %}
+{% if object.refNote %}
+<p><b>{% field_verbose_name object "refNote" %}{% field_help_text object "refNote" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'refNote' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.refNote }}</p>
+{% endif %}
+<p><b>{% field_verbose_name object "refid" %}{% field_help_text object "refid" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'refid' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: <a href={% url 'vocab:requestVarGroup-detail' object.refid.uid %}>{{ object.refid.label }}</a></p>
+<p><b>{% field_verbose_name object "opt" %}{% field_help_text object "opt" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'opt' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.opt }}</p>
+<p><b>{% field_verbose_name object "opar" %}{% field_help_text object "opar" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'opar' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.opar }}</p>
+
+{% if objectiveLink %}
+{% if objectiveLink.count == 1 %}
+        <p>
+            <b>Link between scientific objectives and requests :</b> <a href={% url 'vocab:objectiveLink-detail' objectiveLink.first.pk %}>{{ objectiveLink.first.title }}</a>
+        </p>
+{% endif %}
+{% if objectiveLink.count > 1  and objectiveLink.count < 6 %}
+        <p>
+            <b>Link between scientific objectives and requests :</b>
+        </p>
+        <ul>
+{% for item in objectiveLink %}
+            <li><a href={% url 'vocab:objectiveLink-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+        </ul>
+{% endif %}
+{% if objectiveLink.count > 5 %}
+        <p>
+            <b>Link between scientific objectives and requests : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#objectiveLink">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="objectiveLink" class="collapse">
+            <ul>
+{% for item in objectiveLink %}
+            <li><a href={% url 'vocab:objectiveLink-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}
+
+{% if requestItem %}
+{% if requestItem.count == 1 %}
+        <p>
+            <b>3.2 Request Item: specifying the number of years for an experiment :</b> <a href={% url 'vocab:requestItem-detail' requestItem.first.pk %}>{{ requestItem.first.title }}</a>
+        </p>
+{% endif %}
+{% if requestItem.count > 1  and requestItem.count < 6 %}
+        <p>
+            <b>3.2 Request Item: specifying the number of years for an experiment :</b>
+        </p>
+        <ul>
+{% for item in requestItem %}
+            <li><a href={% url 'vocab:requestItem-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+        </ul>
+{% endif %}
+{% if requestItem.count > 5 %}
+        <p>
+            <b>3.2 Request Item: specifying the number of years for an experiment : </b>
+                <a class="list-heading collapsed" data-bs-toggle="collapse" href="#requestItem">
+                    <i class="fa fa-fw fa-chevron-right"></i><i class="fa fa-fw fa-chevron-down"></i>
+                </a>
+        </p>
+        <div id="requestItem" class="collapse">
+            <ul>
+{% for item in requestItem %}
+            <li><a href={% url 'vocab:requestItem-detail' item.pk %}>{{ item.title }}</a></li>
+{% endfor %}
+            </ul>
+        </div>
+{% endif %}
+{% endif %}
+
+</div>
+</div>
+{% endblock %}
+{% block prefetch_url %}"{% url 'search:suggestion' %}requestLink.json"{% endblock %}

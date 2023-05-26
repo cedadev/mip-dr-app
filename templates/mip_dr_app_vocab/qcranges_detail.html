@@ -1,0 +1,239 @@
+{% extends "mip_dr_app/base.html" %}
+
+{% block title %}{{ object.label }}{% endblock %}{% block search-placeholder %}"Search qcranges"{% endblock %}{% block search-vocab %}"qcranges"{% endblock %}
+{% block nav %}
+{% load mip_dr_app_vocab_tags %}
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"
+            id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="home page" href="/">Home</a>
+                </li>
+                <li class="navbar-text"><i class="bi bi-arrow-right" aria-hidden="true"></i></li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current='qcranges list' href={% url 'vocab:qcranges-list' %}>{{object|verbose_name }}</a>
+                </li>
+                <li class="navbar-text"><i class="bi bi-arrow-right" aria-hidden="true"></i></li>
+                <li class="nav-item">
+                    <p class="nav-link active">{{ object.title }}</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="row row-height">
+<div class="col-2 left">
+    <div id="sidebar">
+    <table class="table table-striped ">
+        <thead>
+            <tr>
+                <th scope="col" class="sidebar_table">{{ object|verbose_name }}</th>
+            </tr>
+        </thead>
+        <tbody>
+{% for model in models %}
+            <tr>
+                <td class="sidebar_table"><a href={% url 'vocab:qcranges-detail' model.pk %}>{{ model.label }}</a></td>
+            </tr>
+{% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+<div class="col-10 right">
+
+<h1>{{ object|verbose_name }}: {{ object.title }} ({{ object.label }})</h1>
+<p><b>{% field_verbose_name object "label" %}{% field_help_text object "label" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'label' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.label }}</p>
+<p><b>{% field_verbose_name object "title" %}{% field_help_text object "title" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'title' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.title }}</p>
+<p><b>{% field_verbose_name object "uid" %}{% field_help_text object "uid" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'uid' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.uid }}</p>
+{% if object.url %}
+<p><b>{% field_verbose_name object "url" %}{% field_help_text object "url" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'url' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: <a href={{ object.url }}>{{ object.url }}</a></p>
+{% endif %}
+{% if object.comment %}
+<p><b>{% field_verbose_name object "comment" %}{% field_help_text object "comment" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'comment' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.comment }}</p>
+{% endif %}
+<p><b>{% field_verbose_name object "prov" %}{% field_help_text object "prov" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'prov' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.prov }}</p>
+<p><b>{% field_verbose_name object "vid" %}{% field_help_text object "vid" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'vid' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: <a href={% url 'vocab:CMORvar-detail' object.vid.uid %}>{{ object.vid.label }}</a></p>
+{% if object.valid_min %}
+<p><b>{% field_verbose_name object "valid_min" %}{% field_help_text object "valid_min" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'valid_min' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.valid_min }}</p>
+{% endif %}
+{% if object.valid_max %}
+<p><b>{% field_verbose_name object "valid_max" %}{% field_help_text object "valid_max" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'valid_max' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.valid_max }}</p>
+{% endif %}
+{% if object.ok_min_mean_abs %}
+<p><b>{% field_verbose_name object "ok_min_mean_abs" %}{% field_help_text object "ok_min_mean_abs" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'ok_min_mean_abs' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.ok_min_mean_abs }}</p>
+{% endif %}
+{% if object.ok_max_mean_abs %}
+<p><b>{% field_verbose_name object "ok_max_mean_abs" %}{% field_help_text object "ok_max_mean_abs" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'ok_max_mean_abs' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.ok_max_mean_abs }}</p>
+{% endif %}
+<p><b>{% field_verbose_name object "valid_min_status" %}{% field_help_text object "valid_min_status" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'valid_min_status' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.valid_min_status }}</p>
+<p><b>{% field_verbose_name object "valid_max_status" %}{% field_help_text object "valid_max_status" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'valid_max_status' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.valid_max_status }}</p>
+<p><b>{% field_verbose_name object "ok_min_mean_abs_status" %}{% field_help_text object "ok_min_mean_abs_status" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'ok_min_mean_abs_status' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.ok_min_mean_abs_status }}</p>
+<p><b>{% field_verbose_name object "ok_max_mean_abs_status" %}{% field_help_text object "ok_max_mean_abs_status" as help_text %}
+    {% if help_text %}
+        <i class="bi bi-info-circle"
+            aria-label="Information about {% field_verbose_name object 'ok_max_mean_abs_status' %}"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-container="body"
+            data-bs-delay='{"show":"200"}'
+            title="{{ help_text }}">
+        </i>
+    {% endif %}</b>: {{ object.ok_max_mean_abs_status }}</p>
+
+</div>
+</div>
+{% endblock %}
+{% block prefetch_url %}"{% url 'search:suggestion' %}qcranges.json"{% endblock %}
