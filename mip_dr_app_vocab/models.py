@@ -16,7 +16,7 @@ class Units(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -72,7 +72,7 @@ class Miptable(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -85,9 +85,8 @@ class Miptable(models.Model):
         blank=False,
         null=False,
     )
-    description = models.CharField(
+    description = models.TextField(
         "Description",
-        max_length=50,
         blank=False,
         null=False,
     )
@@ -105,9 +104,8 @@ class Miptable(models.Model):
         blank=False,
         null=False,
     )
-    comment = models.CharField(
+    comment = models.TextField(
         "Comment",
-        max_length=50,
         help_text="Comment about the table.",
         blank=False,
         null=False,
@@ -141,7 +139,7 @@ class Mip(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -154,9 +152,8 @@ class Mip(models.Model):
         blank=False,
         null=False,
     )
-    description = models.CharField(
+    description = models.TextField(
         "Description of the Model Intercomparison Project",
-        max_length=50,
         blank=True,
         null=True,
     )
@@ -195,7 +192,7 @@ class RequestVarGroup(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -259,7 +256,7 @@ class Exptgroup(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -313,7 +310,7 @@ class RequestLink(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -343,7 +340,7 @@ class RequestLink(models.Model):
     )
     objective = models.CharField(
         "Science objectives associated with this request",
-        max_length=50,
+        max_length=100,
         help_text="Every request for model ouput is linked to one or more objectives. The XML link is made via objectiveLink records, each of which associates one requestLink with one objective record.",
         blank=False,
         null=False,
@@ -362,9 +359,8 @@ class RequestLink(models.Model):
         blank=False,
         null=False,
     )
-    comment = models.CharField(
+    comment = models.TextField(
         "Comment",
-        max_length=50,
         help_text="Comment on the requestLink record.",
         blank=False,
         null=False,
@@ -398,9 +394,8 @@ class RequestLink(models.Model):
         blank=False,
         null=False,
     )
-    opar = models.CharField(
+    opar = models.TextField(
         "parameter associated with *opt*",
-        max_length=50,
         help_text="Parameter associated with 'opar'. If 'opar' is 'priority' it should be set to '1', '2', or '3'.",
         blank=False,
         null=False,
@@ -434,7 +429,7 @@ class Experiment(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=200,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -447,9 +442,8 @@ class Experiment(models.Model):
         blank=False,
         null=False,
     )
-    description = models.CharField(
+    description = models.TextField(
         "Description",
-        max_length=50,
         blank=False,
         null=False,
     )
@@ -498,7 +492,7 @@ class Experiment(models.Model):
     )
     endy = models.CharField(
         "End year",
-        max_length=50,
+        max_length=100,
         help_text="End year specified for the experiment. This is a string. Fit may contain a year or an explanation which makes reference to another experiment, e.g. 'Year 140 of abrupt4xCO2'.",
         blank=False,
         null=False,
@@ -522,9 +516,8 @@ class Experiment(models.Model):
         blank=False,
         null=False,
     )
-    comment = models.CharField(
+    comment = models.TextField(
         "Comment",
-        max_length=50,
         help_text="Additional information about this experiment group.",
         blank=False,
         null=False,
@@ -558,14 +551,14 @@ class Grids(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
     )
     tables = models.CharField(
         "CMOR table(s)",
-        max_length=50,
+        max_length=150,
         help_text="List of tables which make use of this dimension",
         blank=False,
         null=False,
@@ -585,9 +578,8 @@ class Grids(models.Model):
         blank=False,
         null=False,
     )
-    description = models.CharField(
+    description = models.TextField(
         "description",
-        max_length=50,
         blank=False,
         null=False,
     )
@@ -674,15 +666,13 @@ class Grids(models.Model):
         blank=False,
         null=False,
     )
-    requested = models.CharField(
+    requested = models.TextField(
         "requested",
-        max_length=50,
         blank=False,
         null=False,
     )
-    boundsRequested = models.CharField(
+    boundsRequested = models.TextField(
         "bounds_ requested",
-        max_length=50,
         blank=True,
         null=True,
     )
@@ -727,7 +717,7 @@ class RequestItem(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -779,7 +769,7 @@ class RequestItem(models.Model):
     )
     esidComment = models.CharField(
         "Comment on experiment(s) linked to.",
-        max_length=50,
+        max_length=100,
         help_text="An explanatory commemt for the esid attribute.",
         blank=True,
         null=True,
@@ -856,7 +846,7 @@ class Objective(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=150,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -869,9 +859,8 @@ class Objective(models.Model):
         blank=False,
         null=False,
     )
-    description = models.CharField(
+    description = models.TextField(
         "Description",
-        max_length=50,
         blank=False,
         null=False,
     )
@@ -912,7 +901,7 @@ class SpatialShape(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -978,7 +967,7 @@ class ModelConfig(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -1000,7 +989,7 @@ class ModelConfig(models.Model):
     )
     usage = models.CharField(
         "How the feature is relevant to the data request",
-        max_length=50,
+        max_length=200,
         help_text="Usage notes.",
         blank=False,
         null=False,
@@ -1048,7 +1037,7 @@ class ObjectiveLink(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=200,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -1099,14 +1088,14 @@ class ObjectiveLink(models.Model):
 class Remarks(models.Model):
     label = models.CharField(
         "Record Label",
-        max_length=50,
+        max_length=100,
         help_text="Mnemonic label for record",
         blank=False,
         null=False,
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -1134,9 +1123,8 @@ class Remarks(models.Model):
         blank=False,
         null=False,
     )
-    description = models.CharField(
+    description = models.TextField(
         "Free text remarks -- unless there are specific restrictions associated with the class attribute of this remark",
-        max_length=50,
         blank=False,
         null=False,
     )
@@ -1154,16 +1142,15 @@ class Remarks(models.Model):
         blank=True,
         null=True,
     )
-    techNote = models.CharField(
+    techNote = models.TextField(
         "Optional additional machine readable content (though not restricted by the schema)",
-        max_length=50,
         help_text="Intended for machine readable content.",
         blank=True,
         null=True,
     )
     prov = models.CharField(
         "Provenance",
-        max_length=50,
+        max_length=250,
         help_text="Information about the provenance of this record.",
         blank=False,
         null=False,
@@ -1190,29 +1177,28 @@ class Remarks(models.Model):
 class Standardname(models.Model):
     label = models.CharField(
         "Record Label",
-        max_length=50,
+        max_length=200,
         help_text="Mnemonic label for record",
         blank=False,
         null=False,
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=200,
         help_text="Title of record",
         blank=False,
         null=False,
     )
     uid = models.CharField(
         "CF Standard Name",
-        max_length=100,
+        max_length=200,
         primary_key=True,
         editable=False,
         blank=False,
         null=False,
     )
-    description = models.CharField(
+    description = models.TextField(
         "Record Description",
-        max_length=50,
         blank=False,
         null=False,
     )
@@ -1252,7 +1238,7 @@ class Var(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=150,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -1272,9 +1258,8 @@ class Var(models.Model):
         blank=False,
         null=False,
     )
-    description = models.CharField(
+    description = models.TextField(
         "Record Description",
-        max_length=50,
         blank=False,
         null=False,
     )
@@ -1294,7 +1279,7 @@ class Var(models.Model):
     )
     prov = models.CharField(
         "Notes on Provenance of Variable Specifications",
-        max_length=50,
+        max_length=250,
         help_text="Information on the provenance of the specification of this variables.",
         blank=False,
         null=False,
@@ -1352,7 +1337,7 @@ class VarChoice(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -1372,9 +1357,8 @@ class VarChoice(models.Model):
         blank=False,
         null=False,
     )
-    description = models.CharField(
+    description = models.TextField(
         "Record description",
-        max_length=50,
         blank=False,
         null=False,
     )
@@ -1421,7 +1405,7 @@ class TemporalShape(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -1449,9 +1433,8 @@ class TemporalShape(models.Model):
         blank=False,
         null=False,
     )
-    description = models.CharField(
+    description = models.TextField(
         "Description",
-        max_length=50,
         blank=True,
         null=True,
     )
@@ -1484,7 +1467,7 @@ class TimeSlice(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -1536,7 +1519,7 @@ class TimeSlice(models.Model):
     )
     startList = models.CharField(
         "Optional list of start times.",
-        max_length=50,
+        max_length=150,
         help_text="If type is 'dayList', then a list of (year,month,day) triples can be specified. E.g. '1850 1 1 1850 4 1' for first January and April 1850. If this value is given, start and end attributes should be empty.",
         blank=True,
         null=True,
@@ -1548,9 +1531,8 @@ class TimeSlice(models.Model):
         blank=True,
         null=True,
     )
-    description = models.CharField(
+    description = models.TextField(
         "Description",
-        max_length=50,
         blank=True,
         null=True,
     )
@@ -1590,7 +1572,7 @@ class CellMethods(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -1605,14 +1587,13 @@ class CellMethods(models.Model):
     )
     cell_methods = models.CharField(
         "Cell Methods String",
-        max_length=50,
+        max_length=100,
         help_text="The string to be used in the NetCDF cell_methods attribute",
         blank=False,
         null=False,
     )
-    description = models.CharField(
+    description = models.TextField(
         "Record Description",
-        max_length=50,
         blank=True,
         null=True,
     )
@@ -1645,7 +1626,7 @@ class Structure(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=150,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -1699,7 +1680,7 @@ class Structure(models.Model):
     )
     cell_methods = models.CharField(
         "Cell Methods",
-        max_length=50,
+        max_length=100,
         help_text="Text for the NetCDF cell_methods attribute: describes processing used to generate the data values (redundant with cmid).",
         blank=False,
         null=False,
@@ -1720,14 +1701,13 @@ class Structure(models.Model):
     )
     flag_meanings = models.CharField(
         "FLag Meanings",
-        max_length=50,
+        max_length=150,
         help_text="If present, specifies values to be inlcuded in the 'flag_meanings' attribute.",
         blank=False,
         null=False,
     )
-    description = models.CharField(
+    description = models.TextField(
         "Description",
-        max_length=50,
         blank=False,
         null=False,
     )
@@ -1740,7 +1720,7 @@ class Structure(models.Model):
     )
     prov = models.CharField(
         "Provenance",
-        max_length=50,
+        max_length=250,
         help_text="Information about the origins of this record.",
         blank=False,
         null=False,
@@ -1782,7 +1762,7 @@ class CMORvar(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=150,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -1883,14 +1863,13 @@ class CMORvar(models.Model):
     )
     prov = models.CharField(
         "Provenance",
-        max_length=50,
+        max_length=250,
         help_text="Provides some indication of the origins of the parameter definition (e.g. the MIP responsible for first defining the variable). Once defined, a variable may be requested by multiple MIPs.",
         blank=False,
         null=False,
     )
-    processing = models.CharField(
+    processing = models.TextField(
         "Processing Notes",
-        max_length=50,
         help_text="Processing notes (questions and issues)",
         blank=True,
         null=True,
@@ -1915,9 +1894,8 @@ class CMORvar(models.Model):
         blank=False,
         null=False,
     )
-    description = models.CharField(
+    description = models.TextField(
         "Description",
-        max_length=50,
         blank=False,
         null=False,
     )
@@ -1957,7 +1935,7 @@ class VarChoiceLinkC(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -2029,7 +2007,7 @@ class RequestVar(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -2101,7 +2079,7 @@ class VarChoiceLinkR(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -2165,7 +2143,7 @@ class TableSection(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -2237,7 +2215,7 @@ class Qcranges(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -2256,15 +2234,14 @@ class Qcranges(models.Model):
         blank=True,
         null=True,
     )
-    comment = models.CharField(
+    comment = models.TextField(
         "Comment",
-        max_length=50,
         blank=True,
         null=True,
     )
     prov = models.CharField(
         "Provenance",
-        max_length=50,
+        max_length=250,
         blank=False,
         null=False,
     )
@@ -2357,7 +2334,7 @@ class Places(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
@@ -2426,7 +2403,7 @@ class Transfers(models.Model):
     )
     title = models.CharField(
         "Record Title",
-        max_length=50,
+        max_length=100,
         help_text="Title of record",
         blank=False,
         null=False,
