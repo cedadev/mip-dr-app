@@ -1,0 +1,386 @@
+openapi: 3.0.2
+servers:
+  - url: http://cmip6dr.ceda.ac.uk
+
+info:
+  description: This service provides data about the vocabularies of the MIP Data Request for CMIP6.
+  title: MIP Data Request
+  version: 0.0.1
+
+tags:
+  - name: Vocabulary
+    description: Get data about the different vocabularies that make up a data request.
+  - name: Search
+    description: Search the vocabulries.
+  - name: Documentation
+    description: Get documentation.
+
+components:
+
+  parameters:
+    format_param_restricted:
+      description: | 
+        The response format.
+        
+        This will override any value of `Accept` in the request headers.
+        Possible values are `html` and `json`. The default value is `html`.
+      name: format
+      in: query
+      schema:
+        type: string
+        enum: 
+          - html
+          - json
+        default: html
+        example: html
+
+    format_param_index:
+      description: | 
+        The response format.
+        
+        This will override any value of `Accept` in the request headers.
+        Possible values are `html`, `json` and `xlxs`. The default value is `html`.
+      name: format
+      in: query
+      schema:
+        type: string
+        enum: 
+          - html
+          - json
+          - xlsx
+        default: html
+        example: html
+
+    format_param:
+      description: | 
+        The response format.
+        
+        This will override any value of `Accept` in the request headers.
+        Possible values are `html`, `csv`, `json` and `xlxs`. The default value is `html`.
+      name: format
+      in: query
+      schema:
+        type: string
+        enum: 
+          - html
+          - csv
+          - json
+          - xlsx
+        default: html
+        example: html
+
+    pretty:
+      description: Inclued names of linked objects, rather than their uid. This is not used when the returned format is `json`.
+      name: pretty
+      in: query
+      required: false
+      schema:
+        type: boolean
+        example: false
+        default: false
+ 
+    q:
+      description: The search query.
+      name: q
+      in: query
+      required: true
+      schema:
+        type: string
+        example: sea
+
+    uid:
+      description: The UID of a term.
+      name: uid
+      in: path
+      required: true
+      schema:
+        type: string
+
+    vocab:
+      description: The short name of the vocabulary.
+      name: vocab
+      in: path
+      required: true
+      schema:
+        type: string
+        example: mip
+
+    vocab_search:
+      description: The short name of the vocabulary.
+      name: vocab
+      in: query
+      required: false
+      schema:
+        type: string
+        example: mip
+        
+  responses:
+
+    drs:
+      description: "OK"
+      content:
+        text/html:
+          schema:
+            $ref: "#/components/schemas/html"
+        application/json:
+          schema:
+            $ref: "#/components/schemas/drs"
+        application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+          schema:
+            type: string
+
+    notes:
+      description: "OK"
+      content:
+        text/html:
+          schema:
+            $ref: "#/components/schemas/html"
+
+    vocab:
+      description: "OK"
+      content:
+        text/html:
+          schema:
+            $ref: "#/components/schemas/html"
+        text/csv:
+          schema:
+            type: string
+        application/json:
+          schema:
+           $ref: "#/components/schemas/vocab"
+        application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+          schema:
+            type: string
+
+    term:
+      description: "OK"
+      content:
+        text/html:
+          schema:
+            $ref: "#/components/schemas/html"
+
+    search_result:
+      description: "OK"
+      content:
+        text/html:
+          schema:
+            $ref: "#/components/schemas/html"
+        application/json:
+          schema:
+            $ref: "#/components/schemas/search"
+
+    words:
+      description: "OK"
+      content:
+        application/json:
+          schema:
+            array:
+              type: string
+            example: ["Attenuation", "Attribution", "Autoconversion"]
+
+    error_message:
+      description: The provided parameters are incorrect.
+      content:
+        text/html:
+          schema:
+            $ref: "#/components/schemas/error_message"
+
+  schemas:
+    error_message:
+      title: error message
+      description: A text message describing an error.
+      type: string
+      maxLength: 256
+
+    html:
+      description: A html page.
+      type: string
+
+    drs:
+      title: DRS
+      description: A json object containing all of the vocabularies in the DRS.
+      type: object
+      example:
+        mip:
+          [{
+            label: AerChemMIP,
+            title: Aerosols and Chemistry Model Intercomparison Project,
+            uid: 6be475a1-956e-4dbe-8c31-830ef17df2e7,
+            description: null,
+            url: https://wiki.met.no/aerocom/aerchemmip/start,
+            date_modified: "2023-05-23T07:55:05.129Z",
+            date_published: "2023-05-23T07:55:05.129Z"
+          }]
+
+    search:
+      title: Search Results
+      description: A json object containing all of the vocabulary terms in the
+        DRS that match the search criterior.
+      type: object
+      example:
+        mip:
+          [{
+            label: AerChemMIP,
+            title: Aerosols and Chemistry Model Intercomparison Project,
+            uid: 6be475a1-956e-4dbe-8c31-830ef17df2e7,
+            description: null,
+            url: https://wiki.met.no/aerocom/aerchemmip/start,
+            date_modified: "2023-05-23T07:55:05.129Z",
+            date_published: "2023-05-23T07:55:05.129Z"
+          }]
+
+    vocab:
+      title: Vocabulary
+      description: A json object containing a list of all of the terms for a vocabulary.
+      type: array
+      items:
+        $ref: "#/components/schemas/term"
+
+    term:
+      title: Term
+      description: A json object containing a description of a term in a vocabulary.
+      type: object
+      example:
+        label: AerChemMIP
+        title: Aerosols and Chemistry Model Intercomparison Project
+        uid: 6be475a1-956e-4dbe-8c31-830ef17df2e7
+        description: null
+        url: https://wiki.met.no/aerocom/aerchemmip/start
+        date_modified: "2023-05-23T07:55:05.129Z"
+        date_published: "2023-05-23T07:55:05.129Z"
+
+paths:
+  # Notes
+  /doc/notes:
+    get:
+      tags:
+        - Documentation
+      summary: Get information about this service
+      operationId: notes
+      responses:
+        "200":
+          $ref: "#/components/responses/notes"
+
+  # API Documentation
+  /doc/api:
+    get:
+      tags:
+        - Documentation
+      summary: Get the API documentation
+      operationId: docs
+      responses:
+        "200":
+          $ref: "#/components/responses/notes"
+
+  # A list of vocabularies
+  /vocab/:
+    parameters:
+      - $ref: "#/components/parameters/format_param_index"
+      - $ref: "#/components/parameters/pretty"
+
+    get:
+      tags:
+        - Vocabulary
+      summary: Get a list of vocabularies.
+      description: Retrieves a list of all of the vocabularies.
+      operationId: listVocab
+      responses:
+        "200":
+          $ref: "#/components/responses/drs"
+
+  # A list of terms in a vocabulary
+  /vocab/{vocab}:
+    parameters:
+      - $ref: "#/components/parameters/vocab"
+      - $ref: "#/components/parameters/format_param"
+      - $ref: "#/components/parameters/pretty"
+
+    get:
+      tags:
+        - Vocabulary
+      summary: Get a list of terms in a vocabulary.
+      description: Retrieves a list of terms in a vocabulary.
+      operationId: getVocab
+      responses:
+        "200":
+          $ref: "#/components/responses/vocab"
+        "404":
+          $ref: "#/components/responses/error_message"
+
+  # A list of terms in a vocabulary
+  /vocab/{vocab}/{uid}:
+    parameters:
+      - $ref: "#/components/parameters/vocab"
+      - $ref: "#/components/parameters/uid"
+
+    get:
+      tags:
+        - Vocabulary
+      summary: Get a list of terms in a vocabulary.
+      description: Retrieves the details about a term in a vocabulary, this may include links to other terms.
+      operationId: getTerm
+      responses:
+        "200":
+          $ref: "#/components/responses/term"
+        "404":
+          $ref: "#/components/responses/error_message"
+
+
+  # search for a word in all vocabularies
+  /search/:
+    parameters:
+      - $ref: "#/components/parameters/q"
+      - $ref: "#/components/parameters/vocab_search"
+      - $ref: "#/components/parameters/format_param_restricted"
+
+    get:
+      tags:
+        - Search
+      summary: Get a list matching terms.
+      description: >
+        The search is based on the value of parameter `q`. A search is done for the
+        value of `q` in the `title` and `label` fields of the vocabulary(s).
+        The vocabularies searched is dependent on the value of the optional `vocab` parameter.
+        By default all vocabularies are searched.
+      operationId: search
+      responses:
+        "200":
+          $ref: "#/components/responses/search_result"
+
+  # The suggestion view provides search terms for the search functionality
+  /search/suggestion/:
+    get:
+      tags:
+        - Search
+      summary: The suggestion view provides search terms for the search functionality.
+      description: 
+        The intention is that the terms are used in a type ahead search widget. As the
+        search is based on the `title` and `label` fields of the model(s), the suggestions
+        are also taken from those fields. Terms from all tables are provided.
+      operationId: suggestion
+      responses:
+        "200":
+          $ref: "#/components/responses/words"
+        "404":
+          $ref: "#/components/responses/error_message"
+
+  /search/suggestion/{vocab}:
+    parameters:
+      - $ref: "#/components/parameters/vocab"
+
+    get:
+      tags:
+        - Search
+      summary: The suggestion view provides search terms for the search functionality.
+      description: 
+        The intention is that the terms are used in a type ahead search widget. As the
+        search is based on the `title` and `label` fields of the model(s), the suggestions
+        are also taken from those fields. The results are limited to the table associated 
+        with the json file provided in the URL, e.g. `mip.json`, only terms
+        from the `mip` table are returned.
+      operationId: suggestion
+      responses:
+        "200":
+          $ref: "#/components/responses/words"
+        "404":
+          $ref: "#/components/responses/error_message"
