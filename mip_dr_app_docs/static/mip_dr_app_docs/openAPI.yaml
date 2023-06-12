@@ -1,6 +1,6 @@
 openapi: 3.0.2
 servers:
-  - url: http://cmip6dr.ceda.ac.uk
+  - url: https://cmip6dr.ceda.ac.uk
 
 info:
   description: This service provides data about the vocabularies of the MIP Data Request for CMIP6.
