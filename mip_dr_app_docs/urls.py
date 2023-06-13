@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.urls import path
 
-from mip_dr_app_docs.views import APIView, NotesView
+from mip_dr_app_docs.views import APIView, ERDView, NotesView
 
 
 app_name = "docs"
@@ -24,4 +24,5 @@ urlpatterns = [
     path("", NotesView.as_view(), name="docs"),
     path("notes/", NotesView.as_view(), name="notes"),
     path("api/", APIView.as_view(), name="api"),
+    path("erd/", ERDView.as_view(), name="erd"),
 ]

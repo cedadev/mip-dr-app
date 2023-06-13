@@ -1,0 +1,14 @@
+{% extends "mip_dr_app/base.html" %}
+
+{% block title %}Notes about the MIP Data Request Service{% endblock %}
+
+{% block erd-link %}<a class="nav-link active" href="{% url 'docs:erd' %}">Entity Relationship Diagram</a>{% endblock %}
+
+{% block content %}
+{% load static %}
+ <div class="scrolling-wrapper row flex-row flex-nowrap">
+    <div class="col-12">
+        <img src="{% static 'mip_dr_app_docs/erd.png' %}" alt="Entity Relationship Diagram" style="width:2676px;height:2976px;">
+    </div>
+</div>
+{% endblock %}

@@ -39,7 +39,7 @@
             </button>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% static 'mip_dr_app_docs/erd.png' %}">Entity Relationship Diagram</a>
+                    {% block erd-link %}<a class="nav-link" href="{% url 'docs:erd' %}">Entity Relationship Diagram</a>{% endblock %}
                 </li>
                 <li class="nav-item">
                     {% block notes-link %}<a class="nav-link" href="{% url 'docs:notes' %}">Notes</a>{% endblock %}

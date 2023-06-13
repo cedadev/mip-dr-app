@@ -57,6 +57,10 @@ td.sidebar_table {
 	padding: 3px 20px;
 }
 
+.scrolling-wrapper {
+	overflow-x: auto;
+}
+
 /*Remove the scrollbar from Chrome, Safari, Edge and IE*/
 ::-webkit-scrollbar {
 	width: 0px;
