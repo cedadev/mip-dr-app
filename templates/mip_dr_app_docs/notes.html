@@ -5,14 +5,13 @@
 {% block notes-link %}<a class="nav-link active" href="{% url 'docs:notes' %}">Notes</a>{% endblock %}
 
 {% block content %}
-{% load static %}
 <div class="row row-height">
     <div class="col-2"></div>
     <div class="col-10">
         <h1>Notes about the MIP Data Request Service</h1>
         <h2>Web Pages</h2>
         <p>The MIP Data Request web pages allows you to view and navigate through the vocabularies.</p>
-        <p>The <a href="{% static 'mip_dr_app_docs/erd.png' %}">Entity Relationship Diagram</a> provides
+        <p>The <a href="{% url 'docs:erd' %}">Entity Relationship Diagram</a> provides
         an overview showing links between the vocabularies.
         </p>
         <p>From the home page you can download all of the vocabularies as a single json file or as a Excel
