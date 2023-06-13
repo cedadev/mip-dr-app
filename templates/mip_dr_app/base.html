@@ -21,7 +21,7 @@
 
 {% block head-extras %}{% endblock %}
 
-<title>{% block title %}MIP Data Request{% endblock %}</title>
+<title>MIP Data Request: {% block title %}{% endblock %}</title>
 
 </head>
 
@@ -41,11 +41,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% static 'mip_dr_app_docs/erd.png' %}">Entity Relationship Diagram</a>
                 </li>
-                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'docs:notes' %}">Notes</a>
+                <li class="nav-item">
+                    {% block notes-link %}<a class="nav-link" href="{% url 'docs:notes' %}">Notes</a>{% endblock %}
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'docs:api' %}">API Docs</a>
+                    {% block api-link %}<a class="nav-link" href="{% url 'docs:api' %}">API Docs</a>{% endblock %}
                 </li>
            </ul>
             {% block search %}
