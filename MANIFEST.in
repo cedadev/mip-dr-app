@@ -1,0 +1,2 @@
+include *.md *.txt
+recursive-include mip_dr_app_templates *.ico *.png *.gif *.jpg *.svg *.eot *.ttf *.woff *.css *.js *.txt *.html *.json
