@@ -1,4 +1,4 @@
 include *.md *.txt
 recursive-include mip_dr_app_templates *.html
-recursive-include mip_dr_app *.swg *.woff *.woff2 *.js
+recursive-include mip_dr_app *.svg *.woff *.woff2 *.js
 recursive-include mip_dr_app_docs *.png *.yaml
